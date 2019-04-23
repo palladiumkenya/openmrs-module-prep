@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * 'module/${rootArtifactid}/${rootArtifactid}Link.form'.
  */
 @Controller
-
 public class PrepController {
+	
 	protected final Log log = LogFactory.getLog(getClass());
-	@RequestMapping(value = "/module/org.openmrs.module.prep/prep",method = RequestMethod.GET)
-	public void manage(ModelMap model){
+	
+	@RequestMapping(value = "/module/org.openmrs.module.prep/prep", method = RequestMethod.GET)
+	public void manage(ModelMap model) {
 		model.addAttribute("user", Context.getAuthenticatedUser());
 	}
-
-
+	
 }

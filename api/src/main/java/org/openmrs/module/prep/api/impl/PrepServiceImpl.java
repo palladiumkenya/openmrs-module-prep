@@ -9,24 +9,28 @@
  */
 package org.openmrs.module.prep.api.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.prep.Item;
 import org.openmrs.module.prep.api.PrepService;
-import org.openmrs.module.prep.api.dao.PrepDao;
+import org.openmrs.module.prep.api.dao.HibernatePrepDao;
 
 public class PrepServiceImpl extends BaseOpenmrsService implements PrepService {
 	
-	PrepDao dao;
+	protected final Log log = LogFactory.getLog(this.getClass());
+	
+	private HibernatePrepDao prepDao;
 	
 	UserService userService;
 	
 	/**
 	 * Injected in moduleApplicationContext.xml
 	 */
-	public void setDao(PrepDao dao) {
-		this.dao = dao;
+	public void setPrepDao(HibernatePrepDao prepDao) {
+		this.prepDao = prepDao;
 	}
 	
 	/**
@@ -36,17 +40,29 @@ public class PrepServiceImpl extends BaseOpenmrsService implements PrepService {
 		this.userService = userService;
 	}
 	
+	/*
+		@Override
+		public Item getItemByUuid(String uuid) throws APIException {
+			return prepDao.getItemByUuid(uuid);
+		}
+		
+		@Override
+		public Item saveItem(Item item) throws APIException {
+			if (item.getOwner() == null) {
+				item.setOwner(userService.getUser(1));
+			}
+			
+			return prepDao.saveItem(item);
+		}
+	*/
+	
 	@Override
-	public Item getItemByUuid(String uuid) throws APIException {
-		return dao.getItemByUuid(uuid);
+	public void onStartup() {
+		
 	}
 	
 	@Override
-	public Item saveItem(Item item) throws APIException {
-		if (item.getOwner() == null) {
-			item.setOwner(userService.getUser(1));
-		}
+	public void onShutdown() {
 		
-		return dao.saveItem(item);
 	}
 }

@@ -34,7 +34,14 @@
         </property>
         <property name="target">
             <bean class="org.openmrs.module.prep.api.impl.PrepServiceImpl">
-                <property name="dao" ref="prep.PrepDao" />
+                <property name="prepDao" >
+                    <bean class="org.openmrs.module.prep.api.dao.HibernatePrepDao">
+                        <property name="sessionFactory">
+                        <ref bean="sessionFactory" />
+
+                        </property>
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="preInterceptors">

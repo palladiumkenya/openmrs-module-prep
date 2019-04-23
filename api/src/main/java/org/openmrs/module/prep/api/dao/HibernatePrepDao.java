@@ -9,29 +9,23 @@
  */
 package org.openmrs.module.prep.api.dao;
 
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.prep.Item;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
-@Repository("prep.PrepDao")
-public class PrepDao {
+public class HibernatePrepDao implements PrEPDAO {
 	
-	@Autowired
-	DbSessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 	
-	private DbSession getSession() {
-		return sessionFactory.getCurrentSession();
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 	
-	public Item getItemByUuid(String uuid) {
-		return (Item) getSession().createCriteria(Item.class).add(Restrictions.eq("uuid", uuid)).uniqueResult();
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 	
-	public Item saveItem(Item item) {
-		getSession().saveOrUpdate(item);
-		return item;
-	}
 }
