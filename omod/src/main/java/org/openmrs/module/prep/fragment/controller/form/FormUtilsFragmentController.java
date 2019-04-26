@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.prep.page.controller.fragment.form;
+package org.openmrs.module.prep.fragment.controller.form;
 
 import org.openmrs.Encounter;
 import org.openmrs.api.context.Context;

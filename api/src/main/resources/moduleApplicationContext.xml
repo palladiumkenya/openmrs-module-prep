@@ -26,6 +26,7 @@
     <context:component-scan base-package="org.openmrs.module.prep" />
 
     <!-- ===================== Content ===================== -->
+    <import resource="content/prep.prep.xml" />
 
     <!--<import resource="content/prep.prep.xml" />-->
 
