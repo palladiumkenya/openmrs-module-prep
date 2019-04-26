@@ -25,6 +25,10 @@
 
     <context:component-scan base-package="org.openmrs.module.prep" />
 
+    <!-- ===================== Content ===================== -->
+
+    <!--<import resource="content/prep.prep.xml" />-->
+
     <!-- Wraps PrepService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
     <bean id="prep.PrepService"
@@ -62,4 +66,5 @@
             </list>
         </property>
     </bean>
+
 </beans>

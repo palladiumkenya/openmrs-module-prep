@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
  * BaseModuleContextSensitiveTest, thus it is run without the in-memory DB and Spring context.
  */
 /**
- * Tests {@link $ PrepService}}.
+ * Tests {@link $ PrepService} .
  */
 public class PrepServiceTest extends BaseModuleContextSensitiveTest {
 	
