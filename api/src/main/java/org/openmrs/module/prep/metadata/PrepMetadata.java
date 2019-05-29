@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.prep.metadata;
 
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.simpleframework.xml.util.Dictionary;
 import org.springframework.stereotype.Component;
@@ -33,11 +34,16 @@ public class PrepMetadata extends AbstractMetadataBundle {
 	
 	public static final class _Form {
 		
-		public static final String PREP_ENROLLMENT = "d5ca78be-654e-4d23-836e-a934739be555";
+		public static final String PREP_ENROLLMENT_FORM = "d5ca78be-654e-4d23-836e-a934739be555";
 		
-		public static final String PREP_DISCONTINUATION = "467c4cc3-25eb-4330-9cf6-e41b9b14cc10";
+		public static final String PREP_DISCONTINUATION_FORM = "467c4cc3-25eb-4330-9cf6-e41b9b14cc10";
 		
-		public static final String PREP_FOLLOW_UP = "ee3e2017-52c0-4a54-99ab-ebb542fb8984";
+		public static final String PREP_CONSULTATION_FORM = "ee3e2017-52c0-4a54-99ab-ebb542fb8984";
+	}
+	
+	public static final class _PatientIdentifierType {
+		
+		public static final String NHIF_NUMBER = "09ebf4f9-b673-4d97-b39b-04f94088ba64";
 	}
 	
 	public static final class _Program {
@@ -64,12 +70,16 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		    _EncounterType.PREP_DISCONTINUATION));
 		
 		install(form("PREP  Client Enrolment Form", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
-		    _Form.PREP_ENROLLMENT));
+		    _Form.PREP_ENROLLMENT_FORM));
 		install(form("PREP Client Discontinuation", "PREP discontinuation form", _EncounterType.PREP_DISCONTINUATION, "1.0",
-		    _Form.PREP_DISCONTINUATION));
-		install(form("PREP Follow Up", "PREP follow up form", _EncounterType.PREP_CONSULTATION, "1.0", _Form.PREP_FOLLOW_UP));
+		    _Form.PREP_DISCONTINUATION_FORM));
+		install(form("PREP Follow Up", "PREP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
+		    _Form.PREP_CONSULTATION_FORM));
 		
-		install(program("PREP Services", "PREP Services", _Concept.PREP, _Program.PREP));
+		install(patientIdentifierType("NHIF Number", "Assigned to Prep client", null, null, null,
+		    PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.NHIF_NUMBER));
+		
+		install(program("PREP", "Pre exposure prophylaxis program", _Concept.PREP, _Program.PREP));
 		
 	}
 }
