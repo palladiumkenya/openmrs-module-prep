@@ -26,9 +26,7 @@
     <context:component-scan base-package="org.openmrs.module.prep" />
 
     <!-- ===================== Content ===================== -->
-    <import resource="content/prep.prep.xml" />
-
-    <!--<import resource="content/prep.prep.xml" />-->
+    <!--<import resource="content/prep.xml" />-->
 
     <!-- Wraps PrepService methods in DB transactions and OpenMRS interceptors,
     which set audit info like dateCreated, changedBy, etc.-->
@@ -67,5 +65,73 @@
             </list>
         </property>
     </bean>
+
+    <!-- ===================== Program ===================== -->
+
+    <bean id="prep.prep.program" class="org.openmrs.module.kenyacore.program.ProgramDescriptor">
+        <property name="targetUuid" value="214cad1c-bb62-4d8e-b927-810a046daf62" />
+        <property name="eligibilityCalculation" value="org.openmrs.module.prep.calculation.library.prep.EligibleForPrepProgramCalculation" />
+        <property name="defaultEnrollmentForm" ref="prep.prep.form.enrollment" />
+        <property name="defaultCompletionForm" ref="prep.prep.form.completion" />
+        <property name="visitForms">
+            <set>
+                <ref bean="prep.prep.form.followupVisit" />
+            </set>
+        </property>
+        <property name="order" value="590" />
+    </bean>
+
+    <!-- ===================== Identifiers ===================== -->
+    <!-- PREP Number -->
+    <bean id="prep.prep.identifier.prepNumber" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
+        <property name="targetUuid" value="ac64e5cb-e3e2-4efa-9060-0dd715a843a1" />
+    </bean>
+
+    <!-- NHIF Number -->
+    <bean id="prep.prep.identifier.nhif" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
+        <property name="targetUuid" value="09ebf4f9-b673-4d97-b39b-04f94088ba64" />
+    </bean>
+
+    <!-- ===================== Forms ===================== -->
+
+    <!-- Prep Enrollment -->
+    <bean id="prep.prep.form.enrollment" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="d5ca78be-654e-4d23-836e-a934739be555" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.prep" />
+                <ref bean="kenyaemr.app.clinician" />
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="prep:prep/prepEnrollment.html" />
+    </bean>
+
+    <!-- Prep Completion -->
+    <bean id="prep.prep.form.completion" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="467c4cc3-25eb-4330-9cf6-e41b9b14cc10" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.prep" />
+                <ref bean="kenyaemr.app.clinician" />
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/completion.png" />
+        <property name="htmlform" value="prep:prep/prepDiscontinuation.html" />
+    </bean>
+
+    <!-- Prep follow up visit -->
+    <bean id="prep.prep.form.followupVisit" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="ee3e2017-52c0-4a54-99ab-ebb542fb8984" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.prep" />
+                <ref bean="kenyaemr.app.clinician" />
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="prep:prep/prepFollowupVisit.html" />
+    </bean>
+
 
 </beans>
