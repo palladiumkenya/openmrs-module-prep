@@ -82,6 +82,10 @@
     </bean>
 
     <!-- ===================== Identifiers ===================== -->
+    <!-- PREP Number -->
+    <bean id="prep.prep.identifier.prepNumber" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
+        <property name="targetUuid" value="ac64e5cb-e3e2-4efa-9060-0dd715a843a1" />
+    </bean>
 
     <!-- NHIF Number -->
     <bean id="prep.prep.identifier.nhif" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">

@@ -44,6 +44,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 	public static final class _PatientIdentifierType {
 		
 		public static final String NHIF_NUMBER = "09ebf4f9-b673-4d97-b39b-04f94088ba64";
+		
+		public static final String PREP_UNIQUE_NUMBER = "ac64e5cb-e3e2-4efa-9060-0dd715a843a1";
 	}
 	
 	public static final class _Program {
@@ -69,15 +71,18 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(encounterType("PREP Client Discontinuation", "Discontinuation of client from PREP program",
 		    _EncounterType.PREP_DISCONTINUATION));
 		
-		install(form("PREP  Client Enrolment Form", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
+		install(form("PREP Client Initiation", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
 		    _Form.PREP_ENROLLMENT_FORM));
 		install(form("PREP Client Discontinuation", "PREP discontinuation form", _EncounterType.PREP_DISCONTINUATION, "1.0",
 		    _Form.PREP_DISCONTINUATION_FORM));
 		install(form("PREP Follow Up", "PREP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
 		    _Form.PREP_CONSULTATION_FORM));
 		
-		install(patientIdentifierType("NHIF Number", "Assigned to Prep client", null, null, null,
+		install(patientIdentifierType("NHIF Number", "PREP client Insurance number ", null, null, null,
 		    PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.NHIF_NUMBER));
+		
+		install(patientIdentifierType("PREP Unique Number", "Unique Number assigned to PREP client upon enrollment", null,
+		    null, null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.PREP_UNIQUE_NUMBER));
 		
 		install(program("PREP", "Pre exposure prophylaxis program", _Concept.PREP, _Program.PREP));
 		
