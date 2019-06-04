@@ -38,14 +38,14 @@
             var pgender = "<lookup expression="patient.gender" />";
             var pAge = parseInt('<lookup expression="patient.age"/>');
             jq('#upnError').hide();
-            jq("#hiv-id input[type=text]").blur(checkForExistingPatientIdentifiers);
+            jq("#prep-id input[type=text]").blur(checkForExistingPatientIdentifiers);
 
             ageGroup();
             jq('.muac').hide();
             jq('#transfer-in-status input').change(onTransferStatusChange);
             jq('#art-history :input').hide();
             jq('#art-status input').change(onArtStatusChange);
-            jq('#generate-hiv-id').click(onUpnGenerateClick);
+            jq('#generate-prep-id').click(onUpnGenerateClick);
             jq('#transit-patient').hide();
 
             jQuery('#rsn').keypress(function(event) {
@@ -56,7 +56,7 @@
             });
             //onTransferStatusChange();
             //defaults
-            jq('#generate-hiv-id').hide();
+            jq('#generate-prep-id').hide();
             //Gender based validations  pregnancy, breastfeeding bmi and muac
             if (pgender == 'M') {
                 jq('#pregnant :input').prop('disabled', true);
@@ -70,14 +70,15 @@
                 jq('.muac').show();
             }
             //UPN Validation
-            var hasUPN = jq('#hiv-id input[type=text]').val();
+            var hasUPN = jq('#prep-id input[type=text]').val();
+            console.log("Has UPN ==>"+hasUPN);
             if(hasUPN == "")
             {
                 jq("#transfer-in-status input[value=159833]").prop("disabled", true);
             }
             if(hasUPN != "")
             {
-                jq("#transfer-in-status input[value=164144]").prop("disabled", true);
+                jq("#transfer-in-status input[value=164144]").prop("disabled", false);
             }
             if(hasBeenOnARVs == 1)
             {
@@ -91,14 +92,14 @@
        });
 
         function checkForExistingPatientIdentifiers() {
-            var upnEntered = jq('#hiv-id input[type=text]').val();
+            var upnEntered = jq('#prep-id input[type=text]').val();
             jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/identifierExists.action', { upn: upnEntered }, function(data) {
                 jq('#upnError').hide();
                 if (data.upnExists === true) {
 
                     jq('#upnError').text("A patient with similar UPN already exists. Please correct before proceeding");
                     jq('#upnError').show();
-                    jq('#hiv-id input[type=text]').focus();
+                    jq('#prep-id input[type=text]').focus();
 				}
             });
         }
@@ -112,7 +113,7 @@
             var firstEnrolledDate = getValue('first-enrolled-date.value');
             var artStartDate = getValue('art-start-date.value');
             var tsTelephone = getValue('ts-telephone.value');
-            var upn = jq('#hiv-id input[type=text]').val();
+            var upn = jq('#prep-id input[type=text]').val();
 
             if (PATIENT_HAS_UPN) {
                 if((/^[0-9]{10}$/.test(upn) === false) &amp;&amp; (/^[0-9]{11}$/.test(upn) === false)) {
@@ -187,7 +188,7 @@
             //New patient
             if (transferStatus== NO_CONCEPT_ID) {
                 var facility_confirmed = "<lookup expression="fn.latestObs(162724).getValueText()"/>";
-                jq('#hiv-id :input').prop('disabled', false);
+                jq('#prep-id :input').prop('disabled', false);
                 jq('#transfer-details').hide();
                 jq('#patient-history').show();
                 jq('#treatment-supporter').show();
@@ -210,8 +211,8 @@
             //Transfer in
             if (transferStatus== YES_CONCEPT_ID) {
                 jq('#transfer-details :input').prop('disabled', false);
-                jq('#hiv-id :input').prop('disabled', false);
-                jq('#generate-hiv-id').hide();
+                jq('#prep-id :input').prop('disabled', false);
+                jq('#generate-prep-id').hide();
                 jq('#transfer-details').show();
                 jq('#patient-history').show();
                 jq('#treatment-supporter').show();
@@ -231,33 +232,33 @@
                 clearHiddenSections([transferDetails, artStatus]);
             }
             if (transferStatus== TRANSIT) {
-                jq('#hiv-id :input').prop('disabled', false);
+                jq('#prep-id :input').prop('disabled', false);
                 jq('#transit-patient').show();
                 jq('#transfer-details').hide();
                 jq('#patient-history').hide();
                 jq('#treatment-supporter-fieldset').hide();
-                jq('#hiv-id :input').prop('disabled', false);
-                jq('#generate-hiv-id').hide();
+                jq('#prep-id :input').prop('disabled', false);
+                jq('#generate-prep-id').hide();
                 clearHiddenSections([transferDetails, artStatus]);
             }
             if (transferStatus == RE_ENROLL) {
-                jq('#hiv-id :input').prop('disabled', true);
+                jq('#prep-id :input').prop('disabled', true);
                 jq('#transit-patient').hide();
                 jq('#transfer-details').hide();
                 jq('#patient-history').hide();
                 jq('#treatment-supporter-fieldset').hide();
-                jq('#hiv-id :input').prop('disabled', false);
-                jq('#generate-hiv-id').hide();
+                jq('#prep-id :input').prop('disabled', false);
+                jq('#generate-prep-id').hide();
                 clearHiddenSections([transferDetails, artStatus]);
             }
             if (transferStatus == false) {
-                jq('#hiv-id :input').prop('disabled', false);
+                jq('#prep-id :input').prop('disabled', false);
                 jq('#transit-patient').hide();
                 jq('#transfer-details').hide();
                 jq('#patient-history').hide();
                 jq('#treatment-supporter-fieldset').hide();
-                jq('#hiv-id :input').prop('disabled', false);
-                jq('#generate-hiv-id').hide();
+                jq('#prep-id :input').prop('disabled', false);
+                jq('#generate-prep-id').hide();
                 clearHiddenSections([transferDetails, artStatus]);
             }
         }
@@ -276,8 +277,8 @@
                 okLabel: 'Continue',
                 okCallback: function() {
                     jq.getJSON('/' + ctxPath + '/kenyaemr/emrUtils/nextHivUniquePatientNumber.action', function(data) {
-                        jq('#hiv-id input[type=text]').val(data.value);
-                        jq('#generate-hiv-id').hide();
+                        jq('#prep-id input[type=text]').val(data.value);
+                        jq('#generate-prep-id').hide();
                     });
                 }
             });
@@ -397,7 +398,6 @@
 						<obsgroup groupingConceptId="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
 							<obs conceptId="161550AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 						</obsgroup>
-
 					</td>
 				</tr>
 			</table>
@@ -475,8 +475,8 @@
 				</table>
 			</fieldset>
 		</includeIf>
-		<includeIf velocityTest="$patient.age &gt; 18">
-			<fieldset id="treatment-supporter-fieldset" >
+
+		<fieldset id="treatment-supporter-fieldset" >
 				<legend>Treatment Buddy</legend>
 				<table id="treatment-supporter" style="width: 70%;" border="0">
 					<tr>
@@ -513,8 +513,8 @@
 					</repeat>
 				</table>
 			</fieldset>
-		</includeIf>
-		<enrollInProgram programId="dfdc6d40-2f2f-463d-ba90-cc97350441a8"/>
+
+		<enrollInProgram programId="214cad1c-bb62-4d8e-b927-810a046daf62"/>
 	</div>
 
 	<div class="ke-form-footer">

@@ -73,10 +73,22 @@
         <property name="eligibilityCalculation" value="org.openmrs.module.prep.calculation.library.prep.EligibleForPrepProgramCalculation" />
         <property name="defaultEnrollmentForm" ref="prep.prep.form.enrollment" />
         <property name="defaultCompletionForm" ref="prep.prep.form.completion" />
+        <property name="patientForms">
+            <set>
+                <ref bean="prep.prep.form.progressNote" />
+            </set>
+        </property>
         <property name="visitForms">
             <set>
                 <ref bean="prep.prep.form.followupVisit" />
             </set>
+        </property>
+        <property name="fragments">
+            <map>
+                <entry key="enrollment-summary" value="prep:program/prep/prepEnrollmentSummary"/>
+                <entry key="care-panel" value="prep:program/prep/prepCarePanel"/>
+                <entry key="completion-summary" value="prep:program/prep/prepCompletionSummary"/>
+            </map>
         </property>
         <property name="order" value="590" />
     </bean>
@@ -99,8 +111,11 @@
         <property name="targetUuid" value="d5ca78be-654e-4d23-836e-a934739be555" />
         <property name="apps">
             <set>
+                <ref bean="kenyaemr.app.registration"/>
+                <ref bean="kenyaemr.app.intake"/>
                 <ref bean="kenyaemr.app.prep" />
                 <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart"/>
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
@@ -112,8 +127,11 @@
         <property name="targetUuid" value="467c4cc3-25eb-4330-9cf6-e41b9b14cc10" />
         <property name="apps">
             <set>
+                <ref bean="kenyaemr.app.registration"/>
+                <ref bean="kenyaemr.app.intake"/>
                 <ref bean="kenyaemr.app.prep" />
                 <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart"/>
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/completion.png" />
@@ -125,13 +143,31 @@
         <property name="targetUuid" value="ee3e2017-52c0-4a54-99ab-ebb542fb8984" />
         <property name="apps">
             <set>
+                <ref bean="kenyaemr.app.registration"/>
+                <ref bean="kenyaemr.app.intake"/>
                 <ref bean="kenyaemr.app.prep" />
                 <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart"/>
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="prep:prep/prepFollowupVisit.html" />
     </bean>
 
+    <!-- Prep progress notes -->
+    <bean id="prep.prep.form.progressNote" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="c48ed2a2-0a0f-4f4e-9fed-a79ca3e1a9b9" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.registration"/>
+                <ref bean="kenyaemr.app.intake"/>
+                <ref bean="kenyaemr.app.prep" />
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart"/>
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="prep:prep/progressNote.html" />
+    </bean>
 
 </beans>
