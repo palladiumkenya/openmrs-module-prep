@@ -15,6 +15,29 @@
 
 	<script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
 	<!--<script type="text/javascript" src="../moduleResources/kenyaemr/scripts/controllers/facility.js"></script>-->
+	<style>
+		.simple-table {
+			border: solid 1px #DDEEEE;
+			border-collapse: collapse;
+			border-spacing: 0;
+			font: normal 13px Arial, sans-serif;
+		}
+		.simple-table thead th {
+			background-color: #DDEFEF;
+			border: solid 1px #DDEEEE;
+			color: #336B6B;
+			padding: 10px;
+			text-align: left;
+			text-shadow: 1px 1px 1px #fff;
+		}
+		.simple-table td {
+			border: solid 1px #DDEEEE;
+			color: #333;
+			padding: 10px;
+			text-shadow: 1px 1px 1px #fff;
+		}
+
+	</style>
 	<script type="text/javascript">
         /**
          * TODO use a lookup tag to get these concept ids. Will require HTML-463
@@ -23,6 +46,9 @@
         var NO_CONCEPT_ID = 164144;
         var TRANSIT =164931;
         var RE_ENROLL=159833;
+        var POPULATION_TYPE =  "<lookup expression="fn.latestObs(164930).getValueCoded()"/>";
+        var KEY_POPULATION =  "<lookup expression="fn.latestObs(160581).getValueCoded()"/>";
+        var DISCORDANT =  "<lookup expression="fn.latestObs(6096).getValueCoded()"/>";
         var PATIENT_HAS_UPN = <lookup expression="kenyaemr.hasHivUniquePatientNumber()" />;
         var ctxPath = typeof openmrsContextPath === 'string' ? openmrsContextPath : OPENMRS_CONTEXT_PATH;
         //On Ready
@@ -57,6 +83,50 @@
             //onTransferStatusChange();
             //defaults
             jq('#generate-prep-id').hide();
+            //Prepopulate Population Type as previously recorded in HTS
+			//Population type
+            if(POPULATION_TYPE == 164928) {
+                jq('#population-type:text').val('General Population');
+                jq('#key-population').hide();
+            }else if(POPULATION_TYPE == 164929) {
+                jq('#population-type:text').val('Key Population');
+                jq('#key-population').show();
+            }else if(POPULATION_TYPE == 138643) {
+                jq('#population-type:text').val('Priority Population');
+            }else{
+                jq('#population-type:text').val('Missing');
+			}
+
+            //Key population
+            if(KEY_POPULATION == 105) {
+                jq('#key-population:text').val('PWID');
+            }else if(KEY_POPULATION == 160578) {
+                jq('#key-population:text').val('MSM');
+            }else if(KEY_POPULATION == 160579) {
+                jq('#key-population:text').val('FSW');
+            }else{
+                jq('#key-population:text').val('NA');
+            }
+            //Priority population
+            if(KEY_POPULATION == 159674) {
+                jq('#priority-population:text').val('Fisher folk');
+            }else if(KEY_POPULATION == 162198) {
+                jq('#priority-population:text').val('Truck driver');
+            }else if(KEY_POPULATION == 160549) {
+                jq('#priority-population:text').val('AGYW');
+            }else if(KEY_POPULATION == 162277) {
+                jq('#priority-population:text').val('Prisoner');
+            }else{
+                jq('#priority-population:text').val('NA');
+            }
+            //DISCORDANR
+            if(DISCORDANT == 1065) {
+                jq('#discordant:text').val('YES');
+            }else if(KEY_POPULATION == 1066) {
+                jq('#discordant:text').val('NO');
+            }else{
+                jq('#discordant:text').val('Missing');
+            }
             //Gender based validations  pregnancy, breastfeeding bmi and muac
             if (pgender == 'M') {
                 jq('#pregnant :input').prop('disabled', true);
@@ -460,11 +530,10 @@
 			</table>
 
 		</fieldset>
-
-		<includeIf velocityTest="$patient.age &lt; 19">
 			<fieldset id ="underage">
-				<legend>Under 18 Years</legend>
+				<legend>Client Social Status</legend>
 				<table id="underage-details" style="width: 70%;" border="0">
+					<includeIf velocityTest="$patient.age &lt; 19">
 					<tr>
 						<td>In school :
 							&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -472,9 +541,37 @@
 								 style="yes_no" required = "true"/>
 						</td>
 					</tr>
+					</includeIf>
+					<tr>
+						<td>
+							<table class="simple-table" id="tbl-known-positive">
+								<td>
+									<u>
+										Recorded Recently from HTS
+									</u>
+									<br/>
+									<br/>Population type:&#160;&#160;&#160;&#160;&#160;
+									<input type="text" name="population-type" id="population-type" readonly="True" />
+									&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+									<br/>
+									<br/>
+									Key population type: &#160;&#160;&#160;&#160;&#160;
+									<input type="text" name="key-population" id="key-population" readonly="True" />
+									<br/>
+									<br/>
+									Priority population:
+									<input type="text" name="priority-population" id="priority-population" readonly="True" />
+									<br/>
+									<br/>
+									Discordant: &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+									<input type="text" name="discordant" id="discordant" readonly="True" />
+									<br/>
+								</td>
+							</table>
+						</td>
+					</tr>
 				</table>
 			</fieldset>
-		</includeIf>
 
 		<fieldset id="treatment-supporter-fieldset" >
 				<legend>Treatment Buddy</legend>

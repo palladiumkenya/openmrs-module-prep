@@ -29,6 +29,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_DISCONTINUATION = "3c37b7a0-9f83-4fdc-994f-17308c22b423";
 		
 		public static final String PREP_ENROLLMENT = "35468fe8-a889-4cd4-9b35-27ac98bdd750";
+		
+		public static final String PREP_BEHAVIOR_RISK_ASSESSMENT = "6e5ec039-8d2a-4172-b3fb-ee9d0ba647b7";
 	}
 	
 	public static final class _Form {
@@ -38,6 +40,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_DISCONTINUATION_FORM = "467c4cc3-25eb-4330-9cf6-e41b9b14cc10";
 		
 		public static final String PREP_CONSULTATION_FORM = "ee3e2017-52c0-4a54-99ab-ebb542fb8984";
+		
+		public static final String PREP_BEHAVIOR_RISK_ASSESSMENT_FORM = "40374909-05fc-4af8-b789-ed9c394ac785";
 		
 		public static final String PREP_PROGRESS_NOTE_FORM = "c48ed2a2-0a0f-4f4e-9fed-a79ca3e1a9b9";
 	}
@@ -69,11 +73,14 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(encounterType("PREP Enrollment", "Enrollment of client onto PREP program", _EncounterType.PREP_ENROLLMENT));
 		install(encounterType("PREP Consultation", "Collection of client data during PREP visit",
 		    _EncounterType.PREP_CONSULTATION));
+		install(encounterType("PREP Behavior Risk Assessment", "Collection of client data for PREP eligibility",
+		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT));
 		install(encounterType("PREP Client Discontinuation", "Discontinuation of client from PREP program",
 		    _EncounterType.PREP_DISCONTINUATION));
 		
-		install(form("PREP Client Initiation", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
-		    _Form.PREP_ENROLLMENT_FORM));
+		install(form("PREP Behavior Risk Assessment", "PREP Behavior Risk Assessment Form",
+		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT, "1.0", _Form.PREP_BEHAVIOR_RISK_ASSESSMENT_FORM));
+		install(form("PREP ", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0", _Form.PREP_ENROLLMENT_FORM));
 		install(form("PREP Client Discontinuation", "PREP discontinuation form", _EncounterType.PREP_DISCONTINUATION, "1.0",
 		    _Form.PREP_DISCONTINUATION_FORM));
 		install(form("PREP Follow Up", "PREP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",

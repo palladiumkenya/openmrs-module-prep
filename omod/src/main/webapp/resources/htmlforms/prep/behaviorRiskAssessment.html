@@ -1,0 +1,421 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+	<script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+	<style>
+		.simple-table {
+			border: solid 1px #DDEEEE;
+			border-collapse: collapse;
+			border-spacing: 0;
+			font: normal 13px Arial, sans-serif;
+		}
+		.simple-table thead th {
+			background-color: #DDEFEF;
+			border: solid 1px #DDEEEE;
+			color: #336B6B;
+			padding: 10px;
+			text-align: left;
+			text-shadow: 1px 1px 1px #fff;
+		}
+		.simple-table td {
+			border: solid 1px #DDEEEE;
+			color: #333;
+			padding: 10px;
+			text-shadow: 1px 1px 1px #fff;
+		}
+
+		/*tr:nth-child(even) {*/
+			/*background-color: #e495e4;*/
+		/*}*/
+	</style>
+	<script type="text/javascript">
+        var NEGATIVE = 664;
+        var HIV_POSITIVE = 703;
+        var UNKNOWN = 1067;
+        //Start on ready
+        jq(function () {
+            //On Ready
+			jq('#partner-on-art-status').hide();
+            jq('#partner-not-art-status').hide();
+			jq('#partner-unknown-status').hide();
+            jq('#partner-art-status').hide();
+            jq('#risk-profile').hide();
+            jq('#hiv-positive-partner-profile-tab').hide();
+			jq('#risk-reduction-specify').hide();
+			jq('#referral-specify').hide();
+
+            onPartnerHivStatusChange();
+            getField('partner-hiv-status.value').change(onPartnerHivStatusChange);
+            onPartnerArtStatusChange();
+            getField('on-art.value').change(onPartnerArtStatusChange);
+            onNoRiskOutcomeChange();
+            jq('#assessment-outcome input').click(onNoRiskOutcomeChange);
+            onRiskReductionChange();
+            jq('#risk-reduction input').click(onRiskReductionChange);
+            onReferralChange();
+            jq('#referral input').click(onReferralChange);
+
+//Validation on behavior risk assessment
+            jq('#assessment-questions  :input[type=checkbox]').change(behaviorQuestionsChecked);
+
+           beforeSubmit.push(function() {
+            });
+
+        });
+
+        var behaviorQuestionsChecked = function(){
+            var val = jq(this).val();
+            var assessmentQuestionsChecked = jq("#assessment-questions input:checkbox:checked");
+            if (assessmentQuestionsChecked.length > 0) {
+                jq("#assessment-outcome input[value=138643]").prop("checked", true);
+            }
+        }
+        /**
+         * Called when 'Partner HIV Status' field is changed
+         */
+        function onPartnerHivStatusChange() {
+            var partnerHivStatus = getValue('partner-hiv-status.value');
+            var assessmentQuestionsChecked = jq("#assessment-questions input:checkbox:checked");
+
+            if (partnerHivStatus ==  HIV_POSITIVE) {
+                jq('#partner-art-status').show();
+                jq('#hiv-positive-partner-profile-tab').show();
+                jq('#partner-on-art-status').hide();
+                jq('#partner-not-art-status').hide();
+                jq('#partner-unknown-status').hide();
+            }
+            if (partnerHivStatus ==  UNKNOWN) {
+                jq('#partner-unknown-status').show();
+                jq('#hiv-positive-partner-profile-tab').hide();
+                jq('#partner-art-status').hide();
+                jq('#partner-on-art-status').hide();
+                jq('#partner-not-art-status').hide();;
+            }
+            if (partnerHivStatus ==  NEGATIVE) {
+                jq('#hiv-positive-partner-profile-tab').hide();
+                jq('#partner-on-art-status').hide();
+                jq('#partner-not-art-status').hide();
+                jq('#partner-unknown-status').hide();
+                jq('#partner-art-status').hide();
+            }
+            //Assessment manipulations
+            if (partnerHivStatus ==  HIV_POSITIVE || assessmentQuestionsChecked.length > 0 ) {
+                jq("#assessment-outcome input[value=138643]").prop("checked", true);
+            }else{
+                jq("#assessment-outcome input[value=138643]").prop("checked", false);
+			}
+           }
+        /**
+         * Called when 'Partner ART Status' field is changed
+         */
+        function onPartnerArtStatusChange() {
+            var partnerArtStatus = getValue('on-art.value');
+
+            if (partnerArtStatus ==  1065) {
+                jq('#partner-on-art-status').show();
+                jq('#partner-not-art-status').hide();
+            }
+            if (partnerArtStatus ==  1066) {
+                jq('#partner-on-art-status').hide();
+                jq('#partner-not-art-status').show();
+            }
+          }
+        function onNoRiskOutcomeChange() {
+            var val = getValue('assessment-outcome.value');
+            if(val == 1066){
+                jq('#risk-profile').show();
+            }
+            if(val == 138643){
+                jq('#risk-profile').hide();
+            }
+        }
+        function onRiskReductionChange() {
+            var val = getValue('risk-reduction.value');
+            if(val == 1065){
+                jq('#risk-reduction-specify').show();
+            }else{
+                jq('#risk-reduction-specify').hide();
+            }
+        }
+        function onReferralChange() {
+            var val = getValue('referral.value');
+            if(val == 1065){
+                jq('#referral-specify').show();
+            }else{
+                jq('#referral-specify').hide();
+            }
+        }
+	</script>
+	<div class="ke-form-header">
+		<table width="100%">
+			<tr>
+				<td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
+				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="ke-form-content">
+		<!-- Behavior Risk Assessment  -->
+		<fieldset class="patient-details">
+			<legend>Behavior Risk Assessment</legend>
+			<table class="simple-table" id="assessment-questions">
+				<tr>
+				<td>Sex Partner HIV Status:</td>
+				<td>
+					<obs conceptId="1436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"
+						 id="partner-hiv-status"
+						 answerConceptIds="703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerLabels="HIV Positive,HIV Negative,Unknown"/>
+
+				</td>
+				<td>
+					<table class="simple-table" id="partner-art-status">
+						<tr>
+							<td>
+								Currently on ART:
+								<obs conceptId="160119AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabels="Yes,No" style="dropdown" id="on-art"/>
+							</td>
+						</tr>
+					</table>
+                   <table class="simple-table" id="partner-on-art-status">
+					   <tr>
+						   <td>
+							   Mark all that apply <br/>
+				        	<obs conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Detectable viral load" style="checkbox" /><br/>
+
+							<obs conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160119AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								 answerLabel="On ART for less than 6 months" style="checkbox" /><br/>
+
+						   <obs conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									answerLabel="Couple is trying to concieve" style="checkbox"  /><br/>
+
+						   <obs conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									answerLabel="Suspected poor adherence" style="checkbox"  /><br/>
+						   </td>
+					   </tr>
+				   </table>
+					<table class="simple-table" id="partner-not-art-status">
+						<tr>
+							<td>
+								<br/>
+
+								<obs conceptId="163310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabel="Couple is trying to concieve" style="checkbox"  /><br/>
+							</td>
+						</tr>
+					</table>
+					<table class="simple-table" id="partner-unknown-status">
+						<tr>
+							<td>
+								 <br/>
+								<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabel="High risk partner" style="checkbox" /><br/>
+
+							</td>
+						</tr>
+					</table>
+				</td>
+				</tr>
+				<tr>
+					<td>
+					<obs conceptId="159385AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+						 answerLabel=""
+						 style="checkbox" />
+					</td>
+					<td>Has Sex with more than one partner</td>
+				</tr>
+				<tr>
+					<td>
+						<obs conceptId="141814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel=""
+							 style="checkbox" />
+					</td>
+					<td>Ongoing Intimate Partner Violence (IPV) or/and Gender Based Violence (GBV)</td>
+				</tr>
+				<tr>
+					<td>
+						<obs conceptId="160579AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel=""
+							 style="checkbox" />
+					</td>
+					<td>Transactional sex</td>
+				</tr>
+				<tr>
+					<td>
+						<obs conceptId="156660AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel=""
+							 style="checkbox" />
+					</td>
+					<td>Recent Sexually Transmitted Infection (STI) in the last 6 months</td>
+				</tr>
+				<tr>
+					<td>
+						<obs conceptId="164845AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel=""
+							 style="checkbox" />
+					</td>
+					<td>Recurrent use of Post Exposure Prophylaxis (PEP)</td>
+				</tr>
+				<tr>
+					<td>
+						<obs conceptId="165088"
+							 answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel=""
+							 style="checkbox" />
+					</td>
+					<td>Recurrent sex under influence of alcohol/recreational drugs</td>
+				</tr>
+				<tr>
+					<td>
+						<obs conceptId="165089"
+							 answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel=""
+							 style="checkbox" />
+					</td>
+					<td>Inconsistent or no condom use</td>
+				</tr>
+				<tr>
+					<td>
+						<obs conceptId="165090"
+							 answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel=""
+							 style="checkbox" />
+					</td>
+					<td>Injecting drug use with shared needles and/or syringes</td>
+				</tr>
+				<tr>
+					<td>Assessment outcome:</td>
+					<td>
+						<obs conceptId="165091"
+							 answerConceptIds="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Risk,No risk" id="assessment-outcome"
+							 style="radio" />
+					</td>
+				</tr>
+				<tr id="risk-profile">
+					<td>Risk education offered:</td>
+					<td>
+						<obs conceptId="165053"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Yes,No" id="risk-reduction"
+							 style="radio" />
+					</td>
+					<td>
+					<table class="simple-table" id="risk-reduction-specify">
+						<tr>
+							<td>
+								<obs conceptId="165092" cols="20"/>
+
+							</td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+				<tr>
+					<td>Client willing to take PrEP:</td>
+					<td>
+						<obs conceptId="165094"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Yes,No" id="willing-prep"
+							 style="radio" />
+					</td>
+				</tr>
+				<tr>
+					<td>Referral for other prevention services:</td>
+					<td>
+						<obs conceptId="165093"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Yes,No" id="referral"
+							 style="radio" />
+					</td>
+					<td>
+						<table class="simple-table" id="referral-specify">
+							<tr>
+								<td>
+									<obs conceptId="161550AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" cols="20"/>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+		<fieldset id="hiv-positive-partner-profile-tab">
+			<legend>
+				HIV Positive Partner Profile
+			</legend>
+			<table class="simple-table" id="gbv-screening-questions">
+				<obsgroup groupingConceptId="141814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+
+					<tr>
+						<td>1. When did you establish your partner HIV+ status:	</td>
+						<td><obs conceptId="160082AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="partner-hiv-test-date"/></td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td>2. Is partner enrolled to a CCC?</td>
+						<td><obs conceptId="165095" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No,Unknown" />
+						</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td>3. CCC Number?</td>
+						<td><obs conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="partners-ccc" size="15" />
+						</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td>4. HIV+ partners ART start date
+						</td>
+						<td><obs conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id ="art-start-date"/>
+						</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td>5. Date known to be HIV- serodiscordant?
+						</td>
+						<td><obs conceptId="165096" id="serodiscordance-confirmation-date"/></td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td>6. Sex without a condom with a HIV+ partner in the past 30 days &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+							&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+						</td>
+						<td><obs conceptId="165097" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+						</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td>7. Number of living children with HIV+ partner</td>
+						<td><obs conceptId="1825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+						</td>
+					</tr>
+				</obsgroup>
+			</table>
+		</fieldset>
+
+	</div>
+	<div class="ke-form-footer">
+		<submit />
+	</div>
+
+</htmlform>
