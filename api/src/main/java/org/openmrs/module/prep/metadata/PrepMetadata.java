@@ -31,6 +31,20 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_ENROLLMENT = "35468fe8-a889-4cd4-9b35-27ac98bdd750";
 		
 		public static final String PREP_BEHAVIOR_RISK_ASSESSMENT = "6e5ec039-8d2a-4172-b3fb-ee9d0ba647b7";
+		
+		public static final String PREP_STI_SCREENING = "83610d13-d4fc-42c3-8c1d-a403cd6dd073";
+		
+		public static final String PREP_VMMC_SCREENING = "402c10a3-d419-4040-b5d8-bde0af646405";
+		
+		public static final String PREP_FERTILITY_INTENTIONS_SCREENING = "c4657c33-f252-4ba9-8a4f-b09ed0deda75";
+		
+		public static final String PREP_ALLERGIES_SCREENING = "119362fb-6af6-4462-9fb2-7a09c43c9874";
+		
+		public static final String PREP_CHRONIC_ILLNESS = "26bb869b-b569-4acd-b455-02c853e9f1e6";
+		
+		public static final String PREP_DRUG_REACTIONS = "d7cfa460-2944-11e9-b210-d663bd873d93";
+
+		public static final String PREP_PROVISION_DETAILS = "47c73adb-f9db-4c79-b582-e16064f9cee0";
 	}
 	
 	public static final class _Form {
@@ -44,6 +58,21 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_BEHAVIOR_RISK_ASSESSMENT_FORM = "40374909-05fc-4af8-b789-ed9c394ac785";
 		
 		public static final String PREP_PROGRESS_NOTE_FORM = "c48ed2a2-0a0f-4f4e-9fed-a79ca3e1a9b9";
+		
+		public static final String PREP_STI_SCREENING_FORM = "d80d1c52-6a79-4c3d-b322-63eead834089";
+		
+		public static final String PREP_VMMC_SCREENING_FORM = "399588e5-c4af-47d0-bf8e-7d12a8c9c80a";
+		
+		public static final String PREP_FERTILITY_INTENTIONS_SCREENING_FORM = "df590414-1e27-4937-b81a-f1504b2d2aef";
+		
+		public static final String PREP_ALLERGIES_SCREENING_FORM = "cdad5adb-e352-4ecf-882d-b76b71be9c9d";
+		
+		public static final String PREP_CHRONIC_ILLNESS_FORM = "458a1a0a-fb8e-4a37-a836-d47e63673b60";
+		
+		public static final String PREP_DRUG_REACTIONS_FORM = "4464390d-025d-47bd-9619-64cb1d89a1da";
+
+		public static final String PREP_PROVISION_DETAILS_FORM = "0de4e6a4-96e7-4281-a229-5195bae4cb0b";
+
 	}
 	
 	public static final class _PatientIdentifierType {
@@ -70,6 +99,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 	public void install() {
 		///////////////////////////// PREP services ////////////////////////////////
 		
+		//Installing encounters
 		install(encounterType("PREP Enrollment", "Enrollment of client onto PREP program", _EncounterType.PREP_ENROLLMENT));
 		install(encounterType("PREP Consultation", "Collection of client data during PREP visit",
 		    _EncounterType.PREP_CONSULTATION));
@@ -77,7 +107,22 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT));
 		install(encounterType("PREP Client Discontinuation", "Discontinuation of client from PREP program",
 		    _EncounterType.PREP_DISCONTINUATION));
+		install(encounterType("PREP Client Discontinuation", "Discontinuation of client from PREP program",
+		    _EncounterType.PREP_DISCONTINUATION));
+		install(encounterType("PREP STI Screening", "Handles PREP STI Screening", _EncounterType.PREP_STI_SCREENING));
+		install(encounterType("PREP VMMC Screening", "Handles PREP VMMC Screening", _EncounterType.PREP_VMMC_SCREENING));
+		install(encounterType("Fertility Intention Screening", "Handles KP Pregnancy and FP screening",
+		    _EncounterType.PREP_FERTILITY_INTENTIONS_SCREENING));
+		install(encounterType("PREP Allergies screening", "Handles PREP Allergies screening",
+		    _EncounterType.PREP_ALLERGIES_SCREENING));
+		install(encounterType("PREP Chronic Illness Screening", "Handles PREP Chronic Illness",
+		    _EncounterType.PREP_CHRONIC_ILLNESS));
+		install(encounterType("PREP Adverse drug reactions", "Handles PREP Adverse drug reactions",
+		    _EncounterType.PREP_DRUG_REACTIONS));
+		install(encounterType("PREP Provision details", "Handles PREP provision assessment",
+				_EncounterType.PREP_PROVISION_DETAILS));
 		
+		//Installing forms
 		install(form("PREP Behavior Risk Assessment", "PREP Behavior Risk Assessment Form",
 		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT, "1.0", _Form.PREP_BEHAVIOR_RISK_ASSESSMENT_FORM));
 		install(form("PREP ", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0", _Form.PREP_ENROLLMENT_FORM));
@@ -85,16 +130,25 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		    _Form.PREP_DISCONTINUATION_FORM));
 		install(form("PREP Follow Up", "PREP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
 		    _Form.PREP_CONSULTATION_FORM));
-		
 		install(form("PREP Progress Notes", "PREP Progress Notes", _EncounterType.PREP_CONSULTATION, "1.0",
 		    _Form.PREP_PROGRESS_NOTE_FORM));
+		install(form("PREP STI Screening", null, _EncounterType.PREP_STI_SCREENING, "1", _Form.PREP_STI_SCREENING_FORM));
+		install(form("PREP VMMC Screening", null, _EncounterType.PREP_VMMC_SCREENING, "1", _Form.PREP_VMMC_SCREENING_FORM));
+		install(form("Fertility Intention Screening", null, _EncounterType.PREP_FERTILITY_INTENTIONS_SCREENING, "1",
+		    _Form.PREP_FERTILITY_INTENTIONS_SCREENING_FORM));
+		install(form("Allergies Screening", null, _EncounterType.PREP_ALLERGIES_SCREENING, "1",_Form.PREP_ALLERGIES_SCREENING_FORM));
+		install(form("Chronic Illness", null, _EncounterType.PREP_CHRONIC_ILLNESS, "1", _Form.PREP_CHRONIC_ILLNESS_FORM));
+		install(form("Adverse Drug Reactions", null, _EncounterType.PREP_DRUG_REACTIONS, "1", _Form.PREP_DRUG_REACTIONS_FORM));
+		install(form("PREP Provision details", null, _EncounterType.PREP_PROVISION_DETAILS, "1", _Form.PREP_PROVISION_DETAILS_FORM));
+
+		//Installing identifiers
 		
 		install(patientIdentifierType("NHIF Number", "PREP client Insurance number ", null, null, null,
 		    PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.NHIF_NUMBER));
-		
 		install(patientIdentifierType("PREP Unique Number", "Unique Number assigned to PREP client upon enrollment", null,
 		    null, null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.PREP_UNIQUE_NUMBER));
 		
+		//Installing program
 		install(program("PREP", "Pre exposure prophylaxis program", _Concept.PREP, _Program.PREP));
 		
 	}

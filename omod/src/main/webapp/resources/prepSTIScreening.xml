@@ -1,0 +1,183 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="d80d1c52-6a79-4c3d-b322-63eead834089" formName="PREP STI Screening"
+          formEncounterType="83610d13-d4fc-42c3-8c1d-a403cd6dd073" formVersion="1.0">
+
+    <macros>
+        sti_screening_done=161558
+        reason =164082
+        sti_type=165098
+        treated=165052
+        provider_name=1473
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td width="156" valign="top"><p>Visit date</p></td>
+                    <td width="156" valign="top"><p>STI Screening done</p></td>
+                    <td width="156" valign="top"><p>Reason</p></td>
+                    <td width="156" valign="top"><p>STI Diagnosis</p></td>
+                    <td width="156" valign="top"><p>Treatment offered</p></td>
+                    <td width="156" valign="top"><p>Provider Name</p></td>
+               </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- SCREENING DONE-->
+                        <obs conceptId="$sti_screening_done"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- REASON-->
+                        <obs conceptId="$reason"
+                              answerConceptIds="1068AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                5006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                163139AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                160523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                              answerLabels="Symptomatic,Asymptomatic,Quartely Screening,Follow up"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- STI DIAGNOSIS-->
+                        <obs conceptId="$sti_type"
+                             answerConceptIds="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                121809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                116995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                130644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                148895AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Genital Ulcer Desease(GUD),Vaginitis and/or Vaginal Discharge(VG),Cervicitis and/or Cervical Discharge(CD),Pelvic Inflammatory Desease(PID),Urethral Discharge(UD),Anal Discharge,Other"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- TREATED-->
+                        <obs conceptId="$treated"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- PROVIDER NAME-->
+                        <obs conceptId="$provider_name" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>STI Screening done</th>
+                <td>  <obs conceptId="$sti_screening_done" id="stiScreeningDone"
+                           answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                           answerLabel="Yes,No"
+                           style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Reason</th>
+                <td>  <obs conceptId="$reason" id="reason"
+                           answerConceptIds="1068AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                5006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                163139AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                160523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                           answerLabels="Symptomatic,Asymptomatic,Quartely Screening,Follow up"
+                           style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>STI Diagnosis</th>
+                <td>  <obs conceptId="$sti_type"  id="sti_type_input"
+                           answerConceptIds="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                121809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                116995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                130644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                148895AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                           answerLabels="Genital Ulcer Desease(GUD),Vaginitis and/or Vaginal Discharge(VG),Cervicitis and/or Cervical Discharge(CD),Pelvic Inflammatory Desease(PID),Urethral Discharge(UD),Anal Discharge,Other"
+                           style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Treatment offered</th>
+                <td>
+                    <obs conceptId="$treated" id="treated_input"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Provider Name</th>
+                <td>
+                    <obs conceptId="$provider_name" id="providerName" />
+                </td>
+            </tr>
+
+        </table>
+        <submit/>
+    </ifMode>
+    <script type="text/javascript">
+        jq(function() {
+        jq('#reason select').prop('disabled', true);
+        jq('#providerName input').prop('disabled', true);
+
+        var stiScreening = jq("#stiScreeningDone select").change(StiScreened)
+
+        console.log("Run  ==> StiScreened");
+        StiScreened();
+
+        });
+
+        function StiScreened() {
+
+        var screening_type = jq("#stiScreeningDone select").val();
+
+
+        console.log("Screened for ==> "+screening_type);
+        if (screening_type == 1066){
+        jq('#reason select').prop('disabled', true);
+        jq('#sti_type_input select').prop('disabled', true);
+        jq('#treated_input select').prop('disabled', true);
+        jq('#providerName input').prop('disabled', true);
+        }
+        else{
+        jq('#reason select').prop('disabled', false);
+        jq('#sti_type_input select').prop('disabled', false);
+        jq('#treated_input select').prop('disabled', false);
+        jq('#providerName input').prop('disabled', false);
+        jq('#providerName input').val('');
+        }
+        }
+    </script>
+</htmlform>
