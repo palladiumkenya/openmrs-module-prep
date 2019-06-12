@@ -1,7 +1,8 @@
 <%
 	def baseLink = ui.pageLink("htmlformentryui", "htmlform/flowsheet", [patientId: currentPatient.patientId, headerForm: "prep:prepEnrollmentHeaderForm.xml"])
-	def clinicalEncounterFlowsheets = "flowsheets=prep:prepSTIScreening.xml&flowsheets=prep:prepCircumcisionStatus.xml&flowsheets=prep:prepFertilityIntentions.xml&flowsheets=prep:prepChronicIllnesses.xml&\n" +
-			                          "flowsheets=prep:prepKnownAllergies.xml&flowsheets=prep:prepDrugReactions.xml"
+	def clinicalEncounterFlowsheets = "flowsheets=prep:prepSTIScreening.xml&flowsheets=prep:prepCircumcisionStatus.xml&flowsheets=prep:prepFertilityIntentions.xml&" +
+			                          "flowsheets=prep:prepPregnancyOutcomes.xml&flowsheets=prep:prepChronicIllnesses.xml&\n" +
+			                          "flowsheets=prep:prepKnownAllergies.xml&flowsheets=prep:prepDrugReactions.xml&flowsheets=prep:prepStatus.xml&flowsheets=prep:prepAppointmentCreation.xml"
 
 	def clinicalEncounterFlowsheeturl = baseLink + clinicalEncounterFlowsheets
 %>

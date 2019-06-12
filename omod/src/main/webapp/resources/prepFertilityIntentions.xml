@@ -9,17 +9,13 @@
     graphic logo is a trademark of OpenMRS Inc.
 
 -->
-<htmlform formUuid="c534e64c-698f-47a9-b551-56e59ea5c6a0" formName="Fertility Intention Screening"
+<htmlform formUuid="c534e64c-698f-47a9-b551-56e59ea5c6a0" formName="Pregnancy Outcome"
           formEncounterType="55d0b03e-8977-4d3e-8941-3333712b1afe" formVersion="1.0">
     <macros>
-        lmp=1427
-        pregnant=5272
-        edd=5596
-        family_planning_status=160653
-        family_planning_method=374
-        pregnancy_planned=1426
-        pregnancy_wanted=164933
-        breastfeeding=5632
+        recent_pregnancy=165103
+        pregnancy_outcome=161033
+        outcome_date=5599
+        birth_defects=164122
 
     </macros>
 
@@ -28,15 +24,11 @@
         <table class="visit-table data-entry-table">
             <thead class="visit-table-header">
                 <tr>
-                   <td>Visit Date</td>
-                    <td>LMP</td>
-                    <td>Pregnant</td>
-                    <td>EDD</td>
-                    <td>Was the pregnancy planned?</td>
-                    <td>Planning to get pregnant?</td>
-                    <td>Breastfeeding?</td>
-                    <td>Family Planning Status</td>
-                    <td>Family Planning Method</td>
+                    <td>Visit Date</td>
+                    <td>Ended pregnancy since last visit</td>
+                    <td>Pregnancy outcome</td>
+                    <td>Outcome date</td>
+                    <td>Birth defects</td>
                 </tr>
             </thead>
             <tbody class="visit-table-body">
@@ -45,67 +37,29 @@
                         <!-- Encounter Date -->
                         <encounterDate />
                     </td>
-                    <td><obs conceptId="$lmp" id="LMPInput" /></td>
                     <td>
-                        <obs conceptId="$pregnant" id="pregnantInput"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No"
-                             style="dropdown"/>
-                    </td>
-                    <td><obs conceptId="$edd" id="EDDInput" /> </td>
-                    <td>
-                        <obs conceptId="$pregnancy_planned" id="pregnancy_planned"
+                        <obs conceptId="$recent_pregnancy"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Yes,No"
                              style="dropdown"/>
                     </td>
                     <td>
-                        <obs conceptId="$pregnancy_wanted" id="pregnancy_wanted"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No"
+                        <obs conceptId="$pregnancy_outcome"
+                             answerConceptIds="1395AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,129218AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159896AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Term live,Preterm Delivery,Still birth,Induced abortion,"
                              style="dropdown"/>
                     </td>
                     <td>
-                        <obs conceptId="$breastfeeding" id="breastfeeding"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No"
-                             style="dropdown"/>
+                        <obs conceptId="$outcome_date"  allowFutureDates="false" />
                     </td>
                     <td>
-                        <obs conceptId="$family_planning_status" id="family_planning_statusInput"
-                             answerConceptIds="965AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1360AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabels="On Family Planning,Not using Family Planning,Wants Family Planning"
-                             style="checkbox"/>
+                        <obs
+                                conceptId="164122AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                answerConceptIds="155871AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                answerLabels="Yes,No,N/A"
+                                style="dropdown" />
+                    </td>
 
-                    </td>
-                    <td>
-                        <obs conceptId="$family_planning_method" id="family_planning_methodInput"
-                             answerConceptIds=" 160570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                780AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                5279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                1359AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                136163AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                5275AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                5278AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                5277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                1472AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                1489AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                                162332AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabels="Emergency contraceptive pills,
-                                           Oral Contraceptives Pills,
-                                           Injectible,
-                                           Implant,
-                                           Lactational Amenorhea Method,
-                                           Intrauterine Device,
-                                           Diaphram/Cervical Cap,
-                                           Fertility Awareness,
-                                           Tubal Ligation,
-                                           Condoms,
-                                           Vasectomy(Partner),
-                                           Undecided"
-                             style="checkbox"/>
-                    </td>
                 </tr>
             </tbody>
         </table>
@@ -118,119 +72,36 @@
                 <td><encounterDate id="visitDate" size="20" default="today" /></td>
             </tr>
             <tr>
-                <th>LMP</th>
-                <td><obs conceptId="$lmp" id="LMPInput" showUnits="false" /></td>
-            </tr>
-            <tr>
-                <th>Pregnant </th>
-                <td> <obs conceptId="$pregnant" id="pregnantInput"
-                          answerConceptIds="1065,1066"
-                          answerLabel="Yes,No"
-                          style="dropdown"/></td>
-            </tr>
-            <tr>
-                <th>EDD</th>
-                <td><obs conceptId="$edd" id="expectedDate"  allowFutureDates="true" /></td>
-
-            </tr>
-            <tr>
-                <th>Was the pregnancy planned</th>
-                <td>
-                    <obs conceptId="$pregnancy_planned" id="pregnancy_planned"
+                <th>Ended pregnancy since last visit</th>
+                <td><obs conceptId="$recent_pregnancy"
                          answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                          answerLabel="Yes,No"
                          style="dropdown"/>
                 </td>
+            </tr>
+            <tr>
+                <th>Pregnancy outcome </th>
+                <td>   <obs conceptId="$pregnancy_outcome"
+                            answerConceptIds="1395AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,129218AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159896AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            answerLabel="Term live,Preterm Delivery,Still birth,Induced abortion,"
+                            style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Outcome date</th>
+                <td><obs conceptId="$outcome_date"  allowFutureDates="false" /></td>
 
             </tr>
             <tr>
-                <th>Planning to get pregnant</th>
+                <th>Birth defects</th>
                 <td>
-                    <obs conceptId="$pregnancy_wanted" id="pregnancy_wanted"
-                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Yes,No"
-                         style="dropdown"/>
+                    <obs
+                            conceptId="164122AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            answerConceptIds="155871AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            answerLabels="Yes,No,N/A"
+                            style="dropdown" />
                 </td>
 
-            </tr>
-            <tr>
-                <th>Breastfeeding</th>
-                <td>
-                    <obs conceptId="$breastfeeding" id="breastfeeding"
-                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Yes,No"
-                         style="dropdown"/>
-                </td>
-
-            </tr>
-            <tr>
-                <th>Family Planning Status</th>
-                <td>
-                    <obs conceptId="$family_planning_status" id="fPsatatus"
-                         answerConceptIds="965AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1360AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabels="On Family Planning,Not using Family Planning,Wants Family Planning"
-                     />
-                </td>
-
-            </tr>
-
-            <tr>
-                <th>Family Planning Method </th>
-                <td id="familyplanning">
-
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="160570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Emergency contraceptive pills" style="checkbox"
-                    />
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="780AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Oral Contraceptives Pills" style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="5279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Injectible" style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="1359AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Implant" style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="5275AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Intrauterine Device" style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="136163AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Lactational Amenorhea Method" style="checkbox"/>
-                    <br />
-
-
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="5278AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Diaphram/Cervical Cap" style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="5277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Fertility Awareness"
-                         style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="1472AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Tubal Ligation" style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Condoms" style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="1489AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Vasectomy(Partner)" style="checkbox"/>
-                    <br />
-                    <obs conceptId="$family_planning_method"
-                         answerConceptId="162332AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                         answerLabel="Undecided" style="checkbox" id="fp-error"/>
-                    <br />
-                </td>
             </tr>
         </table>
     </ifMode>
@@ -238,66 +109,9 @@
     <script type="text/javascript">
         jq(function() {
 
-        var Lmp= jq("#LMPInput input").change(DateChanged)
-        var checkIfPregnant = jq("#pregnantInput select").change(CheckIfPregnant)
 
 
         });
-        function DateChanged() {
 
-        var d = new Date(getField('LMPInput.value').val());
-        d.setMonth(d.getMonth() + 9);
-        console.log("original date  " + d);
-
-        var date = new Date(d);
-        var formattedDate = date.toLocaleDateString('en-GB', {
-        day: 'numeric', month: 'short', year: 'numeric'
-        }).replace(/ /g, '-');
-        console.log('this is the it',formattedDate)
-        jq('#expectedDate input').val(formattedDate);
-
-        }
-
-        function DateChangedw(){
-
-        console.log("Run  Date Changed");
-        <!-- var first = new Date($(#LMPInput).val());
-         console.log("Run  Date Changed");
-         first.setMonth( first.getMonth( ) + 9 );
-         console.log("Run  Date Changed");
-         // var seconddate = ( first.getMonth( ) + 1 ) + '/' + first.getDate( ) + '/' + first.getFullYear( );
-         //$(#expectedDate).val(seconddate);-->
-        }
-
-
-
-        function CheckIfPregnant() {
-
-        var Pregnant = jq("#pregnantInput select").val();
-
-        if (Pregnant == 1066){
-        console.log("Run  ==> not pregnant");
-        jq('#expectedDate input').prop('disabled', true);
-        jq('#expectedDate input').val('');
-        jq('#fPsatatus select').prop('disabled', false);
-        jq('#fPsatatus select').val('');
-        jq('#familyplanning').show();
-        jq('#referredInput select').prop('disabled', false);
-        jq('#referredInput select').val('');
-
-        }
-        else{
-        console.log("Run  ==> Pregnant");
-        jq('#expectedDate input').prop('disabled', false);
-
-        jq('#fPsatatus select').prop('disabled', true);
-        jq('#fPsatatus select').val('');
-
-        jq('#familyplanning').hide();
-        jq('#referredInput select').prop('disabled', true);
-        jq('#referredInput select').val('');
-
-        }
-        }
     </script>
 </htmlform>

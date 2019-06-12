@@ -43,8 +43,14 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_CHRONIC_ILLNESS = "26bb869b-b569-4acd-b455-02c853e9f1e6";
 		
 		public static final String PREP_DRUG_REACTIONS = "d7cfa460-2944-11e9-b210-d663bd873d93";
-
-		public static final String PREP_PROVISION_DETAILS = "47c73adb-f9db-4c79-b582-e16064f9cee0";
+		
+		public static final String PREP_STATUS = "47c73adb-f9db-4c79-b582-e16064f9cee0";
+		
+		public static final String PREP_PREGNANCY_OUTCOMES = "5feffc6c-3194-43df-9b80-290054216c35";
+		
+		public static final String PREP_APPOINTMENT = "66609dee-3438-11e9-b210-d663bd873d93";
+		
+		public static final String PREP_HEPATITIS_SCREENING = "5c05a229-51b4-4b73-be13-0d93765a2a96";
 	}
 	
 	public static final class _Form {
@@ -70,9 +76,15 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_CHRONIC_ILLNESS_FORM = "458a1a0a-fb8e-4a37-a836-d47e63673b60";
 		
 		public static final String PREP_DRUG_REACTIONS_FORM = "4464390d-025d-47bd-9619-64cb1d89a1da";
-
-		public static final String PREP_PROVISION_DETAILS_FORM = "0de4e6a4-96e7-4281-a229-5195bae4cb0b";
-
+		
+		public static final String PREP_STATUS_FORM = "0de4e6a4-96e7-4281-a229-5195bae4cb0b";
+		
+		public static final String PREP_PREGNANCY_OUTCOMES_FORM = "7699a58b-7022-43a7-87de-7d067ae572b9";
+		
+		public static final String PREP_APPOINTMENT_FORM = "7587529e-9d84-4947-953e-afe5643cc816";
+		
+		public static final String PREP_HEPATITIS_SCREENING_FORM = "c0151dfc-6097-4eb1-8226-484303dcdc88";
+		
 	}
 	
 	public static final class _PatientIdentifierType {
@@ -119,13 +131,17 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		    _EncounterType.PREP_CHRONIC_ILLNESS));
 		install(encounterType("PREP Adverse drug reactions", "Handles PREP Adverse drug reactions",
 		    _EncounterType.PREP_DRUG_REACTIONS));
-		install(encounterType("PREP Provision details", "Handles PREP provision assessment",
-				_EncounterType.PREP_PROVISION_DETAILS));
+		install(encounterType("PREP Status", "Handles PREP Status Assessment", _EncounterType.PREP_STATUS));
+		install(encounterType("PREP Pregnancy Outcomes", "Handles PREP Pregnancy Outcomes",
+		    _EncounterType.PREP_PREGNANCY_OUTCOMES));
+		install(encounterType("PREP Appointment creation", "Handles PREP Appointment creation",
+		    _EncounterType.PREP_APPOINTMENT));
 		
 		//Installing forms
 		install(form("PREP Behavior Risk Assessment", "PREP Behavior Risk Assessment Form",
 		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT, "1.0", _Form.PREP_BEHAVIOR_RISK_ASSESSMENT_FORM));
-		install(form("PREP ", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0", _Form.PREP_ENROLLMENT_FORM));
+		install(form("PREP INITIATION ", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
+		    _Form.PREP_ENROLLMENT_FORM));
 		install(form("PREP Client Discontinuation", "PREP discontinuation form", _EncounterType.PREP_DISCONTINUATION, "1.0",
 		    _Form.PREP_DISCONTINUATION_FORM));
 		install(form("PREP Follow Up", "PREP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
@@ -136,11 +152,15 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(form("PREP VMMC Screening", null, _EncounterType.PREP_VMMC_SCREENING, "1", _Form.PREP_VMMC_SCREENING_FORM));
 		install(form("Fertility Intention Screening", null, _EncounterType.PREP_FERTILITY_INTENTIONS_SCREENING, "1",
 		    _Form.PREP_FERTILITY_INTENTIONS_SCREENING_FORM));
-		install(form("Allergies Screening", null, _EncounterType.PREP_ALLERGIES_SCREENING, "1",_Form.PREP_ALLERGIES_SCREENING_FORM));
+		install(form("Allergies Screening", null, _EncounterType.PREP_ALLERGIES_SCREENING, "1",
+		    _Form.PREP_ALLERGIES_SCREENING_FORM));
 		install(form("Chronic Illness", null, _EncounterType.PREP_CHRONIC_ILLNESS, "1", _Form.PREP_CHRONIC_ILLNESS_FORM));
 		install(form("Adverse Drug Reactions", null, _EncounterType.PREP_DRUG_REACTIONS, "1", _Form.PREP_DRUG_REACTIONS_FORM));
-		install(form("PREP Provision details", null, _EncounterType.PREP_PROVISION_DETAILS, "1", _Form.PREP_PROVISION_DETAILS_FORM));
-
+		install(form("PREP Status", null, _EncounterType.PREP_STATUS, "1", _Form.PREP_STATUS_FORM));
+		install(form("Pregnancy Outcomes", null, _EncounterType.PREP_PREGNANCY_OUTCOMES, "1",
+		    _Form.PREP_PREGNANCY_OUTCOMES_FORM));
+		install(form("Appointment Creation", null, _EncounterType.PREP_APPOINTMENT, "1", _Form.PREP_APPOINTMENT_FORM));
+		
 		//Installing identifiers
 		
 		install(patientIdentifierType("NHIF Number", "PREP client Insurance number ", null, null, null,
