@@ -40,12 +40,49 @@
 
     <script type="text/javascript">
         jQuery(function ($) {
+            //onReady
+            jq("#sti-symptoms input[type=checkbox]").prop("disabled",true);
+            jq("#sti-treated input[type=radio]").prop("disabled",true);
+            jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
 
             beforeSubmit.push(function () {
             });
 
         })
 
+        function onStiScreenedSelected() {
+            var val = jq(this).val();
+            var stiSymptomsChecked = jq("#sti-symptoms input:checkbox:checked");
+            var stiTreated = jq('#sti-treated');
+            if(val == 1065){
+                jq("#sti-symptoms input[type=checkbox]").prop("disabled",false);
+                jq("#sti-treated input[type=radio]").prop("disabled",false);
+                jq(this).prop("disabled",false);
+
+            } else{
+                jq("#sti-symptoms input[type=checkbox]").prop("disabled", true);
+                jq("#sti-symptoms input[type=checkbox]").prop("checked", false);
+                clearHiddenSections([stiTreated]);
+
+            }
+        }
+
+        clearHiddenSections = function(parentObj) {
+            for(var i=0; i &lt; parentObj.length; i++){
+                parentObj[i].find('input[type=radio]').each(function() {
+                    this.checked = false;
+                });
+                parentObj[i].find('input[type=checkbox]').each(function() {
+                    this.checked = false;
+                });
+                parentObj[i].find('input[type=text]').each(function() {
+                    this.value = "";
+                });
+                parentObj[i].find('select').each(function() {
+                    this.selectedIndex =0;
+                });
+            }
+        }
 
     </script>
 
@@ -74,7 +111,8 @@
                 </tr>
                 <tr>
                    <td> <obs id="sti_screened" conceptId="161558" required="true" style="radio" answerConceptIds="1065,1066" /> </td>
-                    <td id="sti-symptoms">
+                    <td>
+                        <div id="sti-symptoms" style="float: left; padding-right: 50px">
                         <obs conceptId="165098"
                              answerConceptId="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Genital Ulcer Desease(GUD)" style="checkbox" />
@@ -104,8 +142,9 @@
                              answerLabel="Other(O)"
                              style="checkbox"/>
                         <br />
+                     </div>
                     </td>
-                   <td> <obs id="sti_treated" conceptId="165200" style="radio" answerConceptIds="1065,1066" /> </td>
+                   <td> <obs id="sti-treated" conceptId="165200" style="radio" answerConceptIds="1065,1066" /> </td>
                   </tr>
             </table>
         </fieldset>
