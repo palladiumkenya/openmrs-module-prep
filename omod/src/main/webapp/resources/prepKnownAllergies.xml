@@ -1,0 +1,180 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="cdad5adb-e352-4ecf-882d-b76b71be9c9d" formName="Allergies Screening"
+          formEncounterType="119362fb-6af6-4462-9fb2-7a09c43c9874" formVersion="1.0">
+
+    <macros>
+        complaint_exists =5219
+        causative_agent=160643
+        reaction =159935
+        severity=162760
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+        <table class="visit-table data-entry-table">
+        <thead class="visit-table-header">
+            <tr>
+                <td width="156" valign="top"><p>Visit date</p></td>
+                <td width="156" valign="top"><p>Complaint exists</p></td>
+                <td width="156" valign="top"><p>Causative Agent</p></td>
+                <td width="156" valign="top"><p>Reaction</p></td>
+                <td width="156" valign="top"><p>Severity</p></td>
+                <td width="156" valign="top"><p>Onset Date</p></td>
+            </tr>
+        </thead>
+        <tbody class="visit-table-body">
+            <tr class="visit-table-row">
+                <td class="nowrap visit-date">
+                    <!-- Encounter Date -->
+                    <encounterDate />
+                </td>
+                <td>
+                    <!-- COMPLAINT EXISTS-->
+                    <obs conceptId="$complaint_exists" id="complaint_exists"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+                <td>
+                    <!-- Causative Agents-->
+                    <obs conceptId="$causative_agent" id="causative_agent"
+                         answerConceptIds="162543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,72609AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162545AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162171AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162546AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162547AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162172AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                            162176AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162548AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162177AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162537AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162538AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162539AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                              	162541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Beef,Caffeine,Chocolate,Dairy Food,Eggs,Fish,Milk Protein,Peanuts,Shellfish,Soy,Strawberries,Wheat,Adhesive Tape,Bee Stings,Dust,Latex,Mold,Pollen,Ragweed,Other"
+                         style="dropdown" />
+                </td>
+                <td>
+                    <!-- Reaction Agents-->
+                    <obs conceptId="$reaction" id="reaction"
+                         answerConceptIds="1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121629AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148888AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148787AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,143264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118773AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139084AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                            111061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117399AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121677AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159347AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Unknown,Anaemia,Anaphylaxis,Angioedema,Arrhythmia,Bronchospasm,Cough,Diarrhea,Dystonia,Fever,Flushing,GI upset,Headache,Hepatotoxicity,Hives,Hypertension,Itching,Mental status change,Musculoskeletal pain,Myalgia,Rash,Other"
+                         style="dropdown" />
+                </td>
+                <td>
+                    <!-- Reaction Agents-->
+                    <obs conceptId="$severity" id="severity"
+                         answerConceptIds="1498AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1500AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Mild,Moderate,Severe,Fatal,Unknown"
+                         style="dropdown" />
+                </td>
+                <td>
+                    <!-- Onset Date -->
+                    <obs class="onset-date" conceptId="164428AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                </td>
+            </tr>
+
+        </tbody>
+        </table>
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Complaint exists</th>
+                <td> <obs conceptId="5219" id="complaint_exists_input"
+                          answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                          answerLabel="Yes,No"
+                          style="dropdown"/></td>
+            </tr>
+            <tr>
+                <th>Causative agent</th>
+                <td><obs conceptId="$causative_agent"
+                         answerConceptIds="162543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,72609AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162545AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162171AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162546AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162547AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162172AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                            162176AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162548AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162177AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162537AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162538AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162539AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                              	162541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabels="Beef,Caffeine,Chocolate,Dairy Food,Eggs,Fish,Milk Protein,Peanuts,Shellfish,Soy,Strawberries,Wheat,Adhesive Tape,Bee Stings,Dust,Latex,Mold,Pollen,Ragweed,Other"
+                         style="dropdown" id="causative_agent_input"/>
+
+                </td>
+            </tr>
+            <tr>
+                <th>Reaction</th>
+                <td><obs conceptId="$reaction"
+                         answerConceptIds="1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121629AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148888AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148787AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,143264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118773AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139084AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                            111061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117399AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121677AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159347AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Unknown,Anaemia,Anaphylaxis,Angioedema,Arrhythmia,Bronchospasm,Cough,Diarrhea,Dystonia,Fever,Flushing,GI upset,Headache,Hepatotoxicity,Hives,Hypertension,Itching,Mental status change,Musculoskeletal pain,Myalgia,Rash,Other"
+                         style="dropdown" id="reaction_input"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Severity</th>
+                <td><obs conceptId="$severity"
+                         answerConceptIds="1498AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1500AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Mild,Moderate,Severe,Fatal,Unknown"
+                         style="dropdown" id="severity_input"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Onset Date</th>
+                <td>
+                    <obs class="onset-date" conceptId="164428AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="onsetaDate"  allowFutureDates="false" labelText=" " />
+                </td>
+            </tr>
+
+        </table>
+    </ifMode>
+    <submit/>
+    <script type="text/javascript">
+        jq(function() {
+
+        jq('#causative_agent_input select').prop('disabled', true);
+        jq('#reaction_input select').prop('disabled', true);
+        jq('#severity_input select').prop('disabled', true);
+        jq('#onsetaDate input').prop('disabled', true);
+
+        var checkIfcomplaintsExist = jq("#complaint_exists_input select").change(ComplaintsExist)
+
+        console.log("Run  ==> complaints");
+        ComplaintsExist();
+
+        });
+
+        function ComplaintsExist() {
+
+        var complaints = jq("#complaint_exists_input select").val();
+
+
+        console.log("Screened for ==> "+complaints);
+        if (complaints == 1066){
+        jq('#causative_agent_input select').prop('disabled', true);
+        jq('#reaction_input select').prop('disabled', true);
+        jq('#severity_input select').prop('disabled', true);
+        jq('#onsetaDate input').prop('disabled', true);
+
+
+        jq('#causative_agent_input select').val('');
+        jq('#reaction_input select').val('');
+        jq('#severity_input select').val('');
+        jq('#onsetaDate input').val('');
+        }
+        else{
+        jq('#causative_agent_input select').prop('disabled', false);
+        jq('#causative_agent_input select').val('');
+        jq('#reaction_input select').prop('disabled', false);
+        jq('#reaction_input select').val('');
+        jq('#severity_input select').prop('disabled', false);
+        jq('#severity_input select').val('');
+        jq('#onsetaDate input').prop('disabled', false);
+        jq('#onsetaDate input').val('');
+
+        }
+        }
+    </script>
+</htmlform>

@@ -1,0 +1,172 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="0de4e6a4-96e7-4281-a229-5195bae4cb0b" formName="PREP Status"
+          formEncounterType="47c73adb-f9db-4c79-b582-e16064f9cee0" formVersion="1.0">
+
+    <macros>
+               acute_hiv=165101
+               adherence_counselling=165104
+               medically_ineligible=165105
+               contraindications=165106
+               condom_issued=159777
+               condom_number_issued=165055
+               prep_treatment_plan=165109
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td width="156" valign="top"><p>Visit date</p></td>
+                    <td width="156" valign="top"><p>Signs and symptoms of acute HIV</p></td>
+                    <td width="156" valign="top"><p>Adherence counselling done</p></td>
+                    <td width="156" valign="top"><p>Medically ineligible to start PrEP</p></td>
+                    <td width="156" valign="top"><p>Contraindication for TDF-FTC/TDF-3TC/TDF</p></td>
+                    <td width="156" valign="top"><p>PrEP treatment plan</p></td>
+                    <td width="156" valign="top"><p>Condoms issued</p></td>
+                    <td width="156" valign="top"><p>Number of condoms issued</p></td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- SIGNS OF ACUTE HIV-->
+                        <obs conceptId="$acute_hiv"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- ADHERENCE COUNSELLING DONE -->
+                        <obs conceptId="$adherence_counselling"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- MEDICALLY INELIGIBLE TO START PrEP -->
+                        <obs conceptId="$medically_ineligible"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- CONTRAINDICATIONS FOR PrEP -->
+                        <obs conceptId="$contraindications"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- PrEP TREATMENT PLAN -->
+                        <obs conceptId="$prep_treatment_plan"
+                             answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Start,Continue,Restart,Substitute,Stop"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- CONDOMS ISSUED -->
+                        <obs conceptId="$condom_issued"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- NUMBER OF CONDOMS ISSUED -->
+                        <obs conceptId="$condom_number_issued"/>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Signs and symptoms of acute HIV</th>
+                <td>
+                     <obs conceptId="$acute_hiv"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Adherence counselling done</th>
+                <td>
+                    <obs conceptId="$adherence_counselling"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Medically ineligible to start PrEP</th>
+                <td>
+                    <obs conceptId="$medically_ineligible"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Contraindication for TDF-FTC/TDF-3TC/TDF</th>
+                <td>
+                    <obs conceptId="$contraindications"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>PrEP treatment plan</th>
+                <td>
+                    <obs conceptId="$prep_treatment_plan"
+                         answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Start,Continue,Restart,Substitute,Stop"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Condoms issued</th>
+                <td>
+                    <obs conceptId="$condom_issued"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Number of condoms issued</th>
+                <td>
+                    <obs conceptId="$condom_number_issued"/>
+                </td>
+            </tr>
+        </table>
+        <submit/>
+    </ifMode>
+
+</htmlform>

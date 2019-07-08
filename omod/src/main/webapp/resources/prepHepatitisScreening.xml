@@ -1,0 +1,189 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="c0151dfc-6097-4eb1-8226-484303dcdc88" formName="Hepatitis Screening"
+          formEncounterType="5c05a229-51b4-4b73-be13-0d93765a2a96" formVersion="1.0">
+
+    <macros>
+        screened=164082
+        hepatitisB_screened =165040
+        hepatitisC_screened =165041
+        hepatitis_results=1322
+        treated=165052
+        referred=1272
+        remarks=160632
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td width="156" valign="top"><p>Visit date</p></td>
+                    <td width="156" valign="top"><p>Screened for Hepatitis</p></td>
+                    <td width="156" valign="top"><p>Results</p></td>
+                    <td width="156" valign="top"><p>Treated</p></td>
+                    <td width="156" valign="top"><p>Referred</p></td>
+                    <td width="156" valign="top"><p>Remarks</p></td>
+                   </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- SCREENED-->
+                        <obs conceptId="$screened" id="screened"
+                             answerConceptIds="$hepatitisB_screened,$hepatitisC_screened"
+                             answerLabels="Hepatits B,Hepatitis C"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- RESULTS -->
+                        <obs conceptId="$hepatitis_results"
+                             answerConceptIds="664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, 782AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Negative,Positive,Vaccinated"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- TREATED-->
+                        <obs conceptId="$treated"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- REFERRED -->
+                        <obs conceptId="$referred"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- REMARKS -->
+                        <obs conceptId="$remarks" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Screened for Hepatitis</th>
+                <td>   <obs conceptId="$screened" id="screened"
+                            answerConceptIds="$hepatitisB_screened,$hepatitisC_screened"
+                            answerLabels="Hepatits B,Hepatitis C"
+                            style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Results</th>
+                <td> <obs conceptId="$hepatitis_results" id="results"
+                          answerConceptIds="664,703, 782AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                          answerLabels="Negative,Positive,Vaccinated"
+                          style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Treated</th>
+                <td>
+                    <obs conceptId="$treated" id="treated"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Referred</th>
+                <td>
+                    <obs conceptId="$referred" id="referred"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Remarks</th>
+                <td><obs conceptId="$remarks" id="remarks_input"  /></td>
+            </tr>
+        </table>
+        <submit/>
+    </ifMode>
+    <script type="text/javascript">
+        jq(function() {
+        jq('#results select').prop('disabled', true);
+        jq('#treated select').prop('disabled', true);
+        jq('#treated select').val('');
+        jq('#referred select').prop('disabled', true);
+        jq('#referred select').val('');
+        jq('#remarks_input select').prop('disabled', true);
+        jq('#remarks_input input').val('');
+
+        var Screened = jq("#screened select").change(ScreenedFor)
+
+        var Screened = jq("#results select").change(ScreeningResults)
+
+        console.log("Run  ==> Screened");
+        });
+
+        function ScreenedFor() {
+
+        var screenedfor = jq("#screened select").val();
+
+        if (screenedfor == 165040 || screenedfor==165041){
+
+        jq('#results select').prop('disabled', false);
+        }
+        else{
+        jq('#results select').prop('disabled', true);
+        }
+        }
+
+        function ScreeningResults() {
+
+        var negative = jq("#results select").val();
+
+        if (negative == 703){
+        jq('#treated select').prop('disabled', false);
+        jq('#referred select').prop('disabled', false);
+        jq('#remarks_input select').prop('disabled', false);
+
+
+        jq('#treated select').val('');
+        jq('#referred select').val('');
+        jq('#remarks_input select').val('');
+
+        }
+        else{
+        jq('#treated select').prop('disabled', true);
+        jq('#treated select').val('');
+        jq('#referred select').prop('disabled', true);
+        jq('#referred select').val('');
+        jq('#remarks_input select').prop('disabled', true);
+        jq('#remarks_input selct').val('');
+
+
+        }
+        }
+    </script>
+</htmlform>

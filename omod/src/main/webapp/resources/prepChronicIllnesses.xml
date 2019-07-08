@@ -1,0 +1,185 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="458a1a0a-fb8e-4a37-a836-d47e63673b60" formName="Chronic Illness"
+          formEncounterType="26bb869b-b569-4acd-b455-02c853e9f1e6" formVersion="1.0">
+
+    <macros>
+        illness_exists =162747
+        illness_type=1284
+        illness_nature=163042
+        start_date=159948
+        duration=159368
+        remarks=160632
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td width="156" valign="top"><p>Visit date</p></td>
+                    <td width="156" valign="top"><p>Chronic Illness exists</p></td>
+                    <td width="156" valign="top"><p>Chronic illness type</p></td>
+                    <td width="156" valign="top"><p>Nature of illness</p></td>
+                    <td width="156" valign="top"><p>Start date</p></td>
+                    <td width="156" valign="top"><p>Duration</p></td>
+                    <td width="156" valign="top"><p>Remarks</p></td>
+                   </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- ILLNESS EXISTS-->
+                        <obs conceptId="$illness_exists"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- ILLNESS TYPE -->
+                        <obs
+                                conceptId="$illness_type" class="illness-chronic"
+                                answerConceptIds="149019AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148432AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,153754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159351AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,119270AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120637AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,145438AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1295AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,119692AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120291AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,119481AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118631AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117789AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139071AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,115728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117399AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117321AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,151342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,133687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,115115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,114662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118976AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                answerLabels="Alzheimer's Disease and other Dementias,Arthritis,Asthma,Cancer,Cardiovascular diseases,Chronic Hepatitis,Chronic Kidney Disease,Chronic Obstructive Pulmonary Disease(COPD),Chronic Renal Failure,Cystic Fibrosis,Deafness and Hearing impairment,Diabetes,Endometriosis,Epilepsy,Glaucoma,Heart Disease,Hyperlipidaemia,Hypertension,Hypothyroidism,Mental illness,Multiple Sclerosis,Obesity,Osteoporosis,Sickle Cell Anaemia,Thyroid disease"
+                                style="dropdown"
+                        />
+                    </td>
+                    <td>
+                        <!-- NATURE OF CHRONIC ILLNESS -->
+                        <obs conceptId="$illness_nature" />
+
+                    </td> <td>
+                        <!-- START DATE -->
+                        <obs conceptId="$start_date" />
+                    </td> <td>
+                        <!-- DURATION -->
+                        <obs conceptId="$duration" />
+                    </td> <td>
+                        <!-- REMARKS -->
+                        <obs conceptId="$remarks" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Chronic Illness exists</th>
+                <td>  <obs conceptId="$illness_exists" id="illness_exists"
+                           answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                           answerLabel="Yes,No"
+                           style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Chronic Illness type</th>
+                <td> <obs
+                        conceptId="$illness_type" class="illness-chronic"
+                        answerConceptIds="149019AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148432AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,153754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159351AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,119270AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120637AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,145438AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1295AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,119692AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120291AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,119481AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118631AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117789AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139071AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,115728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117399AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117321AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,151342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,133687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,115115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,114662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118976AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        answerLabels="Alzheimer's Disease and other Dementias,Arthritis,Asthma,Cancer,Cardiovascular diseases,Chronic Hepatitis,Chronic Kidney Disease,Chronic Obstructive Pulmonary Disease(COPD),Chronic Renal Failure,Cystic Fibrosis,Deafness and Hearing impairment,Diabetes,Endometriosis,Epilepsy,Glaucoma,Heart Disease,Hyperlipidaemia,Hypertension,Hypothyroidism,Mental illness,Multiple Sclerosis,Obesity,Osteoporosis,Sickle Cell Anaemia,Thyroid disease"
+                        style="dropdown" id="chronic"
+                />
+            </td>
+            </tr>
+            <tr>
+                <th>Nature of illness</th>
+                <td><obs conceptId="$illness_nature" id="illness_nature_input" /></td>
+            </tr>
+            <tr>
+                <th>Start date</th>
+                <td><obs conceptId="$start_date" id="start_date_input" allowFutureDates="false" /></td>
+            </tr>
+            <tr>
+                <th>Duration(Days)</th>
+                <td><obs conceptId="$duration" id="duration_input" /></td>
+            </tr>
+            <tr>
+                <th>Remarks</th>
+                <td><obs conceptId="$remarks" id="remarks_input" /></td>
+            </tr>
+        </table>
+        <submit/>
+    </ifMode>
+
+
+    <script type="text/javascript">
+        jq(function()
+        {
+        console.log("Run  ==> test");
+        jq('#chronic select').prop('disabled', true);
+        jq('#illness_nature_input input').prop('disabled', true);
+        jq('#start_date_input input').prop('disabled', true);
+        jq('#duration_input input').prop('disabled', true);
+        jq('#remarks_input input').prop('disabled', true);
+        jq('#illness_nature_input input').val('');
+        jq('#start_date_input input').val('');
+        jq('#duration_input input').val('');
+        jq('#remarks_input input').val('');
+
+        console.log("Run  ==> end of test");
+
+        var illness = jq("#illness_exists select").change(IllnessExists)
+
+        console.log("Run  ==> illness");
+        IllnessExists();
+
+        });
+
+        function IllnessExists() {
+
+        var screening_type = jq("#illness_exists select").val();
+
+
+        console.log("Screened for ==> "+screening_type);
+        if (screening_type == 1066){
+        jq('#chronic select').prop('disabled', true);
+        jq('#illness_nature_input input').prop('disabled', true);
+        jq('#start_date_input input').prop('disabled', true);
+        jq('#duration_input input').prop('disabled', true);
+        jq('#remarks_input input').prop('disabled', true);
+        jq('#illness_nature_input input').val('');
+        jq('#start_date_input input').val('');
+        jq('#duration_input input').val('');
+        jq('#remarks_input input').val('');
+
+        }
+        else{
+        jq('#chronic select').prop('disabled', false);
+        jq('#illness_nature_input input').prop('disabled', false);
+        jq('#illness_nature_input input').val('');
+        jq('#start_date_input input').prop('disabled', false);
+        jq('#start_date_input input').val('');
+        jq('#duration_input input').prop('disabled', false);
+        jq('#duration_input input').val('');
+        jq('#remarks_input input').prop('disabled', false);
+        jq('#remarks_input input').val('');
+        }
+        }
+    </script>
+
+
+
+</htmlform>

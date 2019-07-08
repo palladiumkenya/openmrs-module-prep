@@ -1,0 +1,35 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="174254ec-7b9f-4f58-a598-36137f96f45f" formName="Header Form Test"
+          formEncounterType="7ba0922a-2a69-4095-b3ff-22080dabc643" formVersion="1.0">
+
+    <h3>This is my header form</h3>
+
+    Date: <encounterDate/><br/>
+    Enrolled by: <encounterProvider default="currentUser" />
+    Enrolled at: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" />
+    <br/>
+    Weight:  <obs conceptId="5089"/>
+    <br/>
+    Height: <obs conceptId="5090"/>
+    <br/>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons" style="margin-top:10px;">
+            <button class="submitButton confirm" onclick="submitHtmlForm()">
+                <uimessage code="uicommons.save"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>

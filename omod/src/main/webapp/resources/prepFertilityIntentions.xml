@@ -1,0 +1,117 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="c534e64c-698f-47a9-b551-56e59ea5c6a0" formName="Pregnancy Outcome"
+          formEncounterType="55d0b03e-8977-4d3e-8941-3333712b1afe" formVersion="1.0">
+    <macros>
+        recent_pregnancy=165103
+        pregnancy_outcome=161033
+        outcome_date=5599
+        birth_defects=164122
+
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td>Visit Date</td>
+                    <td>Ended pregnancy since last visit</td>
+                    <td>Pregnancy outcome</td>
+                    <td>Outcome date</td>
+                    <td>Birth defects</td>
+                </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <obs conceptId="$recent_pregnancy"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <obs conceptId="$pregnancy_outcome"
+                             answerConceptIds="1395AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,129218AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159896AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Term live,Preterm Delivery,Still birth,Induced abortion,"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <obs conceptId="$outcome_date"  allowFutureDates="false" />
+                    </td>
+                    <td>
+                        <obs
+                                conceptId="164122AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                answerConceptIds="155871AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                answerLabels="Yes,No,N/A"
+                                style="dropdown" />
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </ifMode>
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Ended pregnancy since last visit</th>
+                <td><obs conceptId="$recent_pregnancy"
+                         answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Yes,No"
+                         style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Pregnancy outcome </th>
+                <td>   <obs conceptId="$pregnancy_outcome"
+                            answerConceptIds="1395AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,129218AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159896AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            answerLabel="Term live,Preterm Delivery,Still birth,Induced abortion,"
+                            style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Outcome date</th>
+                <td><obs conceptId="$outcome_date"  allowFutureDates="false" /></td>
+
+            </tr>
+            <tr>
+                <th>Birth defects</th>
+                <td>
+                    <obs
+                            conceptId="164122AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            answerConceptIds="155871AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            answerLabels="Yes,No,N/A"
+                            style="dropdown" />
+                </td>
+
+            </tr>
+        </table>
+    </ifMode>
+    <submit/>
+    <script type="text/javascript">
+        jq(function() {
+
+
+
+        });
+
+    </script>
+</htmlform>

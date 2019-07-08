@@ -1,0 +1,232 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="4464390d-025d-47bd-9619-64cb1d89a1da" formName="Adverse Drug Reactions"
+          formEncounterType="d7cfa460-2944-11e9-b210-d663bd873d93" formVersion="1.0">
+
+    <macros>
+        adverse_reaction_exists =162867
+        drug=1193
+        reaction_type=159935
+        severity=162760
+        onset=160753
+        action_taken=1255
+        remarks=160632
+
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td width="156" valign="top"><p>Visit date</p></td>
+                    <td width="156" valign="top"><p>Adverse reaction exists</p></td>
+                    <td width="156" valign="top"><p>Drug causing</p></td>
+                    <td width="156" valign="top"><p>Reaction </p></td>
+                    <td width="156" valign="top"><p>Severity</p></td>
+                    <td width="156" valign="top"><p>Onset date</p></td>
+                    <td width="156" valign="top"><p>Action taken</p></td>
+                   </tr>
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                    <td>
+                        <!-- ADVERSE REACTION EXISTS-->
+                        <obs conceptId="$adverse_reaction_exists" id="adverse_reaction_exists"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="dropdown"/>
+                    </td>
+                    <td>
+                        <!-- DRUG -->
+                        <obs conceptId="$drug"
+                             answerConceptIds="70056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162298AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,70878AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,155060AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,103727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,71647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,72822AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162301AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73300AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73667AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,74807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,75523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                            75948AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,77164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,77675AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,78280AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,794AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80106AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162306AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81723AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81959AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,82023AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                               	82559AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,82900AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,83018AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,767AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162307AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84893AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,86663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Abicavir,ACE inhibitors,Allopurinol,Aminoglycosides,ARBs (angiotensin II receptor blockers),Aspirin,Atazanavir,Carbamazepine,Cephalosporins,Chloroquine,Codeine,Didanosine,Efavirenz,Erythromycins,Ethambutol,Griseofulvin,Heparins,Hydralazine,Isoniazid,Lopinavir/ritonavir,Morphine,Nevirapine,Nitrofurans,Non-steroidal anti-inflammatory drugs,Penicillamine,Penicillin,Phenolphthaleins,Phenytoin,Procainamide,Pyrazinamide,Quinidine,Rifampin,Statins,Stavudine,Sulfonamides,Tenofovir,Tetracycline,Zidovudine,Other"
+                             style="dropdown" id="adverse"/>
+                    </td>
+                    <td>
+                        <!-- REACTION TYPE -->
+                        <obs conceptId="$reaction_type"
+                             answerConceptIds="1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121629AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148888AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148787AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,143264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118773AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139084AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                            111061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117399AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121677AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159347AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Unknown,Anaemia,Anaphylaxis,Angioedema,Arrhythmia,Bronchospasm,Cough,Diarrhea,Dystonia,Fever,Flushing,GI upset,Headache,Hepatotoxicity,Hives,Hypertension,Itching,Mental status change,Musculoskeletal pain,Myalgia,Rash,Other"
+                             style="dropdown" />
+
+                    </td> <td>
+                        <!-- SEVERITY -->
+                        <obs conceptId="$severity"
+                             answerConceptIds="1498AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1500AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Mild,Moderate,Severe,Fatal,Unknown" />
+                    </td> <td>
+                        <!-- ONSET -->
+                        <obs conceptId="$onset" />
+                    </td> <td>
+                        <!-- ACTION TAKEN -->
+                        <obs conceptId="$action_taken"
+                             answerConceptIds="1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1259AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,981AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="CONTINUE REGIMEN,SWITCHED REGIMEN,CHANGED DOSE,SUBSTITUTED DRUG,NONE,STOP,OTHER"
+                             style="dropdown"
+                        />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <table class="visit-edit-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <th>Adverse reaction exists</th>
+                <td>   <obs conceptId="$adverse_reaction_exists" id="adverse_reaction_exists_input"
+                            answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            answerLabel="Yes,No"
+                            style="dropdown"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Drug causing</th>
+                <td><obs conceptId="$drug"
+                         answerConceptIds="70056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162298AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,70878AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,155060AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,103727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,71647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,72822AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162301AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73300AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73667AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,74807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,75523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                            75948AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,77164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,77675AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,78280AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,794AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80106AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162306AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81723AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81959AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,82023AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                               	82559AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,82900AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,83018AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,767AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162307AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84893AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,86663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabels="Abicavir,ACE inhibitors,Allopurinol,Aminoglycosides,ARBs (angiotensin II receptor blockers),Aspirin,Atazanavir,Carbamazepine,Cephalosporins,Chloroquine,Codeine,Didanosine,Efavirenz,Erythromycins,Ethambutol,Griseofulvin,Heparins,Hydralazine,Isoniazid,Lopinavir/ritonavir,Morphine,Nevirapine,Nitrofurans,Non-steroidal anti-inflammatory drugs,Penicillamine,Penicillin,Phenolphthaleins,Phenytoin,Procainamide,Pyrazinamide,Quinidine,Rifampin,Statins,Stavudine,Sulfonamides,Tenofovir,Tetracycline,Zidovudine,Other"
+                         style="dropdown" id="adverse_input"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Reaction</th>
+                <td>
+                    <obs conceptId="$reaction_type" id="reaction_type"
+                         answerConceptIds="1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121629AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148888AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148787AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,143264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118773AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139084AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                                            111061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117399AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121677AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159347AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabels="Unknown,Anaemia,Anaphylaxis,Angioedema,Arrhythmia,Bronchospasm,Cough,Diarrhea,Dystonia,Fever,Flushing,GI upset,Headache,Hepatotoxicity,Hives,Hypertension,Itching,Mental status change,Musculoskeletal pain,Myalgia,Rash,Other"
+                         style="dropdown" />
+                </td>
+            </tr>
+            <tr>
+                <th>Severity</th>
+                <td>
+                    <obs conceptId="$severity" id="severity"
+                         answerConceptIds="1498AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1500AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabels="Mild,Moderate,Severe,Fatal,Unknown" />
+                </td>
+            </tr>
+            <tr>
+                <th>Onset date </th>
+                <td>
+                    <obs conceptId="$onset" id="onsetDate" />
+                </td>
+            </tr>
+            <tr>
+                <th>Action taken</th>
+                <td>  <obs conceptId="$action_taken" id="action_taken"
+                         answerConceptIds="1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1259AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,981AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+                         answerLabels="CONTINUE REGIMEN,SWITCHED REGIMEN,CHANGED DOSE,SUBSTITUTED DRUG,NONE,STOP REGIMEN,OTHER"
+                         style="dropdown"
+                    />
+                </td>
+            </tr>
+            <tr>
+                <th>Other(Specify)</th>
+                <td><obs conceptId="$remarks" id="remarks_input" /></td>
+            </tr>
+        </table>
+        <submit/>
+    </ifMode>
+    <script type="text/javascript">
+        jq(function() {
+        jq('#adverse_input select').prop('disabled', true);
+        jq('#reaction_type select').prop('disabled', true);
+        jq('#severity select').prop('disabled', true);
+        jq('#action_taken select').prop('disabled', true);
+        jq('#onsetDate input').prop('disabled', true);
+        jq('#remarks_input input').prop('disabled', true);
+
+
+        var reaction = jq("#adverse_reaction_exists_input select").change(DrugReaction)
+        var reaction = jq("#action_taken select").change(ActionTaken)
+
+        console.log("Run  ==> reaction");
+
+
+        });
+
+        function ActionTaken() {
+
+        var Action_taken = jq("#action_taken select").val();
+
+        if (Action_taken == 5622){
+
+        jq('#remarks_input input').prop('disabled', false);
+
+        jq('#remarks_input input').val('');
+
+        }
+        else{
+
+
+        jq('#remarks_input input').prop('disabled', true);
+        jq('#remarks_input input').val('');
+        }
+        }
+
+        function DrugReaction() {
+
+        var reaction_type = jq("#adverse_reaction_exists_input select").val();
+
+
+        console.log("Screened for ==> "+reaction_type);
+        if (reaction_type == 1066){
+        jq('#adverse_input select').prop('disabled', true);
+        jq('#reaction_type select').prop('disabled', true);
+        jq('#severity select').prop('disabled', true);
+        jq('#action_taken select').prop('disabled', true);
+        jq('#onsetDate input').prop('disabled', true);
+
+
+        jq('#adverse_input select').val('');
+        jq('#reaction_type select').val('');
+        jq('#severity select').val('');
+        jq('#action_taken select').val('');
+        jq('#onsetDate input').val('');
+
+        }
+        else{
+        jq('#adverse_input select').prop('disabled', false);
+        jq('#adverse_input select').val('');
+        jq('#reaction_type select').prop('disabled', false);
+        jq('#reaction_type select').val('');
+        jq('#severity select').prop('disabled', false);
+        jq('#severity select').val('');
+        jq('#action_taken select').prop('disabled', false);
+        jq('#action_taken select').val('');
+
+        jq('#onsetDate input').prop('disabled', false);
+        jq('#onsetDate input').val('');
+        }
+        }
+    </script>
+</htmlform>

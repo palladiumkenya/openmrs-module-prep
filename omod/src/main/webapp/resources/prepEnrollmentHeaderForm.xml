@@ -1,0 +1,90 @@
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<htmlform formUuid="40d287be-1439-44b8-ab7d-f5abfbd934ee" formName="Enrollment Header"
+          formEncounterType="35468fe8-a889-4cd4-9b35-27ac98bdd750" formVersion="1.0">
+
+    <macros>
+        transfer_status=164932
+
+    </macros>
+
+    <!-- Flowsheet table view -->
+    <ifMode mode="VIEW" include="true">
+
+        <table class="visit-table data-entry-table">
+            <thead class="visit-table-header">
+                <tr>
+                    <td style="margin:2%">Enrollment Date</td>
+                    <td>Prep Unique No.</td>
+                    <td>NHIF No.</td>
+                    <td>Transfer status</td>
+                </tr>
+
+            </thead>
+            <tbody class="visit-table-body">
+                <tr class="visit-table-row">
+                    <td class="nowrap visit-date">
+                        <!-- Encounter Date -->
+                        <encounterDate />
+                    </td>
+                          <!--Unique client no.-->
+                    <td>
+                        <span id="prep-id"><patient id="upn" field="identifier" identifierTypeId="ac64e5cb-e3e2-4efa-9060-0dd715a843a1" /></span>
+                    </td>
+                    <!--NHIF client no.-->
+                    <td>
+                        <span id="nhif-no"><patient id="nhif" field="identifier" identifierTypeId="09ebf4f9-b673-4d97-b39b-04f94088ba64" /></span>
+                    </td>
+                    <!--Transfer status-->
+                    <td>
+                        <obs id="transfer" conceptId="$transfer_status"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ifMode>
+
+    <!-- Data entry view -->
+    <ifMode mode="VIEW" include="false">
+
+        <table class="visit-table data-entry-table">
+            <tr>
+                <th>Visit Date</th>
+                <td><encounterDate id="visitDate" size="20" default="today" /></td>
+            </tr>
+            <tr>
+                <td>Prep Unique Number</td>
+                <td>
+                    <span id="prep-id"><patient id="upn" field="identifier" identifierTypeId="ac64e5cb-e3e2-4efa-9060-0dd715a843a1" /></span>
+
+                </td>
+            </tr>
+            <tr>
+                <td>NHIF Number</td>
+                <td>
+                    <span id="nhif-no"><patient id="nhif" field="identifier" identifierTypeId="09ebf4f9-b673-4d97-b39b-04f94088ba64" /></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Transfer status</td>
+                <td>
+                    <obs id="transfer" conceptId="$transfer_status"/>
+                </td>
+            </tr>
+
+        </table>
+
+        <submit/>
+
+    </ifMode>
+</htmlform>
