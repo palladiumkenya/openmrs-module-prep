@@ -15,10 +15,9 @@ import org.simpleframework.xml.util.Dictionary;
 import org.springframework.stereotype.Component;
 
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.*;
-import static org.openmrs.module.prep.metadata.PrepMetadata._Program.PREP;
 
 /**
- * MCH metadata bundle
+ * PREP metadata bundle
  */
 @Component
 public class PrepMetadata extends AbstractMetadataBundle {
@@ -39,6 +38,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_DISCONTINUATION_FORM = "467c4cc3-25eb-4330-9cf6-e41b9b14cc10";
 		
 		public static final String PREP_CONSULTATION_FORM = "ee3e2017-52c0-4a54-99ab-ebb542fb8984";
+		
+		public static final String PREP_PROGRESS_NOTE_FORM = "c48ed2a2-0a0f-4f4e-9fed-a79ca3e1a9b9";
 	}
 	
 	public static final class _PatientIdentifierType {
@@ -63,7 +64,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 	 */
 	@Override
 	public void install() {
-		///////////////////////////// MCH child services ////////////////////////////////
+		///////////////////////////// PREP services ////////////////////////////////
 		
 		install(encounterType("PREP Enrollment", "Enrollment of client onto PREP program", _EncounterType.PREP_ENROLLMENT));
 		install(encounterType("PREP Consultation", "Collection of client data during PREP visit",
@@ -77,6 +78,9 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		    _Form.PREP_DISCONTINUATION_FORM));
 		install(form("PREP Follow Up", "PREP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
 		    _Form.PREP_CONSULTATION_FORM));
+		
+		install(form("PREP Progress Notes", "PREP Progress Notes", _EncounterType.PREP_CONSULTATION, "1.0",
+		    _Form.PREP_PROGRESS_NOTE_FORM));
 		
 		install(patientIdentifierType("NHIF Number", "PREP client Insurance number ", null, null, null,
 		    PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.NHIF_NUMBER));
