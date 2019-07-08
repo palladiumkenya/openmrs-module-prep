@@ -81,6 +81,7 @@
         <property name="visitForms">
             <set>
                 <ref bean="prep.prep.form.followupVisit" />
+                <ref bean="prep.prep.form.behaviorRiskAssessment" />
             </set>
         </property>
         <property name="fragments">
@@ -152,6 +153,22 @@
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="prep:prep/prepFollowupVisit.html" />
+    </bean>
+
+    <!-- Prep behavior risk assessment form -->
+    <bean id="prep.prep.form.behaviorRiskAssessment" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="40374909-05fc-4af8-b789-ed9c394ac785" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.registration"/>
+                <ref bean="kenyaemr.app.intake"/>
+                <ref bean="kenyaemr.app.prep" />
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart"/>
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="prep:prep/behaviorRiskAssessment.html" />
     </bean>
 
     <!-- Prep progress notes -->
