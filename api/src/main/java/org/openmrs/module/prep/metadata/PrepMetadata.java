@@ -51,6 +51,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_APPOINTMENT = "66609dee-3438-11e9-b210-d663bd873d93";
 		
 		public static final String PREP_HEPATITIS_SCREENING = "5c05a229-51b4-4b73-be13-0d93765a2a96";
+		
+		public static final String PREP_MONTHLY_REFILL = "291c0828-a216-11e9-a2a3-2a2ae2dbcce4";
 	}
 	
 	public static final class _Form {
@@ -84,6 +86,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_APPOINTMENT_FORM = "7587529e-9d84-4947-953e-afe5643cc816";
 		
 		public static final String PREP_HEPATITIS_SCREENING_FORM = "c0151dfc-6097-4eb1-8226-484303dcdc88";
+		
+		public static final String PREP_MONTHLY_REFILL_FORM = "291c03c8-a216-11e9-a2a3-2a2ae2dbcce4";
 		
 	}
 	
@@ -136,6 +140,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		    _EncounterType.PREP_PREGNANCY_OUTCOMES));
 		install(encounterType("PREP Appointment creation", "Handles PREP Appointment creation",
 		    _EncounterType.PREP_APPOINTMENT));
+		install(encounterType("PREP Monthly refill", "Handles PREP Monthly refill", _EncounterType.PREP_MONTHLY_REFILL));
 		
 		//Installing forms
 		install(form("PREP Behavior Risk Assessment", "PREP Behavior Risk Assessment Form",
@@ -160,6 +165,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(form("Pregnancy Outcomes", null, _EncounterType.PREP_PREGNANCY_OUTCOMES, "1",
 		    _Form.PREP_PREGNANCY_OUTCOMES_FORM));
 		install(form("Appointment Creation", null, _EncounterType.PREP_APPOINTMENT, "1", _Form.PREP_APPOINTMENT_FORM));
+		install(form("PrEP Monthly Refill Form", null, _EncounterType.PREP_MONTHLY_REFILL, "1",
+		    _Form.PREP_MONTHLY_REFILL_FORM));
 		
 		//Installing identifiers
 		
