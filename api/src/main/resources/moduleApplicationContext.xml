@@ -82,6 +82,7 @@
             <set>
                 <ref bean="prep.prep.form.followupVisit" />
                 <ref bean="prep.prep.form.behaviorRiskAssessment" />
+                <ref bean="prep.prep.form.monthlyRefill" />
             </set>
         </property>
         <property name="fragments">
@@ -164,7 +165,6 @@
                 <ref bean="kenyaemr.app.intake"/>
                 <ref bean="kenyaemr.app.prep" />
                 <ref bean="kenyaemr.app.clinician" />
-                <ref bean="kenyaemr.app.chart"/>
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
@@ -178,6 +178,7 @@
             <set>
                 <ref bean="kenyaemr.app.registration"/>
                 <ref bean="kenyaemr.app.intake"/>
+                <ref bean="kenyaemr.app.chart"/>
                 <ref bean="kenyaemr.app.prep" />
                 <ref bean="kenyaemr.app.clinician" />
                 <ref bean="kenyaemr.app.chart"/>
@@ -185,6 +186,22 @@
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="prep:prep/progressNote.html" />
+    </bean>
+
+    <!-- Prep monthly refill form -->
+    <bean id="prep.prep.form.monthlyRefill" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="291c03c8-a216-11e9-a2a3-2a2ae2dbcce4" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.registration"/>
+                <ref bean="kenyaemr.app.intake"/>
+                <ref bean="kenyaemr.app.prep" />
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart"/>
+            </set>
+        </property>
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="prep:prep/monthlyRefill.html" />
     </bean>
 
 </beans>

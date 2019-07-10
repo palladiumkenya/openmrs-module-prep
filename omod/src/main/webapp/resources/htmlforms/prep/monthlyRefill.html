@@ -1,0 +1,292 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+<htmlform>
+	<script type="text/javascript" src="../moduleResources/kenyaemr/scripts/moment.js"></script>
+	<style>
+		.simple-table {
+			border: solid 1px #DDEEEE;
+			border-collapse: collapse;
+			border-spacing: 0;
+			font: normal 13px Arial, sans-serif;
+		}
+		.simple-table thead th {
+			background-color: #DDEFEF;
+			border: solid 1px #DDEEEE;
+			color: #336B6B;
+			padding: 10px;
+			text-align: left;
+			text-shadow: 1px 1px 1px #fff;
+		}
+		.simple-table td {
+			border: solid 1px #DDEEEE;
+			color: #333;
+			padding: 10px;
+			text-shadow: 1px 1px 1px #fff;
+		}
+
+	</style>
+	<script type="text/javascript">
+        jq(function () {
+            //On Ready
+			jq('#reason-fair-other').hide();
+            jq('#other-reason').hide();
+            jq('#fair-bad-reasons').hide();
+            jq('#fair-bad-label').hide();
+            jq('#months-options').hide();
+            jq('#months').hide();
+            jq('#prescription-option').hide();
+            jq('#prescription').hide();
+            jq('#regimen-options').hide();
+            jq('#regimen').hide();
+            jq('#discontinue-status').hide();
+            jq('#next-appointment-label').hide();
+            jq('#next-appointment-date').hide();
+
+			jq('#discontinue').click(showOptionsOther);
+			jq('#fair-bad').click(showOptionsOther);
+			jq('#adherence-self-assessment').click(fairBadAdherenceSelected);
+			jq('#appointment-given :input[type=radio]').click(appointmenGiven);
+			jq('#status').click(prepStatus);
+
+           beforeSubmit.push(function() {
+            });
+
+        });
+
+          function showOptionsOther() {
+        	var fairReason = jq('#fair-bad option:selected').val();
+        	var other = jq('#discontinue option:selected').val();
+        	if(fairReason ==5622) {
+				jq('#reason-fair-other').show();
+			}else {
+				jq('#reason-fair-other').hide();
+			}
+
+		    if(other ==5622) {
+			  jq('#other-reason').show();
+		    }else {
+				jq('#other-reason').hide();
+			}
+
+		  }
+
+		  function fairBadAdherenceSelected() {
+			  var fairBad = jq('#adherence-self-assessment option:selected').val();
+			  if(fairBad ==159406 || fairBad ==159407) {
+				  jq('#fair-bad-reasons').show();
+				  jq('#fair-bad-label').show();
+			  }else {
+				  jq('#fair-bad-reasons').hide();
+				  jq('#fair-bad-label').hide();
+			  }
+
+		  }
+		  function prepStatus() {
+			  var status = jq('#status option:selected').val();
+			  if(status ==159835) {
+				  jq('#months-options').show();
+				  jq('#months').show();
+				  jq('#prescription-option').show();
+				  jq('#prescription').show();
+				  jq('#regimen-options').show();
+				  jq('#regimen').show()
+			  }else {
+				  jq('#months-options').hide();
+				  jq('#months').hide();
+				  jq('#prescription-option').hide();
+				  jq('#prescription').hide();
+				  jq('#regimen-options').hide();
+				  jq('#regimen').hide()
+			  }
+
+			  if(status ==159836) {
+				  jq('#discontinue-status').show();
+			  }else {
+				  jq('#discontinue-status').hide();
+			  }
+		  }
+		  function appointmenGiven() {
+			  var val = jq(this).val();
+			  var nextAppointment = jq("#appointment-given input:radio:checked");
+			  if(val == 1065 &amp;&amp; nextAppointment.length >0 ){
+				  jq('#next-appointment-label').show();
+				  jq('#next-appointment-date').show();
+			  }else {
+				  jq('#next-appointment-label').hide();
+				  jq('#next-appointment-date').hide();
+			  }
+
+		  }
+
+
+
+
+	</script>
+	<div class="ke-form-header">
+		<table width="100%">
+			<tr>
+				<td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
+				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="ke-form-content">
+		<!-- Behavior Risk Assessment  -->
+		<fieldset class="patient-details">
+			<legend>Behavior Risk Assessment</legend>
+			<table class="simple-table" id="assessment-questions">
+				<tr>
+					<td>
+
+						Sex Partner(s) is HIV+ and (Select all that apply) <br/>
+						<obs conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160571"
+							 answerLabel="Couple is trying to conceive" style="checkbox" /><br/>
+
+						<obs conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Suspected poor adherence" style="checkbox"  /><br/>
+
+						<obs conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160119AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="On ART for less than 6 months" style="checkbox" /><br/>
+						<obs conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162854AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Not on ART " style="checkbox" /><br/>
+
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						Clients Assessment(Select all that apply) <br/>
+
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159385AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Has Sex with more than one partner" style="checkbox" /><br/>
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1402AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Sex partner(s)at high risk for HIV and HIV status unknown" style="checkbox" /><br/>
+
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160579AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Transactional sex" style="checkbox" /><br/>
+
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165088"
+							 answerLabel="Recurrent sex under influence of alcohol/recreational drugs" style="checkbox"  /><br/>
+
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165089"
+							 answerLabel="Inconsistent or no condom use" style="checkbox"  /><br/>
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165089"
+							 answerLabel="Injecting drug use with shared needles and/or syringes" style="checkbox"  /><br/>
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="164845"
+							 answerLabel="Recurrent use of Post Exposure Prophylaxis (PEP)" style="checkbox"  /><br/>
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="112992"
+							 answerLabel="Recent STI" style="checkbox"  /><br/>
+						<obs conceptId="162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="141814"
+							 answerLabel="Ongoing IPV/GBV" style="checkbox"  /><br/>
+					</td>
+				</tr>
+
+			</table>
+		</fieldset>
+		<fieldset id="adherence-tab">
+			<legend>Adherence Assessment</legend>
+			<table class="simple-table" >
+
+					<tr>
+
+						<td>Adherence self assessment:	</td>
+						<td><obs id="adherence-self-assessment" conceptId="164075" labelText=" " answerConceptIds="159405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						159406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, 1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								  answerLabels="Good,Fair,Poor,N/A(Did not pick PrEP at last)" />
+						</td>
+						<td id="fair-bad-label">If fair or bad, what are the reasons?	</td>
+						<td id="fair-bad-reasons"><obs  id="fair-bad" conceptId="160582"   answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164997,160583AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1064AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160584AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                        1056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+						 answerLabels="Sick,None,Stigma,Shared with others, No perceived risk,Pill burden, Lost/out of pills
+						,Separated from HIV+,Side effects, Forgot,Other-specify" style="dropdown" />
+							<obs id="reason-fair-other" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+						</td>
+					</tr>
+					<tr>
+						<td>Adherence counselling done?</td>
+						<td><obs conceptId="164425" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+						</td>
+					</tr>
+			</table>
+		</fieldset>
+		<fieldset id="prep-status-tab">
+			<legend>PrEP Status</legend>
+			<table class="simple-table" >
+
+				<tr>
+					<td>PrEP Status:	</td>
+					<td><obs  id ="status" conceptId="161641" labelText=" " answerConceptIds="159836AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						159835AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerLabels="Discontinue,Continue" />
+					</td>
+					<td id="prescription">Prescribed PrEP today?</td>
+					<td id="prescription-option"><obs conceptId="1417" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+					</td>
+
+					<td id="regimen">Regimen prescribed</td>
+					<td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="TDF/3TC,TDF,FTC/TDF" />
+					</td>
+					<td id="months">Number of months</td>
+					<td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="regimen-months-prescribed"/></td>
+
+				</tr>
+				<tr id="discontinue-status">
+					<td>PrEP discontinue reasons</td>
+					<td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+							 answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
+							 Not adherent to PrEP,Too many HIV tests,Client request,Other-specify"  style="dropdown"/>
+						<obs id="other-reason" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+		<fieldset id="appointment-scheduler-tab">
+			<legend>Appointment Scheduler</legend>
+			<table class="simple-table" >
+
+				<tr>
+
+					<td>Appointment given?</td>
+					<td><obs id="appointment-given" conceptId="164999" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+					</td>
+
+					<td id="next-appointment-label">Next appointment date:</td>
+					<td id="next-appointment-date"><obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
+
+				</tr>
+				<tr>
+					<td>Remarks</td>
+					<td><obs conceptId="161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="3" cols="80" id="remarks"/></td>
+				</tr>
+
+			</table>
+		</fieldset>
+
+
+
+	</div>
+	<div class="ke-form-footer">
+		<submit />
+	</div>
+
+</htmlform>
