@@ -12,10 +12,36 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
+	<style>
+		.simple-table {
+			border: solid 1px #DDEEEE;
+			border-collapse: collapse;
+			border-spacing: 0;
+			font: normal 13px Arial, sans-serif;
+		}
+		.simple-table thead th {
+			background-color: #DDEFEF;
+			border: solid 1px #DDEEEE;
+			color: #336B6B;
+			padding: 10px;
+			text-align: left;
+			text-shadow: 1px 1px 1px #fff;
+		}
+		.simple-table td {
+			border: solid 1px #DDEEEE;
+			color: #333;
+			padding: 10px;
+			text-shadow: 1px 1px 1px #fff;
+		}
+
+	</style>
 
 	<script type="text/javascript">
 		var value1;
 		jq(document).ready(function(){
+			jq('#other-reason').hide();
+			jq('#discontinue').click(showOptionsOther);
+
 			if ((getValue('idReason.value')) == 160034) {
 				jq('#pdied :input').prop('disabled', false);
 				jq('#ptransferred :input').prop('disabled', true);
@@ -58,54 +84,50 @@
 				return true;
 			});
 		});
+
+		function showOptionsOther() {
+			var other = jq('#discontinue option:selected').val();
+			if(other ==5622) {
+				jq('#other-reason').show();
+			}else {
+				jq('#other-reason').hide();
+			}
+
+		}
 	</script>
+	<div class="ke-form-header">
+		<table width="100%">
+			<tr>
+				<td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
+				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+			</tr>
+		</table>
+	</div>
 
 	<div class="ke-form-content">
 		<fieldset>
-			<legend>Discontinue HIV Care</legend>
-			<table class="baseline-aligned" width="100%" border="0">
-				<tr>
-					<td>Date:</td>
-					<td><encounterDate id="encounter-date" showTime="true" /></td>
-					<td></td>
-					<td></td>
+			<legend>Discontinue PrEP Care</legend>
+			<table class="simple-table">
+				<tr id="discontinue-status">
+					<td>Discontinue reasons</td>
+					<td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+							 answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
+							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
+							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
+						<obs id="other-reason" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+					</td>
+
 				</tr>
 				<tr>
-					<td>Reason:</td>
-					<td><obs conceptId="161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="159492AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Transferred Out,Died,Lost to Follow,Cannot afford Treatment,Other,Unknown" id="idReason" /></td>
-					<td></td>
-					<td></td>
+					<td id="care-end-date-label">Care end date:</td>
+					<td id="care-end-date"><obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 				</tr>
+
 			</table>
-			<div id="pdied">
-				<table>
-					<tr>
-						<td>If Patient Died, please provide Date of Death if Known:</td>
-						<td><obs conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</table>
-			</div>
-
-			<div id="ptransferred">
-				<table>
-					<tr>
-						<td><i>(If transferred out)</i> <br/>Transfer to Facility:</td>
-						<td ><br/><obs conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" "/></td>
-						<td>Date Transferred Out<br /></td>
-						<td><br/><obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " /></td>
-					</tr>
-				</table>
-			</div>
-			<br/>
-			<hr/>
-			<br/>
-
-			Signed  at <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
-
-			<br/>
-
 		</fieldset>
 
 		<completeProgram programId="214cad1c-bb62-4d8e-b927-810a046daf62" />
