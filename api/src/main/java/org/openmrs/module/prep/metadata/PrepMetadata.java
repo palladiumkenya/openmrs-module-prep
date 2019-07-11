@@ -116,52 +116,52 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		///////////////////////////// PREP services ////////////////////////////////
 		
 		//Installing encounters
-		install(encounterType("PREP Enrollment", "Enrollment of client onto PREP program", _EncounterType.PREP_ENROLLMENT));
-		install(encounterType("PREP Consultation", "Collection of client data during PREP visit",
+		install(encounterType("PrEP Enrollment", "Enrollment of client onto PrEP program", _EncounterType.PREP_ENROLLMENT));
+		install(encounterType("PrEP Consultation", "Collection of client data during PREP visit",
 		    _EncounterType.PREP_CONSULTATION));
-		install(encounterType("PREP Behavior Risk Assessment", "Collection of client data for PREP eligibility",
+		install(encounterType("PrEP Behavior Risk Assessment", "Collection of client data for PrEP eligibility",
 		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT));
-		install(encounterType("PREP Client Discontinuation", "Discontinuation of client from PREP program",
+		install(encounterType("PrEP Client Discontinuation", "Discontinuation of client from PrEP program",
 		    _EncounterType.PREP_DISCONTINUATION));
-		install(encounterType("PREP Client Discontinuation", "Discontinuation of client from PREP program",
+		install(encounterType("PrEP Client Discontinuation", "Discontinuation of client from PrEP program",
 		    _EncounterType.PREP_DISCONTINUATION));
-		install(encounterType("PREP STI Screening", "Handles PREP STI Screening", _EncounterType.PREP_STI_SCREENING));
-		install(encounterType("PREP VMMC Screening", "Handles PREP VMMC Screening", _EncounterType.PREP_VMMC_SCREENING));
+		install(encounterType("PrEP STI Screening", "Handles PrEP STI Screening", _EncounterType.PREP_STI_SCREENING));
+		install(encounterType("PrEP VMMC Screening", "Handles PrEP VMMC Screening", _EncounterType.PREP_VMMC_SCREENING));
 		install(encounterType("Fertility Intention Screening", "Handles KP Pregnancy and FP screening",
 		    _EncounterType.PREP_FERTILITY_INTENTIONS_SCREENING));
-		install(encounterType("PREP Allergies screening", "Handles PREP Allergies screening",
+		install(encounterType("PrEP Allergies screening", "Handles PrEP Allergies screening",
 		    _EncounterType.PREP_ALLERGIES_SCREENING));
-		install(encounterType("PREP Chronic Illness Screening", "Handles PREP Chronic Illness",
+		install(encounterType("PrEP Chronic Illness Screening", "Handles PrEP Chronic Illness",
 		    _EncounterType.PREP_CHRONIC_ILLNESS));
-		install(encounterType("PREP Adverse drug reactions", "Handles PREP Adverse drug reactions",
+		install(encounterType("PrEP Adverse drug reactions", "Handles PrEP Adverse drug reactions",
 		    _EncounterType.PREP_DRUG_REACTIONS));
-		install(encounterType("PREP Status", "Handles PREP Status Assessment", _EncounterType.PREP_STATUS));
-		install(encounterType("PREP Pregnancy Outcomes", "Handles PREP Pregnancy Outcomes",
+		install(encounterType("PrEP Status", "Handles PREP Status Assessment", _EncounterType.PREP_STATUS));
+		install(encounterType("PrEP Pregnancy Outcomes", "Handles PrEP Pregnancy Outcomes",
 		    _EncounterType.PREP_PREGNANCY_OUTCOMES));
-		install(encounterType("PREP Appointment creation", "Handles PREP Appointment creation",
+		install(encounterType("PrEP Appointment creation", "Handles PrEP Appointment creation",
 		    _EncounterType.PREP_APPOINTMENT));
-		install(encounterType("PREP Monthly refill", "Handles PREP Monthly refill", _EncounterType.PREP_MONTHLY_REFILL));
+		install(encounterType("PrEP Monthly refill", "Handles PrEP Monthly refill", _EncounterType.PREP_MONTHLY_REFILL));
 		
 		//Installing forms
-		install(form("PREP Behavior Risk Assessment", "PREP Behavior Risk Assessment Form",
+		install(form("PrEP Behavior Risk Assessment", "PrEP Behavior Risk Assessment Form",
 		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT, "1.0", _Form.PREP_BEHAVIOR_RISK_ASSESSMENT_FORM));
-		install(form("PREP INITIATION ", "PREP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
+		install(form("PrEP INITIATION ", "PrEP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
 		    _Form.PREP_ENROLLMENT_FORM));
-		install(form("PREP Client Discontinuation", "PREP discontinuation form", _EncounterType.PREP_DISCONTINUATION, "1.0",
+		install(form("PrEP Client Discontinuation", "PrEP discontinuation form", _EncounterType.PREP_DISCONTINUATION, "1.0",
 		    _Form.PREP_DISCONTINUATION_FORM));
-		install(form("PREP Follow Up", "PREP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
+		install(form("PrEP Follow Up", "PrEP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
 		    _Form.PREP_CONSULTATION_FORM));
-		install(form("PREP Progress Notes", "PREP Progress Notes", _EncounterType.PREP_CONSULTATION, "1.0",
+		install(form("PrEP Progress Notes", "PrEP Progress Notes", _EncounterType.PREP_CONSULTATION, "1.0",
 		    _Form.PREP_PROGRESS_NOTE_FORM));
-		install(form("PREP STI Screening", null, _EncounterType.PREP_STI_SCREENING, "1", _Form.PREP_STI_SCREENING_FORM));
-		install(form("PREP VMMC Screening", null, _EncounterType.PREP_VMMC_SCREENING, "1", _Form.PREP_VMMC_SCREENING_FORM));
+		install(form("PrEP STI Screening", null, _EncounterType.PREP_STI_SCREENING, "1", _Form.PREP_STI_SCREENING_FORM));
+		install(form("PrEP VMMC Screening", null, _EncounterType.PREP_VMMC_SCREENING, "1", _Form.PREP_VMMC_SCREENING_FORM));
 		install(form("Fertility Intention Screening", null, _EncounterType.PREP_FERTILITY_INTENTIONS_SCREENING, "1",
 		    _Form.PREP_FERTILITY_INTENTIONS_SCREENING_FORM));
 		install(form("Allergies Screening", null, _EncounterType.PREP_ALLERGIES_SCREENING, "1",
 		    _Form.PREP_ALLERGIES_SCREENING_FORM));
 		install(form("Chronic Illness", null, _EncounterType.PREP_CHRONIC_ILLNESS, "1", _Form.PREP_CHRONIC_ILLNESS_FORM));
 		install(form("Adverse Drug Reactions", null, _EncounterType.PREP_DRUG_REACTIONS, "1", _Form.PREP_DRUG_REACTIONS_FORM));
-		install(form("PREP Status", null, _EncounterType.PREP_STATUS, "1", _Form.PREP_STATUS_FORM));
+		install(form("PrEP Status", null, _EncounterType.PREP_STATUS, "1", _Form.PREP_STATUS_FORM));
 		install(form("Pregnancy Outcomes", null, _EncounterType.PREP_PREGNANCY_OUTCOMES, "1",
 		    _Form.PREP_PREGNANCY_OUTCOMES_FORM));
 		install(form("Appointment Creation", null, _EncounterType.PREP_APPOINTMENT, "1", _Form.PREP_APPOINTMENT_FORM));
@@ -176,7 +176,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		    null, null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.PREP_UNIQUE_NUMBER));
 		
 		//Installing program
-		install(program("PREP", "Pre exposure prophylaxis program", _Concept.PREP, _Program.PREP));
+		install(program("PrEP", "Pre exposure prophylaxis program", _Concept.PREP, _Program.PREP));
 		
 	}
 }
