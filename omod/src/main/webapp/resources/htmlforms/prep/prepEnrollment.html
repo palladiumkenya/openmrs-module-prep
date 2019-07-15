@@ -420,7 +420,7 @@
 	<div class="ke-form-content">
 		<fieldset>
 			<legend>Patient Source</legend>
-			<table>
+			<table class="simple-table">
 				<tr>
 					<td>Patient Type</td>
 					<td>
@@ -475,7 +475,7 @@
 		<fieldset id="transfer-history" >
 			<legend>Transfer Status</legend>
 			<div id="transfer-details">
-				<table>
+				<table class="simple-table">
 					<tr>
 						<td>Transfer in date:</td>
 						<td><obs conceptId="160534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="transfer-in-date"/></td>
@@ -498,7 +498,7 @@
 		<fieldset id="patient-history" >
 			<legend>PREP Initiation Details</legend>
 
-			<table>
+			<table class="simple-table" >
 
 				<tr>
 					<td>Patient has previously been on PREP</td>
@@ -532,7 +532,7 @@
 		</fieldset>
 			<fieldset id ="underage">
 				<legend>Client Social Status</legend>
-				<table id="underage-details" style="width: 70%;" border="0">
+				<table id="underage-details" class="simple-table">
 					<includeIf velocityTest="$patient.age &lt; 19">
 					<tr>
 						<td>In school :
@@ -575,7 +575,7 @@
 
 		<fieldset id="treatment-supporter-fieldset" >
 				<legend>Treatment Buddy</legend>
-				<table id="treatment-supporter" style="width: 70%;" border="0">
+				<table id="treatment-supporter" class="simple-table">
 					<tr>
 						<th align="left">Name</th>
 						<th align="left">Alias</th>
