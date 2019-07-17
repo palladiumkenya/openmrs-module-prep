@@ -54,6 +54,10 @@
             jq('#hiv-positive-partner-profile-tab').hide();
 			jq('#risk-reduction-specify').hide();
 			jq('#referral-specify').hide();
+			jq('#risk-education-label').hide();
+			jq('#risk-eduction-offered').hide();
+			jq('#specify-education-offered').hide();
+
 
             onPartnerHivStatusChange();
             getField('partner-hiv-status.value').change(onPartnerHivStatusChange);
@@ -65,6 +69,11 @@
             jq('#risk-reduction input').click(onRiskReductionChange);
             onReferralChange();
             jq('#referral input').click(onReferralChange);
+			jq('#risk-eduction-offered :input[type=radio]').click(isRiskEducationOffered);
+			jq('#willing-prep :input[type=radio]').click(isNotWilingForPrep);
+
+
+
 
 //Validation on behavior risk assessment
             jq('#assessment-questions  :input[type=checkbox]').change(behaviorQuestionsChecked);
@@ -156,6 +165,28 @@
                 jq('#referral-specify').hide();
             }
         }
+
+		function isRiskEducationOffered() {
+			var val = jq(this).val();
+			if(val ==1065) {
+				jq('#specify-education-offered').show();
+			}else {
+				jq('#specify-education-offered').hide();
+			}
+		}
+
+		function isNotWilingForPrep() {
+			var val = jq(this).val();
+			if(val ==1066) {
+				jq('#risk-education-label').show();
+				jq('#risk-eduction-offered').show();
+			}else {
+				jq('#risk-education-label').hide();
+				jq('#risk-eduction-offered').hide();
+				jq('#specify-education-offered').hide();
+			}
+
+		}
 	</script>
 	<div class="ke-form-header">
 		<table width="100%">
@@ -338,7 +369,19 @@
 							 answerLabels="Yes,No" id="willing-prep"
 							 style="radio" />
 					</td>
+					<td id="risk-education-label">If No,Risk education offered:</td>
+					<td>
+						<obs conceptId="161595"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Yes,No" id="risk-eduction-offered"
+							 style="radio" />
+					</td>
+					<td>
+						<obs conceptId="161011" cols="20" id="specify-education-offered"/>
+
+					</td>
 				</tr>
+
 				<tr>
 					<td>Referral for other prevention services:</td>
 					<td>
