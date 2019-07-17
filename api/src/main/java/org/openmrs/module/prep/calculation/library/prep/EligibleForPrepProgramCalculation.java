@@ -9,12 +9,17 @@
  */
 package org.openmrs.module.prep.calculation.library.prep;
 
+import org.openmrs.Concept;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.api.PatientService;
+import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.module.kenyacore.calculation.AbstractPatientCalculation;
+import org.openmrs.module.kenyacore.calculation.Calculations;
 import org.openmrs.module.kenyacore.calculation.BooleanResult;
 import org.openmrs.module.kenyacore.calculation.Filters;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -31,15 +36,42 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> params,
 	        PatientCalculationContext context) {
+		PatientService patientService = Context.getPatientService();
+		Concept weight = Context.getConceptService().getConcept(5089);
+		Concept htsTestResults = Context.getConceptService().getConcept(159427);
+		Concept willingToTakePrep = Context.getConceptService().getConcept(165094);
+		
+		CalculationResultMap currentWeight = Calculations.lastObs(weight, cohort, context);
+		CalculationResultMap currentTestResults = Calculations.lastObs(htsTestResults, cohort, context);
+		CalculationResultMap currentWillingTotakePrep = Calculations.lastObs(willingToTakePrep, cohort, context);
+		
 		CalculationResultMap ret = new CalculationResultMap();
 		Set<Integer> alive = Filters.alive(cohort, context);
 		
 		for (int ptId : cohort) {
+			Patient patient = patientService.getPatient(ptId);
+			boolean enrollPatientOnPrep = false;
 			boolean eligible = alive.contains(ptId);
 			
-			ret.put(ptId, new BooleanResult(eligible, this));
+			// check client weight is over 35Kg,willing to take PreP and hiv test result is negative
+			
+			Obs weightCurrentObs = EmrCalculationUtils.obsResultForPatient(currentWeight, ptId);
+			Obs testResultsCurrentObs = EmrCalculationUtils.obsResultForPatient(currentTestResults, ptId);
+			Obs willingForPrepCurrentObs = EmrCalculationUtils.obsResultForPatient(currentWillingTotakePrep, ptId);
+			
+			if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
+				if (eligible && patient.getAge() >= 15 && weightCurrentObs.getValueNumeric().intValue() >= 35
+				        && testResultsCurrentObs.getValueCoded().getConceptId().equals(664)
+				        && willingForPrepCurrentObs.getValueCoded().getConceptId().equals(1065)) {
+					enrollPatientOnPrep = true;
+				}
+			}
+			
+			ret.put(ptId, new BooleanResult(enrollPatientOnPrep, this, context));
+			
 		}
 		
 		return ret;
 	}
+	
 }

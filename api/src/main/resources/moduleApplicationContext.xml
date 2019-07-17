@@ -71,7 +71,7 @@
     <bean id="prep.prep.program" class="org.openmrs.module.kenyacore.program.ProgramDescriptor">
         <property name="targetUuid" value="214cad1c-bb62-4d8e-b927-810a046daf62" />
         <property name="eligibilityCalculation" value="org.openmrs.module.prep.calculation.library.prep.EligibleForPrepProgramCalculation" />
-        <property name="defaultEnrollmentForm" ref="prep.prep.form.enrollment" />
+        <property name="defaultEnrollmentForm" ref="prep.prep.form.enrollment"  />
         <property name="defaultCompletionForm" ref="prep.prep.form.completion" />
         <property name="patientForms">
             <set>
@@ -163,6 +163,7 @@
             <set>
                 <ref bean="kenyaemr.app.registration"/>
                 <ref bean="kenyaemr.app.intake"/>
+                <ref bean="kenyaemr.app.chart"/>
                 <ref bean="kenyaemr.app.prep" />
                 <ref bean="kenyaemr.app.clinician" />
             </set>
@@ -181,7 +182,6 @@
                 <ref bean="kenyaemr.app.chart"/>
                 <ref bean="kenyaemr.app.prep" />
                 <ref bean="kenyaemr.app.clinician" />
-                <ref bean="kenyaemr.app.chart"/>
             </set>
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
