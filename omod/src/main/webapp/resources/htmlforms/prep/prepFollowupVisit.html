@@ -71,6 +71,7 @@
             jq('#tca-given :input[type=radio]').change(tcaGivenSelected);
             jq('#hiv-signs :input[type=radio]').change(hivSignsSelected);
             jq('#contraindications :input[type=radio]').change(contraindicationsSelected);
+            jq('#family-planning-status :input[type=radio]').click(notOnFamilyPlanning);
 
             beforeSubmit.push(function () {
             });
@@ -155,6 +156,15 @@
 
                 clearHiddenSections([edd,plannedPregnancy]);
             }
+        }
+        function notOnFamilyPlanning() {
+            var val = jq(this).val();
+            if(val ==160652) {
+                jq('#family-planning-method').hide()
+            }else {
+                jq('#family-planning-method').show()
+            }
+
         }
         var chronicIllnessesSelected = function() {
             var val = getValue('chronic-illness.value');
@@ -410,13 +420,13 @@
                              answerLabels="On Family Planning,Not using Family Planning,Wants Family Planning"  answerSeparator="&lt;br /&gt;"
                              style="radio"/>
                     </td>
-                    <td>
+                    <td id="family-planning-method">
                        <table>
                         <tr>
                         <div style="float: left; padding-left: 50px"  id="fp-method-1" >
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Emergency contraceptive pills" style="checkbox" /> <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="780AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oral Contraceptives Pills" style="checkbox"/> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Injectible" style="checkbox"/>  <br />
+                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Injectable" style="checkbox"/>  <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1359AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Implant" style="checkbox"/>  <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="136163AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Lactational Amenorhea Method" style="checkbox"/>  <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5275AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Intrauterine Device" style="checkbox"/>  <br />
@@ -424,7 +434,7 @@
                         <div style="float: right;padding-right: 50px" id="fp-method-2" >
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5278AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Diaphram/Cervical Cap" style="checkbox"/> <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Fertility Awareness" style="checkbox"/> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1472AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Tubal Ligation" style="checkbox"/> <br />
+                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1472AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Tubal Ligation/Female sterilization" style="checkbox"/> <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Condoms" style="checkbox"/> <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1489AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Vasectomy(Partner)" style="checkbox"/> <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162332AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Undecided" style="checkbox"/> <br />

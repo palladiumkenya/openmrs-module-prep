@@ -57,6 +57,8 @@
 			jq('#risk-education-label').hide();
 			jq('#risk-eduction-offered').hide();
 			jq('#specify-education-offered').hide();
+            jq('#not-willing-reasons-label').hide();
+            jq('#not-willing-reasons').hide();
 
 
             onPartnerHivStatusChange();
@@ -180,10 +182,15 @@
 			if(val ==1066) {
 				jq('#risk-education-label').show();
 				jq('#risk-eduction-offered').show();
+				jq('#not-willing-reasons-label').show();
+				jq('#not-willing-reasons').show();
+
 			}else {
 				jq('#risk-education-label').hide();
 				jq('#risk-eduction-offered').hide();
 				jq('#specify-education-offered').hide();
+                jq('#not-willing-reasons-label').hide();
+                jq('#not-willing-reasons').hide();
 			}
 
 		}
@@ -369,7 +376,23 @@
 							 answerLabels="Yes,No" id="willing-prep"
 							 style="radio" />
 					</td>
-					<td id="risk-education-label">If No,Risk education offered:</td>
+					<td id="not-willing-reasons-label">If No,reasons?</td>
+					<td id="not-willing-reasons">
+
+						<obs conceptId="1743AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="None" style="checkbox" /><br/>
+						<obs conceptId="1743AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Side effects(ADR)" style="checkbox" /><br/>
+						<obs conceptId="1743AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="164997"
+							 answerLabel="Stigma" style="checkbox" /><br/>
+						<obs conceptId="1743AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Pill burden" style="checkbox" /><br/>
+                        <obs conceptId="1743AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Too many HIV tests" style="checkbox" /><br/>
+                        <obs conceptId="1743AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="161888AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Taking pills for a long time" style="checkbox" /><br/>
+					</td>
+					<td id="risk-education-label">If No,Risk education offered?</td>
 					<td>
 						<obs conceptId="161595"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
