@@ -39,6 +39,17 @@
     </style>
 
     <script type="text/javascript">
+        var labs_VELOCITY = "<lookup expression="prep.LabaratoryVelocityCalculation()" />";
+        var creatinineResult = labs_VELOCITY.split(",")[0].split(":")[1];
+        var creatinineResultDate = labs_VELOCITY.split(",")[1].split(":")[1];
+        var creatinineOrderDate = labs_VELOCITY.split(",")[2].split(":")[1];
+        var hepatitisBorderDate = labs_VELOCITY.split(",")[3].split(":")[1];
+        var hepatitisBresultDate = labs_VELOCITY.split(",")[4].split(":")[1];
+        var hepatitisBresult = labs_VELOCITY.split(",")[5].split(":")[1];
+        var hepatitisCorderDate = labs_VELOCITY.split(",")[6].split(":")[1];
+        var hepatitisCresultDate = labs_VELOCITY.split(",")[7].split(":")[1];
+        var hepatitisCresult = labs_VELOCITY.split(",")[8].split(":")[1];
+
         jq(function() {
             //onReady
             jq("#sti-symptoms input[type=checkbox]").prop("disabled",true);
@@ -77,11 +88,92 @@
             jq('#contraindications :input[type=radio]').change(contraindicationsSelected);
             jq('#family-planning-status :input[type=radio]').click(notOnFamilyPlanning);
             jq('#sti_screened :input[type=radio]').click(isStiScreened);
+            creatininelabs();
+            hepatitisClabs();
+            hepatitisBlabs();
 
             beforeSubmit.push(function () {
             });
 
-        })
+        });
+
+        function creatininelabs() {
+            if(creatinineResult != null|| creatinineResult != undefined||creatinineResult != 'undefined') {
+                jq('#creatinine-result:text').val(creatinineResult);
+            }else {
+                jq('#creatinine-result:text').val("None");
+            }
+            if(creatinineResultDate !=null || creatinineResultDate !=undefined|| creatinineResultDate !='undefined'){
+                jq('#creatinine-result-date:text').val(creatinineResultDate);
+            }else {
+                jq('#creatinine-result-date:text').val("None");
+            }
+            if(creatinineOrderDate !=null ||creatinineOrderDate !=undefined || creatinineOrderDate !='undefined'){
+                jq('#creatinine-order-date:text').val(creatinineResultDate);
+            }else {
+                jq('#creatinine-order-date:text').val("None");
+            }
+
+        }
+        function hepatitisClabs() {
+            if(hepatitisCresult != null || hepatitisCresult != undefined ||hepatitisCresult != 'undefined') {
+                jq('#hepatitisc-result:text').val(hepatitisCresult);
+            }else {
+                jq('#hepatitisc-result:text').val("None");
+            }
+            if(hepatitisCresultDate !=null || hepatitisCresultDate !=undefined || hepatitisCresultDate !='undefined'){
+                jq('#hepatitisc-result-date:text').val(hepatitisCresultDate);
+            }else {
+                jq('#hepatitisc-result-date:text').val("None");
+            }
+            if(hepatitisCorderDate !=null || hepatitisCorderDate !=undefined || hepatitisCorderDate !='undefined'){
+                jq('#hepatitisc-order-date:text').val(hepatitisCorderDate);
+            }else {
+                jq('#hepatitisc-order-date:text').val("None");
+            }
+
+            if(hepatitisCresult =="NEGATIVE") {
+                jq('#hepCnegative').show();
+                jq('#hepCpositive').hide();
+            }else if(hepatitisCresult =="POSITIVE") {
+                jq('#hepCnegative').hide();
+                jq('#hepCpositive').show();
+            }else {
+                jq('#hepCnegative').hide();
+                jq('#hepCpositive').hide();
+            }
+
+        }
+
+        function hepatitisBlabs() {
+
+            if(hepatitisBresult != null ||hepatitisBresult != undefined || hepatitisBresult != 'undefined') {
+                jq('#hepatitisb-result:text').val(hepatitisBresult);
+            }else {
+                jq('#hepatitisb-result:text').val("None");
+            }
+            if(hepatitisBresultDate !=null || hepatitisBresultDate !=undefined || hepatitisBresultDate !='undefined'){
+                jq('#hepatitisb-result-date:text').val(hepatitisBresultDate);
+            }else {
+                jq('#hepatitisb-result-date:text').val("None");
+            }
+            if(hepatitisBorderDate !=null || hepatitisBorderDate !=undefined|| hepatitisBorderDate !='undefined'){
+                jq('#hepatitisb-order-date:text').val(hepatitisBorderDate);
+            }else {
+                jq('#hepatitisb-order-date:text').val("None");
+            }
+            if(hepatitisBresult =="NEGATIVE") {
+                jq("#hepBnegative").show();
+                jq('#hepBpostive').hide();
+            }else if(hepatitisBresult =="POSITIVE") {
+                jq('#hepBnegative').hide();
+                jq('#hepBpostive').show();
+            }else {
+                jq('#hepBnegative').hide();
+                jq('#hepBpostive').hide();
+            }
+
+        }
 
         function onStiScreenedSelected() {
             var val = jq(this).val();
@@ -692,6 +784,103 @@
                     </tr>
                 </table>
             </table>
+        </fieldset>
+
+        <!--Known allergies -->
+        <fieldset>
+            <legend>Laboratory Investigation </legend>
+            <fieldset>
+                <legend>Hepatitis B</legend>
+                <table class="simple-table">
+                    <tr>
+                        <td>Order Date:</td>
+                        <td><input type="text" name="hepatitisb-order-date" id="hepatitisb-order-date" readonly="True" /></td>
+
+                        <td>Result Date:</td>
+                        <td><input type="text" name="hepatitisb-result-date" id="hepatitisb-result-date" readonly="True" /></td>
+
+                        <td>Result</td>
+                        <td><input type="text" name="hepatitisb-result" id="hepatitisb-result" readonly="True" /></td>
+                    </tr>
+                    <tr id="hepBnegative">
+                        <td>If negative, vaccine series initiated</td>
+                        <td>
+                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisb-vaccine-initiated"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio"/>
+                        </td>
+                    </tr>
+                    <tr id="hepBpostive">
+                        <td>If positive, treatment offered</td>
+                        <td>
+                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisb-treatment-offered"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                              1788AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No, Referred"
+                             style="radio"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+
+            <fieldset>
+                <legend>Hepatitis C</legend>
+                <table class="simple-table">
+                    <td>Order Date:</td>
+                    <td><input type="text" name="hepatitisc-order-date" id="hepatitisc-order-date" readonly="True" /></td>
+
+                    <td>Result Date:</td>
+                    <td><input type="text" name="hepatitisc-result-date" id="hepatitisc-result-date" readonly="True" /></td>
+
+                    <td>Result</td>
+                    <td><input type="text" name="hepatitisc-result" id="hepatitisc-result" readonly="True" /></td>
+
+                    <tr id="hepCnegative">
+                        <td>If negative, vaccine series initiated</td>
+                        <td>
+                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisc-vaccine-initiated"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio"/>
+                        </td>
+                    </tr>
+                    <tr id="hepCpositive">
+                        <td>If positive, treatment offered</td>
+                        <td>
+                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisc-treatment-offered"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                             1788AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No,Referred"
+                             style="radio"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <legend>Serum Creatinine </legend>
+                <table class="simple-table">
+                    <tr>
+                        <td>Serum Creatinine done?</td>
+                        <td>
+                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="serum-creatinine"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Order Date:</td>
+                        <td><input type="text" name="creatinine-order-date" id="creatinine-order-date" readonly="True" /></td>
+
+                        <td>Result Date:</td>
+                        <td><input type="text" name="creatinine-result-date" id="creatinine-result-date" readonly="True" /></td>
+
+                        <td>Result</td>
+                        <td><input type="text" name="creatinine-result" id="creatinine-result" readonly="True" /></td>
+                    </tr>
+                </table>
+            </fieldset>
         </fieldset>
         <!--Prep Status-->
         <fieldset>

@@ -17,7 +17,7 @@ public class EmrConstants {
 	/**
 	 * Module ID
 	 */
-	public static final String MODULE_ID = "kenyaemr";
+	public static final String MODULE_ID = "prep";
 	
 	/**
 	 * Application IDs
