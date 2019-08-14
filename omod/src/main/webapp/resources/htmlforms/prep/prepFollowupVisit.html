@@ -59,6 +59,10 @@
             jq("#tbl-known-allergies").hide();
             jq("#tca-date input[type=text]").prop("disabled",true);
             jq("#reason-tca-date input[type=radio]").prop("disabled",true);
+            jq("#sti-signs").hide();
+            jq("#sti-treatment-offerd").hide();
+            jq("#signs-header").hide();
+            jq("#treatment-header").hide();
 
 
             jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
@@ -72,6 +76,7 @@
             jq('#hiv-signs :input[type=radio]').change(hivSignsSelected);
             jq('#contraindications :input[type=radio]').change(contraindicationsSelected);
             jq('#family-planning-status :input[type=radio]').click(notOnFamilyPlanning);
+            jq('#sti_screened :input[type=radio]').click(isStiScreened);
 
             beforeSubmit.push(function () {
             });
@@ -93,6 +98,24 @@
                 clearHiddenSections([stiTreated]);
 
             }
+        }
+        function isStiScreened() {
+            var val = jq(this).val();
+            if(val ==1066) {
+                jq("#sti-signs").hide();
+                jq("#sti-treatment-offerd").hide();
+                jq("#signs-header").hide();
+                jq("#treatment-header").hide();
+
+            } else {
+                jq("#sti-signs").show();
+                jq("#sti-treatment-offerd").show();
+                jq("#signs-header").show();
+                jq("#treatment-header").show();
+
+
+            }
+
         }
 
         function onVmmcScreenedSelected() {
@@ -294,12 +317,12 @@
             <table class="simple-table">
                 <tr>
                     <td> <b>Screening done</b> </td>
-                    <td> <b>Signs / Symptoms</b> </td>
-                    <td> <b>Treated</b> </td>
+                    <td id="signs-header"> <b>Signs / Symptoms</b> </td>
+                    <td id="treatment-header"> <b>Treated</b> </td>
                 </tr>
                 <tr>
                    <td> <obs id="sti_screened" conceptId="161558" required="true" style="radio" answerConceptIds="1065,1066" /> </td>
-                    <td>
+                    <td id="sti-signs">
                         <div id="sti-symptoms" style="float: left; padding-right: 50px">
                         <obs conceptId="165098"
                              answerConceptId="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -332,7 +355,7 @@
                         <br />
                      </div>
                     </td>
-                   <td> <obs id="sti-treated" conceptId="165200" style="radio" answerConceptIds="1065,1066" /> </td>
+                   <td id="sti-treatment-offerd"> <obs id="sti-treated" conceptId="165200" style="radio" answerConceptIds="1065,1066" /> </td>
                   </tr>
             </table>
         </fieldset>
@@ -720,8 +743,8 @@
                     <td>
                         <!-- PrEP TREATMENT PLAN -->
                         <obs conceptId="165109" id="treatment-plan"
-                             answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabels="Start,Continue,Restart,Substitute,Defer"   answerSeparator="&lt;br /&gt;"
+                             answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Start,Continue,Restart,Defer"   answerSeparator="&lt;br /&gt;"
                              style="radio"/>
                     </td>
                     <td width="100">
