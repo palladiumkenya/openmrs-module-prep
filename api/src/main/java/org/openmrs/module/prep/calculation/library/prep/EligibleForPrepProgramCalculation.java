@@ -10,8 +10,10 @@
 package org.openmrs.module.prep.calculation.library.prep;
 
 import org.openmrs.Concept;
+import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
@@ -20,7 +22,10 @@ import org.openmrs.module.kenyacore.calculation.AbstractPatientCalculation;
 import org.openmrs.module.kenyacore.calculation.Calculations;
 import org.openmrs.module.kenyacore.calculation.BooleanResult;
 import org.openmrs.module.kenyacore.calculation.Filters;
+import org.openmrs.module.prep.util.EmrUtils;
+
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +33,10 @@ import java.util.Set;
  * Calculates whether patients are eligible for the Prep program
  */
 public class EligibleForPrepProgramCalculation extends AbstractPatientCalculation {
+	
+	private AdministrationService administrationService;
+	
+	Long htsInitialValidPeriod = null;
 	
 	/**
 	 * @see org.openmrs.calculation.patient.PatientCalculation#evaluate(Collection, Map,
@@ -40,6 +49,10 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 		Concept weight = Context.getConceptService().getConcept(5089);
 		Concept htsTestResults = Context.getConceptService().getConcept(159427);
 		Concept willingToTakePrep = Context.getConceptService().getConcept(165094);
+		administrationService = Context.getAdministrationService();
+		Integer prepWeightCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.weight"));
+		Integer prepAgeCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.age"));
+		Integer prepHtsInitialCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.htsInitialPeriod"));
 		
 		CalculationResultMap currentWeight = Calculations.lastObs(weight, cohort, context);
 		CalculationResultMap currentTestResults = Calculations.lastObs(htsTestResults, cohort, context);
@@ -54,15 +67,26 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 			boolean eligible = alive.contains(ptId);
 			
 			// check client weight is over 35Kg,willing to take PreP and hiv test result is negative
+			Date currentDate = new Date();
 			
 			Obs weightCurrentObs = EmrCalculationUtils.obsResultForPatient(currentWeight, ptId);
 			Obs testResultsCurrentObs = EmrCalculationUtils.obsResultForPatient(currentTestResults, ptId);
 			Obs willingForPrepCurrentObs = EmrCalculationUtils.obsResultForPatient(currentWillingTotakePrep, ptId);
+			Encounter lastHtsInitialEncounterBeforPrepInitiation = EmrUtils.lastEncounter(patient, Context
+			        .getEncounterService().getEncounterTypeByUuid("9c0a7a57-62ff-4f75-babe-5835b0e921b7"), Context
+			        .getFormService().getFormByUuid("402dc5d7-46da-42d4-b2be-f43ea4ad87b0"));
+			if (lastHtsInitialEncounterBeforPrepInitiation != null) {
+				Date encounterDate = lastHtsInitialEncounterBeforPrepInitiation.getEncounterDatetime();
+				long difference = currentDate.getTime() - encounterDate.getTime();
+				htsInitialValidPeriod = difference / (24 * 60 * 60 * 1000);
+			}
 			
 			if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
-				if (eligible && patient.getAge() >= 15 && weightCurrentObs.getValueNumeric().intValue() >= 35
+				if (eligible && patient.getAge() >= prepAgeCriteria
+				        && weightCurrentObs.getValueNumeric().intValue() >= prepWeightCriteria
 				        && testResultsCurrentObs.getValueCoded().getConceptId().equals(664)
-				        && willingForPrepCurrentObs.getValueCoded().getConceptId().equals(1065)) {
+				        && willingForPrepCurrentObs.getValueCoded().getConceptId().equals(1065)
+				        && htsInitialValidPeriod <= prepHtsInitialCriteria) {
 					enrollPatientOnPrep = true;
 				}
 			}
