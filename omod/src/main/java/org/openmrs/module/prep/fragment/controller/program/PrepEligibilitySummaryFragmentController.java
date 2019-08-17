@@ -20,6 +20,7 @@ import org.openmrs.module.prep.calculation.library.prep.EmrCalculationUtils;
 import org.openmrs.module.prep.calculation.library.prep.LastHtsResultsCalculation;
 import org.openmrs.module.prep.calculation.library.prep.LastWeightCalculation;
 import org.openmrs.module.prep.calculation.library.prep.WillingnessToStartPrepCalculation;
+import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.util.EmrUtils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
@@ -29,6 +30,7 @@ import org.openmrs.ui.framework.page.PageRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 /**
  * Patient program history fragment
  */
@@ -75,6 +77,24 @@ public class PrepEligibilitySummaryFragmentController {
 			long difference = currentDate.getTime() - encounterDate.getTime();
 			htsInitialValidPeriod = difference / (24 * 60 * 60 * 1000);
 		}
+		
+		Long validPeriod = new Long(0);
+		Encounter lastHtsRetestEncounterBeforPrepInitiation = EmrUtils.lastEncounter(patient, Context.getEncounterService()
+		        .getEncounterTypeByUuid("9c0a7a57-62ff-4f75-babe-5835b0e921b7"),
+		    Context.getFormService().getFormByUuid("b08471f6-0892-4bf7-ab2b-bf79797b8ea4"));
+		if (lastHtsRetestEncounterBeforPrepInitiation != null) {
+			
+			htsInitialValidPeriod = validPeriod;
+		}
+		
+		Long checkEnrolled = new Long(0);
+		Encounter lastPrepInitiation = EmrUtils.lastEncounter(patient,
+		    Context.getEncounterService().getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_ENROLLMENT), Context
+		            .getFormService().getFormByUuid(PrepMetadata._Form.PREP_ENROLLMENT_FORM));
+		if (lastPrepInitiation != null) {
+			htsInitialValidPeriod = checkEnrolled;
+		}
+		
 		model.addAttribute("prepWeightCriteria", prepWeightCriteria);
 		model.addAttribute("prepAgeCriteria", prepAgeCriteria);
 		model.addAttribute("htsInitialValidPeriod", htsInitialValidPeriod);

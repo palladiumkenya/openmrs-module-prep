@@ -52,7 +52,7 @@
 			</td>
 			<td width="15%" valign="top" style="padding-left: 5px">
 				<% if (!age) { %>
-				<div>not applicable</div>
+				<div>Age less than one year</div>
 				<% } else { %>
 				${age} years
 				<%}%>
@@ -76,7 +76,7 @@
 			</td>
 			<td width="15%" valign="top" style="padding-left: 5px">
 				<% if (!weight) { %>
-				<div>no weight recorded</div>
+				<div>No weight recorded</div>
 				<% } else { %>
 				${weight} Kgs
 				<%}%>

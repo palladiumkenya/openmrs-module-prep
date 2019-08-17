@@ -81,6 +81,15 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 				htsInitialValidPeriod = difference / (24 * 60 * 60 * 1000);
 			}
 			
+			Long validPeriod = new Long(0);
+			Encounter lastHtsRetestEncounterBeforPrepInitiation = EmrUtils.lastEncounter(patient, Context
+			        .getEncounterService().getEncounterTypeByUuid("9c0a7a57-62ff-4f75-babe-5835b0e921b7"), Context
+			        .getFormService().getFormByUuid("b08471f6-0892-4bf7-ab2b-bf79797b8ea4"));
+			if (lastHtsRetestEncounterBeforPrepInitiation != null) {
+				
+				htsInitialValidPeriod = validPeriod;
+			}
+			
 			if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
 				if (eligible && patient.getAge() >= prepAgeCriteria
 				        && weightCurrentObs.getValueNumeric().intValue() >= prepWeightCriteria
