@@ -35,8 +35,8 @@ public class DiscontinueReasonDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,mid(max(concat(d.visit_date, d.discontinue_reason)),11) as discontinuation_reason from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_prep_discontinuation d\n" +
-				"    on e.patient_id = d.patient_id group by e.patient_id;";
+		String qry = "select e.patient_id,mid(max(concat(d.visit_date, d.discontinue_reason)),11) as discontinuation_reason from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_prep_discontinuation d\n"
+		        + "    on e.patient_id = d.patient_id group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

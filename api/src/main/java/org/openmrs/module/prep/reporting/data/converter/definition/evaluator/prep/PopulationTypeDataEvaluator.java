@@ -35,9 +35,9 @@ public class PopulationTypeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,case t.population_type when \"Discordant couple\" then 1 when \"Fisher Folk\" then 2\n" +
-				"    when \"General Population\" then 3 when \"Key Population\" then 4 else 5 end as population_type from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_hts_test t\n" +
-				"on e.patient_id = t.patient_id group by e.patient_id;";
+		String qry = "select e.patient_id,case t.population_type when \"Discordant couple\" then 1 when \"Fisher Folk\" then 2\n"
+		        + "    when \"General Population\" then 3 when \"Key Population\" then 4 else 5 end as population_type from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_hts_test t\n"
+		        + "on e.patient_id = t.patient_id group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

@@ -205,6 +205,7 @@
         <property name="htmlform" value="prep:prep/monthlyRefill.html" />
     </bean>
 
+<<<<<<< HEAD
     <!-- Prep initial followup form -->
     <bean id="prep.prep.form.initialFollowup" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="1bfb09fc-56d7-4108-bd59-b2765fd312b8" />
@@ -220,8 +221,7 @@
         <property name="showIfCalculation" value="org.openmrs.module.prep.calculation.library.prep.PatientsEligibleForInitialFollowUpCalculation" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="prep:prep/initialFollowup.html" />
-    </bean>
-
+=======
     <bean id="kenyaemr.prep.common.report.prepRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
         <property name="targetUuid" value="bf36c434-b99a-42a4-9926-a9a5686eca49" />
         <property name="name" value="PrEP Register" />
@@ -232,6 +232,7 @@
             </set></property>
         <property name="template" value="hivtestingservices:PNS_Register_Template.xls" />
         <property name="repeatingSection" value="sheet:1,row:7,dataset:PNSRegister" />
+>>>>>>> Added Prep cohort queries. Configured report
     </bean>
 
 </beans>

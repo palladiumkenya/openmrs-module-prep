@@ -35,9 +35,9 @@ public class HBVAgDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,mid(max(concat(l.visit_date,(case l.test_result when 665 then \"Negative\" when 703 then \"Positive\" when 1133 then \"Indeterminate\" else \"Not Done\" end))),11) as HBV_status from kenyaemr_etl.etl_prep_enrolment e left outer join\n" +
-				"       kenyaemr_etl.etl_laboratory_extract l on e.patient_id = l.patient_id\n" +
-				"where l.lab_test in (161472,159430) group by e.patient_id;";
+		String qry = "select e.patient_id,mid(max(concat(l.visit_date,(case l.test_result when 665 then \"Negative\" when 703 then \"Positive\" when 1133 then \"Indeterminate\" else \"Not Done\" end))),11) as HBV_status from kenyaemr_etl.etl_prep_enrolment e left outer join\n"
+		        + "       kenyaemr_etl.etl_laboratory_extract l on e.patient_id = l.patient_id\n"
+		        + "where l.lab_test in (161472,159430) group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
