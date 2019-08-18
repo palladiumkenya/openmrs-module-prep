@@ -35,10 +35,10 @@ public class PrEPRemarksDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,coalesce(mid(max(concat(r.visit_date,r.remarks)),11),mid(max(concat(f.visit_date,f.clinical_notes)),11),mid(max(concat(n.visit_date,n.notes)),11)) as remarks from kenyaemr_etl.etl_prep_enrolment e\n" +
-				"                             left outer join kenyaemr_etl.etl_prep_monthly_refill r\n" +
-				"       on e.patient_id = r.patient_id left outer join kenyaemr_etl.etl_prep_followup f on e.patient_id = f.patient_id\n" +
-				"left outer join kenyaemr_etl.etl_progress_note n on e.patient_id = n.patient_id group by e.patient_id;";
+		String qry = "select e.patient_id,coalesce(mid(max(concat(r.visit_date,r.remarks)),11),mid(max(concat(f.visit_date,f.clinical_notes)),11),mid(max(concat(n.visit_date,n.notes)),11)) as remarks from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "                             left outer join kenyaemr_etl.etl_prep_monthly_refill r\n"
+		        + "       on e.patient_id = r.patient_id left outer join kenyaemr_etl.etl_prep_followup f on e.patient_id = f.patient_id\n"
+		        + "left outer join kenyaemr_etl.etl_progress_note n on e.patient_id = n.patient_id group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

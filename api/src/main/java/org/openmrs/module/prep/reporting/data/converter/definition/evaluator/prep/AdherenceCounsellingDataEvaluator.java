@@ -35,9 +35,9 @@ public class AdherenceCounsellingDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,coalesce(mid(max(concat(r.visit_date, r.adherence_counselling_done)),11),mid(max(concat(f.visit_date, f.adherence_counselled)),11)) as counselled_for_adherence from kenyaemr_etl.etl_prep_enrolment e\n" +
-				"    left outer join kenyaemr_etl.etl_prep_monthly_refill r on e.patient_id = r.patient_id\n" +
-				"    left outer join kenyaemr_etl.etl_prep_followup f on e.patient_id = f.patient_id group by e.patient_id;";
+		String qry = "select e.patient_id,coalesce(mid(max(concat(r.visit_date, r.adherence_counselling_done)),11),mid(max(concat(f.visit_date, f.adherence_counselled)),11)) as counselled_for_adherence from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "    left outer join kenyaemr_etl.etl_prep_monthly_refill r on e.patient_id = r.patient_id\n"
+		        + "    left outer join kenyaemr_etl.etl_prep_followup f on e.patient_id = f.patient_id group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

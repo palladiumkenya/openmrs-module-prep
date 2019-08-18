@@ -35,8 +35,8 @@ public class AdherenceDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,mid(max(concat(r.visit_date, r.adherence_assessment)),11) as adherence from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_prep_monthly_refill r\n" +
-				"                        on e.patient_id = r.patient_id group by e.patient_id;";
+		String qry = "select e.patient_id,mid(max(concat(r.visit_date, r.adherence_assessment)),11) as adherence from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_prep_monthly_refill r\n"
+		        + "                        on e.patient_id = r.patient_id group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

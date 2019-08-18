@@ -27,12 +27,12 @@ import java.util.Map;
  */
 @Handler(supports = PrEPStatusDataDefinition.class, order = 50)
 public class PrEPStatusDataEvaluator implements PersonDataEvaluator {
-
+	
 	@Autowired
 	private EvaluationService evaluationService;
-
+	
 	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
-			throws EvaluationException {
+	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select e.patient_id,e.patient_type from kenyaemr_etl.etl_prep_enrolment e where e.voided = 0;";

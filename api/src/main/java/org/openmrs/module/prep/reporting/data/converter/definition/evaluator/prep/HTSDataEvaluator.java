@@ -36,8 +36,8 @@ public class HTSDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,mid(max(concat(t.visit_date,t.final_test_result)),11) as hiv_status from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_hts_test t\n" +
-				"                                    on e.patient_id = t.patient_id group by e.patient_id;";
+		String qry = "select e.patient_id,mid(max(concat(t.visit_date,t.final_test_result)),11) as hiv_status from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_hts_test t\n"
+		        + "                                    on e.patient_id = t.patient_id group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

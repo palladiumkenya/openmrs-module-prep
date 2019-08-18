@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-@Builds({ "kenyaemr.kp.report.cohort.analysis.kpRegister" })
+@Builds({ "kenyaemr.prep.common.report.prepRegister" })
 public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 	
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
