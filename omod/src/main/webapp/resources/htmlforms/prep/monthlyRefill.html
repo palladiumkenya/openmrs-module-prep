@@ -52,12 +52,15 @@
             jq('#discontinue-status').hide();
             jq('#next-appointment-label').hide();
             jq('#next-appointment-date').hide();
+			jq('#sex-partner').hide();
+			jq('#clients-assessment').hide();
 
 			jq('#discontinue').click(showOptionsOther);
 			jq('#fair-bad').click(showOptionsOther);
 			jq('#adherence-self-assessment').click(fairBadAdherenceSelected);
 			jq('#appointment-given :input[type=radio]').click(appointmenGiven);
 			jq('#status').click(prepStatus);
+			jq('#risk-assessment-done :input[type=radio]').click(isBehaviourRiskAssessmentDone);
 
            beforeSubmit.push(function() {
             });
@@ -129,6 +132,19 @@
 
 		  }
 
+		function isBehaviourRiskAssessmentDone() {
+			var val = jq(this).val();
+			var nextAppointment = jq("#appointment-given input:radio:checked");
+			if(val == 1065 ){
+				jq('#sex-partner').show();
+				jq('#clients-assessment').show();
+			}else {
+				jq('#sex-partner').hide();
+				jq('#clients-assessment').hide();
+			}
+
+		}
+
 
 
 
@@ -147,7 +163,14 @@
 		<fieldset class="patient-details">
 			<legend>Behavior Risk Assessment</legend>
 			<table class="simple-table" id="assessment-questions">
+
 				<tr>
+					<td>Behavior risk assessment done?</td>
+					<td><obs conceptId="138643" id="risk-assessment-done" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+					</td>
+				</tr>
+				<tr id="sex-partner">
 					<td>
 
 						Sex Partner(s) is HIV+ and (Select all that apply) <br/>
@@ -165,7 +188,7 @@
 					</td>
 				</tr>
 
-				<tr>
+				<tr id="clients-assessment">
 					<td>
 						Clients Assessment(Select all that apply) <br/>
 
@@ -198,6 +221,7 @@
 		<fieldset id="adherence-tab">
 			<legend>Adherence Assessment</legend>
 			<table class="simple-table" >
+
 
 					<tr>
 
@@ -241,7 +265,7 @@
 					<td id="regimen">Regimen prescribed</td>
 					<td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="TDF/3TC,TDF,FTC/TDF" />
+							 answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
 					</td>
 					<td id="months">Number of months</td>
 					<td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="regimen-months-prescribed"/></td>
