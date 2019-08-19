@@ -123,8 +123,6 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT));
 		install(encounterType("PrEP Client Discontinuation", "Discontinuation of client from PrEP program",
 		    _EncounterType.PREP_DISCONTINUATION));
-		install(encounterType("PrEP Client Discontinuation", "Discontinuation of client from PrEP program",
-		    _EncounterType.PREP_DISCONTINUATION));
 		install(encounterType("PrEP STI Screening", "Handles PrEP STI Screening", _EncounterType.PREP_STI_SCREENING));
 		install(encounterType("PrEP VMMC Screening", "Handles PrEP VMMC Screening", _EncounterType.PREP_VMMC_SCREENING));
 		install(encounterType("Fertility Intention Screening", "Handles KP Pregnancy and FP screening",
