@@ -22,10 +22,10 @@ import static org.openmrs.module.prep.reporting.EmrReportingUtils.cohortIndicato
  * ${endDate}
  */
 @Component
-public class CommonIndicatorLibrary {
+public class PrEPIndicatorLibrary {
 	
 	@Autowired
-	private CommonCohortLibrary commonCohorts;
+	private CommonPrEPCohortLibrary commonCohorts;
 	
 	/**
 	 * Number of patients enrolled in the given program (including transfers)

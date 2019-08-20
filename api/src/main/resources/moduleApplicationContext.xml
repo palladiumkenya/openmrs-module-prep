@@ -53,16 +53,8 @@
             </list>
         </property>
     </bean>
-    <bean id="hivtesting.hts.config.report" class="org.openmrs.module.kenyacore.report.ReportConfiguration">
-        <property name="commonReports">
-            <set>
 
-                <ref bean="kenyaemr.prep.common.report.pnsRegister" />
-            </set>
-        </property>
-    </bean>
-
-    <!-- ===================== Program ===================== -->
+       <!-- ===================== Program ===================== -->
 
     <bean id="prep.prep.program" class="org.openmrs.module.kenyacore.program.ProgramDescriptor">
         <property name="targetUuid" value="214cad1c-bb62-4d8e-b927-810a046daf62" />
@@ -92,8 +84,13 @@
         <property name="order" value="590" />
     </bean>
 
-
-
+    <bean id="prep.prep.config.report" class="org.openmrs.module.kenyacore.report.ReportConfiguration">
+        <property name="commonReports">
+            <set>
+                <ref bean="kenyaemr.prep.common.report.prepRegister" />
+            </set>
+        </property>
+    </bean>
     <!-- ===================== Identifiers ===================== -->
     <!-- PREP Number -->
     <bean id="prep.prep.identifier.prepNumber" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
@@ -222,6 +219,7 @@
         <property name="htmlform" value="prep:prep/initialFollowup.html" />
     </bean>
 
+    <!--Reports-->
     <bean id="kenyaemr.prep.common.report.prepRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
         <property name="targetUuid" value="bf36c434-b99a-42a4-9926-a9a5686eca49" />
         <property name="name" value="PrEP Register" />
@@ -231,7 +229,7 @@
                 <ref bean="kenyaemr.app.reports" />
             </set></property>
         <property name="template" value="hivtestingservices:PNS_Register_Template.xls" />
-        <property name="repeatingSection" value="sheet:1,row:7,dataset:PNSRegister" />
+        <property name="repeatingSection" value="sheet:1,row:7,dataset:PrEPRegister" />
     </bean>
 
 </beans>

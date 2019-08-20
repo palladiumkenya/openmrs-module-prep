@@ -18,21 +18,21 @@ import org.openmrs.module.reporting.evaluation.caching.Caching;
  * Visit ID Column
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class PopulationTypeDataDefinition extends BaseDataDefinition implements EncounterDataDefinition {
+public class PrEPPopulationTypeDataDefinition extends BaseDataDefinition implements EncounterDataDefinition {
 	
 	public static final long serialVersionUID = 1L;
 	
 	/**
 	 * Default Constructor
 	 */
-	public PopulationTypeDataDefinition() {
+	public PrEPPopulationTypeDataDefinition() {
 		super();
 	}
 	
 	/**
 	 * Constructor to populate name only
 	 */
-	public PopulationTypeDataDefinition(String name) {
+	public PrEPPopulationTypeDataDefinition(String name) {
 		super(name);
 	}
 	

@@ -20,21 +20,21 @@ import java.util.Date;
  * Appointment date Column
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class VisitDateDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
+public class PrEPVisitDateDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
 	
 	public static final long serialVersionUID = 1L;
 	
 	/**
 	 * Default Constructor
 	 */
-	public VisitDateDataDefinition() {
+	public PrEPVisitDateDataDefinition() {
 		super();
 	}
 	
 	/**
 	 * Constructor to populate name only
 	 */
-	public VisitDateDataDefinition(String name) {
+	public PrEPVisitDateDataDefinition(String name) {
 		super(name);
 	}
 	
