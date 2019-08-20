@@ -22,10 +22,10 @@ import static org.openmrs.module.kenyacore.report.ReportUtils.map;
  * Library of common dimension definitions
  */
 @Component
-public class CommonDimensionLibrary {
+public class CommonPrEPDimensionLibrary {
 	
 	@Autowired
-	private CommonCohortLibrary commonCohortLibrary;
+	private CommonPrEPCohortLibrary commonCohortLibrary;
 	
 	/**
 	 * Gender dimension

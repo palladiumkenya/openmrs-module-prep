@@ -10,7 +10,7 @@
 package org.openmrs.module.prep.reporting.data.converter.definition.evaluator.prep;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.prep.reporting.data.converter.definition.prep.VisitDateDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrEPVisitDateDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -25,8 +25,8 @@ import java.util.Map;
 /**
  * Evaluates PersonDataDefinition
  */
-@Handler(supports = VisitDateDataDefinition.class, order = 50)
-public class VisitDateDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = PrEPVisitDateDataDefinition.class, order = 50)
+public class PrEPVisitDateDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;

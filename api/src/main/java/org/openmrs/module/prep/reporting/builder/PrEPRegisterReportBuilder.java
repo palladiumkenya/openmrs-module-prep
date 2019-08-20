@@ -76,7 +76,7 @@ public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 	
 	protected PatientDataSetDefinition kpDataSetDefinition() {
 		
-		PatientDataSetDefinition dsd = new PatientDataSetDefinition("KPRegister");
+		PatientDataSetDefinition dsd = new PatientDataSetDefinition("PrEPRegister");
 		dsd.addSortCriteria("DOBAndAge", SortCriteria.SortDirection.DESC);
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
@@ -94,12 +94,12 @@ public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("id", new PersonIdDataDefinition(), "");
 		dsd.addColumn("Serial Number", new SerialNumberDataDefinition(), "");
 		dsd.addColumn("Name", nameDef, "");
-		dsd.addColumn("Visit Date", new VisitDateDataDefinition(), "");
+		dsd.addColumn("Visit Date", new PrEPVisitDateDataDefinition(), "");
 		dsd.addColumn("Client Unique ID", identifierDef, "");
 		dsd.addColumn("Sex", new GenderDataDefinition(), "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "");
 		dsd.addColumn("Age", new AgeDataDefinition(), "");
-		dsd.addColumn("Population Type", new PopulationTypeDataDefinition(), "");
+		dsd.addColumn("Population Type", new PrEPPopulationTypeDataDefinition(), "");
 		dsd.addColumn("Assessed", new AssessedDataDefinition(), "");
 		dsd.addColumn("Eligible", new EligibleDataDefinition(), "");
 		dsd.addColumn("PrEP Initiation Date", new InitiationDateDataDefinition(), "");

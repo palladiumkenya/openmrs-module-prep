@@ -30,7 +30,7 @@ import java.util.Date;
  * Library of common cohort definitions
  */
 @Component
-public class CommonCohortLibrary {
+public class CommonPrEPCohortLibrary {
 	
 	/**
 	 * Patients who are female
