@@ -153,6 +153,7 @@
                 <ref bean="kenyaemr.app.chart"/>
             </set>
         </property>
+        <property name="showIfCalculation" value="org.openmrs.module.prep.calculation.library.prep.PatientsEligibleForPrepFollowUpCalculation" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="prep:prep/prepFollowupVisit.html" />
     </bean>
@@ -201,6 +202,7 @@
                 <ref bean="kenyaemr.app.chart"/>
             </set>
         </property>
+        <property name="showIfCalculation" value="org.openmrs.module.prep.calculation.library.prep.PatientsEligibleForPrepMonthlyRefillCalculation" />
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="prep:prep/monthlyRefill.html" />
     </bean>

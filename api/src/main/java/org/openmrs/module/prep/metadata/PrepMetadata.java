@@ -143,8 +143,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(encounterType("PrEP Appointment creation", "Handles PrEP Appointment creation",
 		    _EncounterType.PREP_APPOINTMENT));
 		install(encounterType("PrEP Monthly refill", "Handles PrEP Monthly refill", _EncounterType.PREP_MONTHLY_REFILL));
-		install(encounterType("PrEP Initial Followup", "Handles PrEP Initial encounter",
-		    _EncounterType.PREP_INITIAL_FOLLOWUP));
+		install(encounterType("PrEP Initial", "Handles PrEP Initial encounter", _EncounterType.PREP_INITIAL_FOLLOWUP));
 		
 		//Installing forms
 		install(form("PrEP Behavior Risk Assessment", "PrEP Behavior Risk Assessment Form",
@@ -171,8 +170,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(form("Appointment Creation", null, _EncounterType.PREP_APPOINTMENT, "1", _Form.PREP_APPOINTMENT_FORM));
 		install(form("PrEP Monthly Refill Form", null, _EncounterType.PREP_MONTHLY_REFILL, "1",
 		    _Form.PREP_MONTHLY_REFILL_FORM));
-		install(form("PrEP Initial Followup Form", null, _EncounterType.PREP_INITIAL_FOLLOWUP, "1",
-		    _Form.PREP_INITIAL_FOLLOWUP_FORM));
+		install(form("PrEP Initial Form", null, _EncounterType.PREP_INITIAL_FOLLOWUP, "1", _Form.PREP_INITIAL_FOLLOWUP_FORM));
 		
 		//Installing identifiers
 		

@@ -60,7 +60,15 @@ public class PatientsEligibleForInitialFollowUpCalculation extends AbstractPatie
 			    null,
 			    Arrays.asList(Context.getEncounterService().getEncounterTypeByUuid(
 			        PrepMetadata._EncounterType.PREP_CONSULTATION)), null, null, null, false);
-			if (enrollmentEncounters.size() == 1 && followupEncounters.size() <= 0) {
+			List<Encounter> initialEncounters = encounterService.getEncounters(
+			    Context.getPatientService().getPatient(ptId),
+			    null,
+			    null,
+			    null,
+			    null,
+			    Arrays.asList(Context.getEncounterService().getEncounterTypeByUuid(
+			        PrepMetadata._EncounterType.PREP_INITIAL_FOLLOWUP)), null, null, null, false);
+			if (enrollmentEncounters.size() == 1 && followupEncounters.size() <= 0 && initialEncounters.size() < 1) {
 				noFollowUpHistory = true;
 			}
 			
