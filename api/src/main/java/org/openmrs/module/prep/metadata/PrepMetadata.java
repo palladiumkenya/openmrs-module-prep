@@ -53,6 +53,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_HEPATITIS_SCREENING = "5c05a229-51b4-4b73-be13-0d93765a2a96";
 		
 		public static final String PREP_MONTHLY_REFILL = "291c0828-a216-11e9-a2a3-2a2ae2dbcce4";
+		
+		public static final String PREP_INITIAL_FOLLOWUP = "706a8b12-c4ce-40e4-aec3-258b989bf6d3";
 	}
 	
 	public static final class _Form {
@@ -88,6 +90,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_HEPATITIS_SCREENING_FORM = "c0151dfc-6097-4eb1-8226-484303dcdc88";
 		
 		public static final String PREP_MONTHLY_REFILL_FORM = "291c03c8-a216-11e9-a2a3-2a2ae2dbcce4";
+		
+		public static final String PREP_INITIAL_FOLLOWUP_FORM = "1bfb09fc-56d7-4108-bd59-b2765fd312b8";
 		
 	}
 	
@@ -139,6 +143,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(encounterType("PrEP Appointment creation", "Handles PrEP Appointment creation",
 		    _EncounterType.PREP_APPOINTMENT));
 		install(encounterType("PrEP Monthly refill", "Handles PrEP Monthly refill", _EncounterType.PREP_MONTHLY_REFILL));
+		install(encounterType("PrEP Initial Followup", "Handles PrEP Initial encounter",
+		    _EncounterType.PREP_INITIAL_FOLLOWUP));
 		
 		//Installing forms
 		install(form("PrEP Behavior Risk Assessment", "PrEP Behavior Risk Assessment Form",
@@ -165,6 +171,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(form("Appointment Creation", null, _EncounterType.PREP_APPOINTMENT, "1", _Form.PREP_APPOINTMENT_FORM));
 		install(form("PrEP Monthly Refill Form", null, _EncounterType.PREP_MONTHLY_REFILL, "1",
 		    _Form.PREP_MONTHLY_REFILL_FORM));
+		install(form("PrEP Initial Followup Form", null, _EncounterType.PREP_INITIAL_FOLLOWUP, "1",
+		    _Form.PREP_INITIAL_FOLLOWUP_FORM));
 		
 		//Installing identifiers
 		
