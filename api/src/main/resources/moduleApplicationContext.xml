@@ -88,6 +88,7 @@
         <property name="commonReports">
             <set>
                 <ref bean="kenyaemr.prep.common.report.prepRegister" />
+                <ref bean="kenyaemr.prep.common.report.moh731B" />
             </set>
         </property>
     </bean>
@@ -230,6 +231,18 @@
             </set></property>
         <property name="template" value="hivtestingservices:PNS_Register_Template.xls" />
         <property name="repeatingSection" value="sheet:1,row:7,dataset:PrEPRegister" />
+    </bean>
+
+ <!--Moh731B-->
+    <bean id="kenyaemr.prep.common.report.moh731B" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+        <property name="targetUuid" value="c299bace-e455-499c-aa3d-5ffacf4e773f" />
+        <property name="name" value="MOH 731B Report-PrEP" />
+        <property name="description" value="MOH 731B Report for PrEP" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
+        <property name="template" value="prep:MoH731B_Template.xls" />
     </bean>
 
 </beans>

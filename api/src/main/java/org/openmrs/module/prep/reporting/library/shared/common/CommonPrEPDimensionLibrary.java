@@ -45,13 +45,15 @@ public class CommonPrEPDimensionLibrary {
 	 * 
 	 * @return the dimension
 	 */
-	public CohortDefinitionDimension standardAgeGroups() {
+	public CohortDefinitionDimension prepAgeGroups() {
 		CohortDefinitionDimension dim = new CohortDefinitionDimension();
-		dim.setName("age groups (<1, <15, 15+)");
+		dim.setName("standard age between(btw 15 and 19, btw 20 and 24, btw 25 and 30, 30+");
 		dim.addParameter(new Parameter("onDate", "Date", Date.class));
-		dim.addCohortDefinition("<1", map(commonCohortLibrary.agedAtMost(0), "effectiveDate=${onDate}"));
-		dim.addCohortDefinition("<15", map(commonCohortLibrary.agedAtMost(14), "effectiveDate=${onDate}"));
-		dim.addCohortDefinition("15+", map(commonCohortLibrary.agedAtLeast(15), "effectiveDate=${onDate}"));
+		dim.addCohortDefinition("15 - 19", map(commonCohortLibrary.agedAtMost(19), "effectiveDate=${onDate}"));
+		dim.addCohortDefinition("20 - 24", map(commonCohortLibrary.agedAtMost(24), "effectiveDate=${onDate}"));
+		dim.addCohortDefinition("25 - 30", map(commonCohortLibrary.agedAtMost(30), "effectiveDate=${onDate}"));
+		dim.addCohortDefinition("30+", map(commonCohortLibrary.agedAtLeast(30), "effectiveDate=${onDate}"));
+		
 		return dim;
 	}
 	
@@ -69,6 +71,21 @@ public class CommonPrEPDimensionLibrary {
 		dim.addCohortDefinition("pwid", map(commonCohortLibrary.females()));
 		dim.addCohortDefinition("pwud", map(commonCohortLibrary.females()));
 		dim.addCohortDefinition("transgender", map(commonCohortLibrary.females()));
+		return dim;
+	}
+	
+	/**
+	 * Dimension of age using the 3 standard age groups
+	 * 
+	 * @return the dimension
+	 */
+	public CohortDefinitionDimension standardAgeGroups() {
+		CohortDefinitionDimension dim = new CohortDefinitionDimension();
+		dim.setName("age groups (<1, <15, 15+)");
+		dim.addParameter(new Parameter("onDate", "Date", Date.class));
+		dim.addCohortDefinition("<1", map(commonCohortLibrary.agedAtMost(0), "effectiveDate=${onDate}"));
+		dim.addCohortDefinition("<15", map(commonCohortLibrary.agedAtMost(14), "effectiveDate=${onDate}"));
+		dim.addCohortDefinition("15+", map(commonCohortLibrary.agedAtLeast(15), "effectiveDate=${onDate}"));
 		return dim;
 	}
 	
