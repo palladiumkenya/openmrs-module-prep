@@ -11,6 +11,7 @@ package org.openmrs.module.prep.reporting.data.converter.definition.evaluator.pr
 
 import org.openmrs.annotation.Handler;
 import org.openmrs.module.prep.reporting.data.converter.definition.prep.EligibilityReasonAtEntryDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.EligibleDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -25,7 +26,7 @@ import java.util.Map;
 /**
  * Evaluates a PersonDataDefinition
  */
-@Handler(supports = EligibilityReasonAtEntryDataDefinition.class, order = 50)
+@Handler(supports = EligibleDataDefinition.class, order = 50)
 public class EligibleDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
