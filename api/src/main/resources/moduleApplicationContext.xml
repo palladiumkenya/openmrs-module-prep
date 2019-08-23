@@ -83,6 +83,7 @@
                 <ref bean="prep.prep.form.followupVisit" />
                 <ref bean="prep.prep.form.behaviorRiskAssessment" />
                 <ref bean="prep.prep.form.monthlyRefill" />
+                <ref bean="prep.prep.form.initialFollowup" />
             </set>
         </property>
         <property name="fragments">
@@ -202,6 +203,23 @@
         </property>
         <property name="icon" value="kenyaui:forms/generic.png" />
         <property name="htmlform" value="prep:prep/monthlyRefill.html" />
+    </bean>
+
+    <!-- Prep initial followup form -->
+    <bean id="prep.prep.form.initialFollowup" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="1bfb09fc-56d7-4108-bd59-b2765fd312b8" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.registration"/>
+                <ref bean="kenyaemr.app.intake"/>
+                <ref bean="kenyaemr.app.prep" />
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart"/>
+            </set>
+        </property>
+        <property name="showIfCalculation" value="org.openmrs.module.prep.calculation.library.prep.PatientsEligibleForInitialFollowUpCalculation" />
+        <property name="icon" value="kenyaui:forms/generic.png" />
+        <property name="htmlform" value="prep:prep/initialFollowup.html" />
     </bean>
 
 </beans>
