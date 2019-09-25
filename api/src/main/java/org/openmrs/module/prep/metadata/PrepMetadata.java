@@ -186,7 +186,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(globalProperty("prep.weight", "Weight limit for one to be eligible for PrEP", "35"));
 		install(globalProperty("prep.age", "Age limit for one to be eligible for PrEP", "15"));
 		install(globalProperty("prep.htsInitialPeriod", "Time limit in days for hts to be valid for initiation into PrEP",
-		    "2"));
+		    "3"));
 		
 	}
 }
