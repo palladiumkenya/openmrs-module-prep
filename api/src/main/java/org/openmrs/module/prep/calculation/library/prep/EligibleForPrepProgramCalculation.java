@@ -97,7 +97,7 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 				
 				htsInitialValidPeriod = validPeriod;
 			}
-			if (creatinineRes.getValue() == null) {
+			if ((creatinineRes.getValue()) == null) {
 				createnine = "No result";
 				
 			} else {
@@ -105,7 +105,7 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 			}
 			
 			if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
-			    if (eligible
+				if (eligible
 				        && patient.getAge() >= prepAgeCriteria
 				        && weightCurrentObs.getValueNumeric().intValue() >= prepWeightCriteria
 				        && testResultsCurrentObs.getValueCoded().getConceptId().equals(664)
