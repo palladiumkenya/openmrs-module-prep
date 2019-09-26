@@ -119,6 +119,30 @@
 			</td>
 
 		</tr>
+		<tr>
+			<td width="30%" valign="top">
+				<b>Creatinine</b>
+			<td width="15%" valign="top" style="padding-left: 5px">
+				Less than 50mls/Min
+			</td>
+			<td width="15%" valign="top" style="padding-left: 5px">
+				<% if (!creatinine) { %>
+				<div>No creatinine result</div>
+				<% } else { %>
+				${creatinine} umol/L
+				<%}%>
+			</td>
+			<td width="5%" valign="top" style="padding-left: 5px">
+				<% if (creatinine <= prepCreatinineCriteria) { %>
+				<div><span class="label success"></span></div>
+				<% } else { %>
+				<div><span class="label danger"></span></div>
+				<%}%>
+			</td>
+			<td width="15%" valign="top" style="padding-left: 5px">
+
+			</td>
+		</tr>
 	</table>
 	<div style="padding-top: 8px">
 	     <b>KEY:</b><span>Pass = <span class="label success"></span></span> &nbsp;&nbsp;&nbsp;
