@@ -20,6 +20,7 @@ import org.openmrs.module.prep.calculation.library.prep.EmrCalculationUtils;
 import org.openmrs.module.prep.calculation.library.prep.LastHtsResultsCalculation;
 import org.openmrs.module.prep.calculation.library.prep.LastWeightCalculation;
 import org.openmrs.module.prep.calculation.library.prep.WillingnessToStartPrepCalculation;
+import org.openmrs.module.prep.calculation.library.prep.LastCreatinineResultsCalculation;
 import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.util.EmrUtils;
 import org.openmrs.ui.framework.UiUtils;
@@ -46,6 +47,7 @@ public class PrepEligibilitySummaryFragmentController {
 		String htsResults = null;
 		String willingnessToTakePrep = null;
 		Long htsInitialValidPeriod = null;
+		Double creatinine = null;
 		CalculationResult weightResults = EmrCalculationUtils.evaluateForPatient(LastWeightCalculation.class, null, patient);
 		if (weightResults != null && weightResults.getValue() != null) {
 			weight = ((Obs) weightResults.getValue()).getValueNumeric();
@@ -61,10 +63,17 @@ public class PrepEligibilitySummaryFragmentController {
 		if (WillingnessRes != null && WillingnessRes.getValue() != null) {
 			willingnessToTakePrep = ((Obs) WillingnessRes.getValue()).getValueCoded().getName().toString();
 		}
+		CalculationResult creatinineRes = EmrCalculationUtils.evaluateForPatient(LastCreatinineResultsCalculation.class,
+		    null, patient);
+		if (creatinineRes != null && creatinineRes.getValue() != null) {
+			creatinine = ((Obs) creatinineRes.getValue()).getValueNumeric();
+		}
+		
 		administrationService = Context.getAdministrationService();
 		Integer prepWeightCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.weight"));
 		Integer prepAgeCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.age"));
 		Integer prepHtsInitialCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.htsInitialPeriod"));
+		Integer prepCreatinineCriteria = 50;
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date currentDate = new Date();
@@ -99,11 +108,13 @@ public class PrepEligibilitySummaryFragmentController {
 		model.addAttribute("prepAgeCriteria", prepAgeCriteria);
 		model.addAttribute("htsInitialValidPeriod", htsInitialValidPeriod);
 		model.addAttribute("prepHtsInitialCriteria", prepHtsInitialCriteria);
+		model.addAttribute("prepCreatinineCriteria", prepCreatinineCriteria);
 		
 		model.addAttribute("htsResult", htsResults);
 		model.addAttribute("weight", weight);
 		model.addAttribute("age", patient.getAge());
 		model.addAttribute("willingnessToTakePrep", willingnessToTakePrep);
+		model.addAttribute("creatinine", creatinine);
 	}
 	
 }
