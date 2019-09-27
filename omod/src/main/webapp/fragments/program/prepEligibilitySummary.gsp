@@ -123,7 +123,7 @@
 			<td width="30%" valign="top">
 				<b>Creatinine</b>
 			<td width="15%" valign="top" style="padding-left: 5px">
-				Less than 50mls/Min
+				Less than 50mls/Min or No creatinine result
 			</td>
 			<td width="15%" valign="top" style="padding-left: 5px">
 				<% if (!creatinine) { %>
