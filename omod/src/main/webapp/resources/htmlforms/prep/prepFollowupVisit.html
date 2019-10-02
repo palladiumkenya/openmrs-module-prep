@@ -445,6 +445,16 @@
                              answerLabel="Other(O)"
                              style="checkbox"/>
                         <br />
+                            <obs conceptId="165098"
+                                 answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="None"
+                                 style="checkbox"/>
+                            <br />
+
+
+
+
+
                      </div>
                     </td>
                    <td id="sti-treatment-offerd"> <obs id="sti-treated" conceptId="165200" style="radio" answerConceptIds="1065,1066" /> </td>
@@ -552,7 +562,6 @@
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1472AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Tubal Ligation/Female sterilization" style="checkbox"/> <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Condoms" style="checkbox"/> <br />
                             <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1489AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Vasectomy(Partner)" style="checkbox"/> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162332AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Undecided" style="checkbox"/> <br />
                         </div>
                        </tr>
                        </table>
@@ -919,15 +928,13 @@
                     <!--</td>-->
                     <td width="100">
                         <!-- CONTRAINDICATIONS FOR PrEP -->
-                        <obs conceptId="165106" id="contraindications"
-                             answerConceptIds="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                               138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                               155589AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                               127750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                               165105"
-                             answerLabels="None,Confirmed HIV+,Renal impairment,Not willing,Less than 35ks and under 15 yrs"
-                             answerSeparator="&lt;br /&gt;"
-                             style="radio"/>
+
+                        <obs conceptId="165106" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None" style="checkbox"/> <br />
+                        <obs conceptId="165106" answerConceptId="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Confirmed HIV+" style="checkbox"/> <br />
+                        <obs conceptId="165106" answerConceptId="155589AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Renal impairment" style="checkbox"/> <br />
+                        <obs conceptId="165106" answerConceptId="127750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Not willing" style="checkbox"/> <br />
+                        <obs conceptId="165106" answerConceptId="165105" answerLabel="Less than 35ks and under 15 yrs" style="checkbox"/> <br />
+
                     </td>
                     <td>
                         <!-- PrEP TREATMENT PLAN -->

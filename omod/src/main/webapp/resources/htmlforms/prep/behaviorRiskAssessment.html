@@ -90,7 +90,11 @@
             var assessmentQuestionsChecked = jq("#assessment-questions input:checkbox:checked");
             if (assessmentQuestionsChecked.length > 0) {
                 jq("#assessment-outcome input[value=138643]").prop("checked", true);
-            }
+                jq("#assessment-outcome input[value=1066]").prop("disabled", true);
+            }else {
+				jq("#assessment-outcome input[value=138643]").prop("checked", false);
+				jq("#assessment-outcome input[value=1066]").prop("disabled", false);
+			}
         }
         /**
          * Called when 'Partner HIV Status' field is changed
@@ -123,8 +127,10 @@
             //Assessment manipulations
             if (partnerHivStatus ==  HIV_POSITIVE || assessmentQuestionsChecked.length > 0 ) {
                 jq("#assessment-outcome input[value=138643]").prop("checked", true);
+				jq("#assessment-outcome input[value=1066]").prop("disabled", true);
             }else{
                 jq("#assessment-outcome input[value=138643]").prop("checked", false);
+				jq("#assessment-outcome input[value=1066]").prop("disabled", false);
 			}
            }
         /**
@@ -212,7 +218,7 @@
 				<tr>
 				<td>Sex Partner HIV Status:</td>
 				<td>
-					<obs conceptId="1436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="true"
+					<obs conceptId="1436AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" required="false"
 						 id="partner-hiv-status"
 						 answerConceptIds="703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 answerLabels="HIV Positive,HIV Negative,Unknown"/>
