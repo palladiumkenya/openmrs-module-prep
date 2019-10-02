@@ -25,7 +25,7 @@ import org.openmrs.module.kenyacore.CoreUtils;
 import org.openmrs.module.kenyacore.form.FormDescriptor;
 import org.openmrs.module.kenyacore.form.FormManager;
 import org.openmrs.module.kenyacore.form.FormUtils;
-import org.openmrs.module.prep.util.EmrUtils;
+import org.openmrs.module.kenyaemr.util.EmrUtils;
 import org.openmrs.module.prep.wrapper.EncounterWrapper;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.kenyaui.annotation.SharedAction;

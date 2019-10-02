@@ -18,8 +18,8 @@ import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.module.kenyacore.calculation.AbstractPatientCalculation;
 import org.openmrs.module.kenyacore.calculation.BooleanResult;
 import org.openmrs.module.kenyacore.calculation.Calculations;
+import org.openmrs.module.kenyaemr.util.EmrUtils;
 import org.openmrs.module.prep.metadata.PrepMetadata;
-import org.openmrs.module.prep.util.EmrUtils;
 
 import java.util.*;
 

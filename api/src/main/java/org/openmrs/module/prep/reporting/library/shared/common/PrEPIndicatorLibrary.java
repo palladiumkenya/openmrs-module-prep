@@ -15,7 +15,7 @@ import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static org.openmrs.module.prep.reporting.EmrReportingUtils.cohortIndicator;
+import static org.openmrs.module.kenyaemr.reporting.EmrReportingUtils.cohortIndicator;
 
 /**
  * Library of common indicator definitions. All indicators require parameters ${startDate} and
