@@ -55,6 +55,7 @@
 		<uiframeworkVersion>3.3.1</uiframeworkVersion>
 		<kenyacoreVersion>2.4.2-SNAPSHOT</kenyacoreVersion>
 		<kenyauiVersion>2.1.2-SNAPSHOT</kenyauiVersion>
+		<kenyaemrVersion>17.0.3</kenyaemrVersion>
 		<jodaTimeVersion>2.9.1</jodaTimeVersion>
 		<webservices.restVersion>2.1</webservices.restVersion>
 		<logicVersion>0.5.2</logicVersion>
@@ -67,13 +68,13 @@
 		<dependencies>
 
 			<!-- Begin OpenMRS modules -->
-			<!--<dependency>
+			<dependency>
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>kenyaemr-api</artifactId>
 				<version>${kenyaemrVersion}</version>
 				<scope>provided</scope>
 			</dependency>
--->
+
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>appframework-api</artifactId>
