@@ -122,7 +122,14 @@
             //DISCORDANR
             if(DISCORDANT == 1065) {
                 jq('#discordant:text').val('YES');
-            }else if(KEY_POPULATION == 1066) {
+            }
+            else if(DISCORDANT == 1066) {
+				jq('#discordant:text').val('NO');
+			}
+			else if(DISCORDANT == 1175) {
+				jq('#discordant:text').val('N/A');
+			}
+            else if(KEY_POPULATION == 1066) {
                 jq('#discordant:text').val('NO');
             }else{
                 jq('#discordant:text').val('Missing');
