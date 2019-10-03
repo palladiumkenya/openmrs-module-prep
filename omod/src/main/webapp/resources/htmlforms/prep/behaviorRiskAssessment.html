@@ -125,7 +125,7 @@
                 jq('#partner-art-status').hide();
             }
             //Assessment manipulations
-            if (partnerHivStatus ==  HIV_POSITIVE || assessmentQuestionsChecked.length > 0 ) {
+            if (partnerHivStatus ==  HIV_POSITIVE ||partnerHivStatus ==  UNKNOWN || assessmentQuestionsChecked.length > 0 ) {
                 jq("#assessment-outcome input[value=138643]").prop("checked", true);
 				jq("#assessment-outcome input[value=1066]").prop("disabled", true);
             }else{
@@ -351,7 +351,7 @@
 					<td>
 						<obs conceptId="165091"
 							 answerConceptIds="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="Risk,No risk" id="assessment-outcome"
+							 answerLabels="Risk,Low risk" id="assessment-outcome"
 							 style="radio" />
 					</td>
 				</tr>

@@ -123,17 +123,17 @@
 			<td width="30%" valign="top">
 				<b>Creatinine</b>
 			<td width="15%" valign="top" style="padding-left: 5px">
-				Less than 50mls/Min or No creatinine result
+			   50mls/Min and above or No creatinine result
 			</td>
 			<td width="15%" valign="top" style="padding-left: 5px">
 				<% if (!creatinine) { %>
 				<div>No creatinine result</div>
 				<% } else { %>
-				${creatinine} umol/L
+				${creatinine} mls/Min
 				<%}%>
 			</td>
 			<td width="5%" valign="top" style="padding-left: 5px">
-				<% if (creatinine <= prepCreatinineCriteria) { %>
+				<% if (creatinine >= prepCreatinineCriteria || creatinineNoResult =="No result") { %>
 				<div><span class="label success"></span></div>
 				<% } else { %>
 				<div><span class="label danger"></span></div>
