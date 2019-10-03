@@ -150,8 +150,8 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 			}
 			
 			if (enrollmentEncounters.size() > 0 && followupEncounters.size() > 0 && setRestartWhenFollowup == 0
-			        && missAppointmentBySevenDays == 0 && firstMonthlyRefill == 0 && lastFollowUp != null
-			        && !DateUtils.isSameDay(lastFollowUp.getEncounterDatetime(), today)) {
+			        && missAppointmentBySevenDays == 0 && firstMonthlyRefill == 0 && lastFollowUp != null) {
+				//&& !DateUtils.isSameDay(lastFollowUp.getEncounterDatetime(), today)
 				showMonthlyRefillForm = true;
 			}
 			

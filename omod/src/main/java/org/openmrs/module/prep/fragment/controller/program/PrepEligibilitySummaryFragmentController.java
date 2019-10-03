@@ -48,6 +48,7 @@ public class PrepEligibilitySummaryFragmentController {
 		String willingnessToTakePrep = null;
 		Long htsInitialValidPeriod = null;
 		Double creatinine = null;
+		String creatinineNoResult = "";
 		CalculationResult weightResults = EmrCalculationUtils.evaluateForPatient(LastWeightCalculation.class, null, patient);
 		if (weightResults != null && weightResults.getValue() != null) {
 			weight = ((Obs) weightResults.getValue()).getValueNumeric();
@@ -67,6 +68,9 @@ public class PrepEligibilitySummaryFragmentController {
 		    null, patient);
 		if (creatinineRes != null && creatinineRes.getValue() != null) {
 			creatinine = ((Obs) creatinineRes.getValue()).getValueNumeric();
+			creatinineNoResult = "";
+		} else {
+			creatinineNoResult = "No result";
 		}
 		
 		administrationService = Context.getAdministrationService();
@@ -115,6 +119,7 @@ public class PrepEligibilitySummaryFragmentController {
 		model.addAttribute("age", patient.getAge());
 		model.addAttribute("willingnessToTakePrep", willingnessToTakePrep);
 		model.addAttribute("creatinine", creatinine);
+		model.addAttribute("creatinineNoResult", creatinineNoResult);
 	}
 	
 }

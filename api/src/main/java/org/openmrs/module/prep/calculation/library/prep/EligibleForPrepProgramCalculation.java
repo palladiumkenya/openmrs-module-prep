@@ -111,7 +111,7 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 				        && testResultsCurrentObs.getValueCoded().getConceptId().equals(664)
 				        && willingForPrepCurrentObs.getValueCoded().getConceptId().equals(1065)
 				        && htsInitialValidPeriod <= prepHtsInitialCriteria
-				        && ((creatinineCurrentObs != null && creatinineCurrentObs.getValueNumeric().intValue() <= creatinineCriteria) || createnine
+				        && ((creatinineCurrentObs != null && creatinineCurrentObs.getValueNumeric().intValue() >= creatinineCriteria) || createnine
 				                .equalsIgnoreCase("No result"))) {
 					enrollPatientOnPrep = true;
 				}
