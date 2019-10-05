@@ -49,6 +49,10 @@
 		var hepatitisCorderDate = labs_VELOCITY.split(",")[6].split(":")[1];
 		var hepatitisCresultDate = labs_VELOCITY.split(",")[7].split(":")[1];
 		var hepatitisCresult = labs_VELOCITY.split(",")[8].split(":")[1];
+		var vmmcScreened = "<lookup expression="fn.latestObs(165352).getValueCoded()"/>";
+		var circumsised = "<lookup expression="fn.latestObs(165099).getValueCoded()"/>";
+
+
 		jq(function() {
 			jq("#sti-symptoms input[type=checkbox]").prop("disabled",true);
 			jq("#sti-treated input[type=radio]").prop("disabled",true);
@@ -89,8 +93,54 @@
 			creatininelabs();
 			hepatitisClabs();
 			hepatitisBlabs();
+			if (vmmcScreened ==1065 &amp;&amp; circumsised ==1065) {
+				jq("#vmmc-screened input[value=1065]").prop("checked", true);
+				jq("#vmmc-screened input[value=1066]").prop("disabled", true);
+				jq("#vmmc-status input[value=1065]").prop("checked", true);
+				jq("#vmmc-status input[value=1066]").prop("disabled", true);
+				jq("#vmmc-status input[value=1067]").prop("disabled", true);
+			}
 
 			beforeSubmit.push(function () {
+				var tca_date = getValue('tca-date.value');
+				if (tca_date == ""  &amp;&amp;(getValue('tca-given.value') == 1065)) {
+					getField('tca-date.error').html('Please specify next appointment date.').show();
+					return false;
+				}else{
+					getField('tca-date.error').html('Please specify next appointment date.').hide();
+				}
+
+				if ((getValue('tca-given.value') == 1066 &amp;&amp;(getValue('reason-tca-date.value') == ""))) {
+					getField('reason-tca-date.error').html('Please specify reason for not giving next appointment date.').show();
+					return false;
+				}else{
+					getField('reason-tca-date.error').html('Please specify reason for not giving next appointment date.').hide();
+				}
+
+				if (getValue('pregnancy-status.value') == 1065 &amp;&amp; (getValue('edd.value') =="")
+						&amp;&amp; (getValue('planned-pregnancy.value') =="")  &amp;&amp; (getValue('breastfeeding.value') =="")) {
+					getField('edd.error').html('Please specify EDD date.').show();
+					getField('planned-pregnancy.error').html('Please specify if pregnancy was planned').show();
+					getField('breastfeeding.error').html('Please specify if breastfeeding').show();
+					return false;
+				}
+				else{
+					getField('edd.error').html('Please specify EDD date.').hide();
+					getField('planned-pregnancy.error').html('Please specify if pregnancy was planned').hide();
+					getField('breastfeeding.error').html('Please specify if breastfeeding').hide();
+				}
+
+				if (getValue('pregnancy-status.value') == 1066 &amp;&amp; (getValue('family-planning-status.value') == "")
+						&amp;&amp; (getValue('pregnancy-wanted.value') == "")) {
+					getField('family-planning-status.error').html('Please specify family planning status.').show();
+					getField('pregnancy-wanted.error').html('Please specify if planning to get pregnant').show();
+					return false;
+				}
+				else{
+					getField('family-planning-status.error').html('Please specify family planning status.').hide();
+					getField('pregnancy-wanted.error').html('Please specify if planning to get pregnant').hide();
+				}
+                return true;
 			});
 
 		});
@@ -528,16 +578,16 @@
 					</tr>
 					<tr>
 						<td>
-							<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" allowFutureDates="false" />
+							<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" allowFutureDates="false" required="true" />
 						</td>
 						<td>
 							<obs conceptId="5272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="pregnancy-status"
 								 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
+								 answerLabel="Yes,No" answerSeparator="&lt;br /&gt;" required="true"
 								 style="radio"/>
 						</td>
 						<td>
-							<obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="edd" />
+							<obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="edd" allowFutureDates="true" />
 						</td>
 						<td width="100">
 							<obs conceptId="1426AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="planned-pregnancy"
@@ -884,13 +934,13 @@
 						<obs conceptId="165101" id="hiv-signs"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							 answerLabel="Yes,No"
-							 style="radio"/>
+							 style="radio" required="true"/>
 					</td>
 					<td>
 						<obs conceptId="165104"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							 answerLabel="Yes,No"
-							 style="radio"/>
+							 style="radio" required="true" />
 					</td>
 					<td width="100">
 						<obs conceptId="165106" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None" style="checkbox"/> <br />
@@ -903,7 +953,7 @@
 						<obs conceptId="165109" id="treatment-plan"
 							 answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							 answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
-							 style="radio"/>
+							 style="radio" required="true"/>
 					</td>
 					<td width="100">
 						<obs conceptId="159777"
@@ -931,7 +981,7 @@
 					<td>
 						<obs conceptId="165353" id="tca-given"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabel="Yes,No"
+							 answerLabel="Yes,No" required="true"
 							 style="radio"/>
 					</td>
 					<td>
