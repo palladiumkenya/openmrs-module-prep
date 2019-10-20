@@ -10,11 +10,13 @@
 package org.openmrs.module.prep.calculation.library.prep;
 
 import org.openmrs.Concept;
+import org.openmrs.Patient;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
-import org.openmrs.Patient;
+import org.openmrs.Visit;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.PatientService;
+import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResult;
@@ -25,10 +27,8 @@ import org.openmrs.module.kenyacore.calculation.BooleanResult;
 import org.openmrs.module.kenyacore.calculation.Filters;
 import org.openmrs.module.prep.util.EmrUtils;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Calculates whether patients are eligible for the Prep program
@@ -41,6 +41,8 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 	
 	String createnine = null;
 	
+	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy");
+	
 	/**
 	 * @see org.openmrs.calculation.patient.PatientCalculation#evaluate(Collection, Map,
 	 *      org.openmrs.calculation.patient.PatientCalculationContext)
@@ -49,6 +51,7 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> params,
 	        PatientCalculationContext context) {
 		PatientService patientService = Context.getPatientService();
+		VisitService visitService = Context.getVisitService();
 		Concept weight = Context.getConceptService().getConcept(5089);
 		Concept htsTestResults = Context.getConceptService().getConcept(159427);
 		Concept willingToTakePrep = Context.getConceptService().getConcept(165094);
@@ -103,17 +106,42 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 			} else {
 				createnine = "Results available";
 			}
+			List<Visit> activeVisit = visitService.getActiveVisitsByPatient(patient);
 			
-			if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
-				if (eligible
-				        && patient.getAge() >= prepAgeCriteria
-				        && weightCurrentObs.getValueNumeric().intValue() >= prepWeightCriteria
-				        && testResultsCurrentObs.getValueCoded().getConceptId().equals(664)
-				        && willingForPrepCurrentObs.getValueCoded().getConceptId().equals(1065)
-				        && htsInitialValidPeriod <= prepHtsInitialCriteria
-				        && ((creatinineCurrentObs != null && creatinineCurrentObs.getValueNumeric().intValue() >= creatinineCriteria) || createnine
-				                .equalsIgnoreCase("No result"))) {
-					enrollPatientOnPrep = true;
+			if (activeVisit.size() > 0) {
+				for (Visit v : activeVisit) {
+					if (!DATE_FORMAT.format(v.getStartDatetime()).equalsIgnoreCase(DATE_FORMAT.format(currentDate))) {
+						
+						if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
+							htsInitialValidPeriod = validPeriod;
+							if (eligible
+							        && patient.getAge() >= prepAgeCriteria
+							        && weightCurrentObs.getValueNumeric().intValue() >= prepWeightCriteria
+							        && testResultsCurrentObs.getValueCoded().getConceptId().equals(664)
+							        && willingForPrepCurrentObs.getValueCoded().getConceptId().equals(1065)
+							        && htsInitialValidPeriod <= prepHtsInitialCriteria
+							        && ((creatinineCurrentObs != null && creatinineCurrentObs.getValueNumeric().intValue() >= creatinineCriteria) || createnine
+							                .equalsIgnoreCase("No result"))) {
+								enrollPatientOnPrep = true;
+							}
+						}
+						
+					} else {
+						
+						if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
+							if (eligible
+							        && patient.getAge() >= prepAgeCriteria
+							        && weightCurrentObs.getValueNumeric().intValue() >= prepWeightCriteria
+							        && testResultsCurrentObs.getValueCoded().getConceptId().equals(664)
+							        && willingForPrepCurrentObs.getValueCoded().getConceptId().equals(1065)
+							        && htsInitialValidPeriod <= prepHtsInitialCriteria
+							        && ((creatinineCurrentObs != null && creatinineCurrentObs.getValueNumeric().intValue() >= creatinineCriteria) || createnine
+							                .equalsIgnoreCase("No result"))) {
+								enrollPatientOnPrep = true;
+							}
+						}
+					}
+					
 				}
 			}
 			

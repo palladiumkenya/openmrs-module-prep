@@ -51,6 +51,7 @@
 		var hepatitisCresult = labs_VELOCITY.split(",")[8].split(":")[1];
 		var vmmcScreened = "<lookup expression="fn.latestObs(165352).getValueCoded()"/>";
 		var circumsised = "<lookup expression="fn.latestObs(165099).getValueCoded()"/>";
+		var gender = "<lookup expression="patient.gender" />";
 
 
 		jq(function() {
@@ -116,29 +117,29 @@
 				}else{
 					getField('reason-tca-date.error').html('Please specify reason for not giving next appointment date.').hide();
 				}
+				if(gender =='F') {
 
-				if (getValue('pregnancy-status.value') == 1065 &amp;&amp; (getValue('edd.value') =="")
-						&amp;&amp; (getValue('planned-pregnancy.value') =="")  &amp;&amp; (getValue('breastfeeding.value') =="")) {
-					getField('edd.error').html('Please specify EDD date.').show();
-					getField('planned-pregnancy.error').html('Please specify if pregnancy was planned').show();
-					getField('breastfeeding.error').html('Please specify if breastfeeding').show();
-					return false;
-				}
-				else{
-					getField('edd.error').html('Please specify EDD date.').hide();
-					getField('planned-pregnancy.error').html('Please specify if pregnancy was planned').hide();
-					getField('breastfeeding.error').html('Please specify if breastfeeding').hide();
-				}
+					if (getValue('pregnancy-status.value') == 1065 &amp;&amp; (getValue('edd.value') == "")
+							&amp;&amp; (getValue('planned-pregnancy.value') == "") &amp;&amp; (getValue('breastfeeding.value') == "")) {
+						getField('edd.error').html('Please specify EDD date.').show();
+						getField('planned-pregnancy.error').html('Please specify if pregnancy was planned').show();
+						getField('breastfeeding.error').html('Please specify if breastfeeding').show();
+						return false;
+					} else {
+						getField('edd.error').html('Please specify EDD date.').hide();
+						getField('planned-pregnancy.error').html('Please specify if pregnancy was planned').hide();
+						getField('breastfeeding.error').html('Please specify if breastfeeding').hide();
+					}
 
-				if (getValue('pregnancy-status.value') == 1066 &amp;&amp; (getValue('family-planning-status.value') == "")
-						&amp;&amp; (getValue('pregnancy-wanted.value') == "")) {
-					getField('family-planning-status.error').html('Please specify family planning status.').show();
-					getField('pregnancy-wanted.error').html('Please specify if planning to get pregnant').show();
-					return false;
-				}
-				else{
-					getField('family-planning-status.error').html('Please specify family planning status.').hide();
-					getField('pregnancy-wanted.error').html('Please specify if planning to get pregnant').hide();
+					if (getValue('pregnancy-status.value') == 1066 &amp;&amp; (getValue('family-planning-status.value') == "")
+							&amp;&amp; (getValue('pregnancy-wanted.value') == "")) {
+						getField('family-planning-status.error').html('Please specify family planning status.').show();
+						getField('pregnancy-wanted.error').html('Please specify if planning to get pregnant').show();
+						return false;
+					} else {
+						getField('family-planning-status.error').html('Please specify family planning status.').hide();
+						getField('pregnancy-wanted.error').html('Please specify if planning to get pregnant').hide();
+					}
 				}
                 return true;
 			});
@@ -642,7 +643,7 @@
 			<legend>Chronic Illnesses and Cormobidities</legend>
 			<table class="simple-table">
 				<div>
-					Patient has any chronic illnesse(s)? &#160;&#160;&#160;&#160;&#160;&#160;&#160;
+					Client has any chronic illnesse(s)? &#160;&#160;&#160;&#160;&#160;&#160;&#160;
 					<obs id="chronic-illness" conceptId="162747AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 						 style="radio" answerLabels="Yes,No"
@@ -706,7 +707,7 @@
 			<legend>Adverse Drug Reactions</legend>
 			<table class="simple-table">
 				<div>
-					Patient has adverse drug reaction(s)? &#160;&#160;&#160;&#160;
+					Client has adverse drug reaction(s)? &#160;&#160;&#160;&#160;
 					<obs id="adverse-reactions" conceptId="121764AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="yes_no"/>
 					<span style="color:red;"><strong>*</strong></span>
 				</div>
@@ -774,7 +775,7 @@
 			<legend>Known Allergies</legend>
 			<table class="simple-table">
 				<div>
-					Patient has any known allergie(s)? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+					Client has any known allergie(s)? &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 					<obs id="known-allergies" conceptId="160557AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="yes_no"/>
 					<span style="color:red;"><strong>*</strong></span>
 				</div>

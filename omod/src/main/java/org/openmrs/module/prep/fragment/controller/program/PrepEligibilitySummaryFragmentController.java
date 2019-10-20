@@ -9,8 +9,12 @@
  */
 package org.openmrs.module.prep.fragment.controller.program;
 
-import org.openmrs.*;
+import org.openmrs.Visit;
+import org.openmrs.Encounter;
+import org.openmrs.Obs;
+import org.openmrs.Patient;
 import org.openmrs.api.AdministrationService;
+import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.module.kenyacore.form.FormManager;
@@ -31,6 +35,7 @@ import org.openmrs.ui.framework.page.PageRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Patient program history fragment
@@ -38,6 +43,10 @@ import java.util.Date;
 public class PrepEligibilitySummaryFragmentController {
 	
 	private AdministrationService administrationService;
+	
+	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy");
+	
+	VisitService visitService = Context.getVisitService();
 	
 	public void controller(FragmentModel model, @FragmentParam("patient") Patient patient, UiUtils ui,
 	        PageRequest pageRequest, @SpringBean ProgramManager programManager, @SpringBean FormManager formManager,
@@ -106,6 +115,16 @@ public class PrepEligibilitySummaryFragmentController {
 		            .getFormService().getFormByUuid(PrepMetadata._Form.PREP_ENROLLMENT_FORM));
 		if (lastPrepInitiation != null) {
 			htsInitialValidPeriod = checkEnrolled;
+		}
+		
+		List<Visit> activeVisit = visitService.getActiveVisitsByPatient(patient);
+		if (activeVisit.size() > 0) {
+			for (Visit v : activeVisit) {
+				if (!DATE_FORMAT.format(v.getStartDatetime()).equalsIgnoreCase(DATE_FORMAT.format(currentDate))) {
+					htsInitialValidPeriod = validPeriod;
+					
+				}
+			}
 		}
 		
 		model.addAttribute("prepWeightCriteria", prepWeightCriteria);
