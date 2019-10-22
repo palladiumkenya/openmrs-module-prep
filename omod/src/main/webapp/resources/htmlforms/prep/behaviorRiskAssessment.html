@@ -73,6 +73,7 @@
             jq('#referral input').click(onReferralChange);
 			jq('#risk-eduction-offered :input[type=radio]').click(isRiskEducationOffered);
 			jq('#willing-prep :input[type=radio]').click(isNotWilingForPrep);
+			jq('#assessment-outcome :input[type=radio]').click(riskLevel);
 
 
 
@@ -81,6 +82,15 @@
             jq('#assessment-questions  :input[type=checkbox]').change(behaviorQuestionsChecked);
 
            beforeSubmit.push(function() {
+           	//138643 risk
+			   var willingnessTotakePrep = getValue('willing-prep.value');
+			   if (willingnessTotakePrep == ""  &amp;&amp;(getValue('assessment-outcome.value') == 138643)) {
+				   getField('willing-prep.error').html('Please record client willingness to take prep.').show();
+				   return false;
+			   }else{
+				   getField('willing-prep.error').html('Please record client willingness to take prep').hide();
+			   }
+
             });
 
         });
@@ -199,6 +209,17 @@
                 jq('#not-willing-reasons').hide();
 			}
 
+		}
+		function riskLevel() {
+			var val = jq(this).val();
+			if(val ==1066) {
+				jq("#willing-prep input[value=1065]").prop("disabled", true);
+				jq("#willing-prep input[value=1066]").prop("disabled", true);
+
+			}else {
+				jq("#willing-prep input[value=1065]").prop("disabled", false);
+				jq("#willing-prep input[value=1066]").prop("disabled", false);
+			}
 		}
 	</script>
 	<div class="ke-form-header">
@@ -349,7 +370,7 @@
 				<tr>
 					<td>Assessment outcome:</td>
 					<td>
-						<obs conceptId="165091"
+						<obs conceptId="165091" required="true"
 							 answerConceptIds="138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							 answerLabels="Risk,Low risk" id="assessment-outcome"
 							 style="radio" />
@@ -377,7 +398,7 @@
 				<tr>
 					<td>Client willing to take PrEP:</td>
 					<td>
-						<obs conceptId="165094" required="true"
+						<obs conceptId="165094" required="false"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							 answerLabels="Yes,No" id="willing-prep"
 							 style="radio" />
