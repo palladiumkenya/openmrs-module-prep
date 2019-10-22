@@ -63,6 +63,14 @@
 			jq('#risk-assessment-done :input[type=radio]').click(isBehaviourRiskAssessmentDone);
 
            beforeSubmit.push(function() {
+			   var tca_date = getValue('next-appointment.value');
+			   if (tca_date == ""  &amp;&amp;(getValue('appointment-given.value') == 1065)) {
+				   getField('next-appointment.error').html('Please specify next appointment date.').show();
+				   return false;
+			   }else{
+				   getField('next-appointment.error').html('Please specify next appointment date.').hide();
+			   }
+
             });
 
         });
@@ -255,7 +263,7 @@
 				<tr>
 					<td>PrEP Status:	</td>
 					<td><obs  id ="status" conceptId="161641" labelText=" " answerConceptIds="159836AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						159835AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerLabels="Discontinue,Continue" />
+						159835AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerLabels="Discontinue,Continue" required="true"/>
 					</td>
 					<td id="prescription">Prescribed PrEP today?</td>
 					<td id="prescription-option"><obs conceptId="1417" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
@@ -291,11 +299,11 @@
 
 					<td>Appointment given?</td>
 					<td><obs id="appointment-given" conceptId="164999" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" required="true"/>
 					</td>
 
 					<td id="next-appointment-label">Next appointment date:</td>
-					<td id="next-appointment-date"><obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
+					<td id="next-appointment-date"><obs id="next-appointment" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
 
 				</tr>
 				<tr>

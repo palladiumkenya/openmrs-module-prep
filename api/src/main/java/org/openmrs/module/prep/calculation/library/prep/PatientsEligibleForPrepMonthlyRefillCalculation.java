@@ -10,9 +10,16 @@
 package org.openmrs.module.prep.calculation.library.prep;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.openmrs.*;
+import org.openmrs.Encounter;
+import org.openmrs.Patient;
+import org.openmrs.EncounterType;
+import org.openmrs.Form;
+import org.openmrs.Visit;
+import org.openmrs.Obs;
+import org.openmrs.Concept;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.PatientService;
+import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
@@ -22,12 +29,15 @@ import org.openmrs.module.kenyacore.calculation.Calculations;
 import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.util.EmrUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * Checks if a patient is negative, not enrolled and no initial hts encounter
  */
 public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPatientCalculation {
+	
+	static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy");
 	
 	public static Encounter previousEncounter(Patient patient, EncounterType type, Form form) {
 		List<Encounter> encounters = Context.getEncounterService().getEncounters(patient, null, null, null,
@@ -41,7 +51,8 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 		
 		EncounterService encounterService = Context.getEncounterService();
 		PatientService patientService = Context.getPatientService();
-		;
+		VisitService visitService = Context.getVisitService();
+		
 		Concept restart = Context.getConceptService().getConcept(165109);
 		Concept restartCon = Context.getConceptService().getConcept(162904);
 		Integer setRestartWhenFollowup = 0;
@@ -53,6 +64,10 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 			Patient patient = patientService.getPatient(ptId);
 			boolean showMonthlyRefillForm = false;
 			Integer firstMonthlyRefill = 0;
+			int diffBetweenFollowupEncounters = 0;
+			Integer missAppointmentBySevenDays = 0;
+			int diffBetweenMonthlyRefillEncounters = 0;
+			int diffInMonthBtwnLastFollowupEncAndLastRefil = 0;
 			
 			Encounter firstMonthlyEncounter = EmrUtils.firstEncounter(patient, Context.getEncounterService()
 			        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_MONTHLY_REFILL));
@@ -64,13 +79,13 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 			
 			//Handle previous encounter
 			
-			Encounter checkPrevious = previousEncounter(patient,
-			    Context.getEncounterService().getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_MONTHLY_REFILL),
-			    Context.getFormService().getFormByUuid(PrepMetadata._Form.PREP_MONTHLY_REFILL_FORM));
+			Encounter previousMonthlyRefillEnc = previousEncounter(patient, Context.getEncounterService()
+			        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_MONTHLY_REFILL), Context.getFormService()
+			        .getFormByUuid(PrepMetadata._Form.PREP_MONTHLY_REFILL_FORM));
 			
-			Encounter checkPreviousFollowup = previousEncounter(patient, Context.getEncounterService()
-			        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_CONSULTATION), Context.getFormService()
-			        .getFormByUuid(PrepMetadata._Form.PREP_CONSULTATION_FORM));
+			Encounter previousFollowupEnc = previousEncounter(patient,
+			    Context.getEncounterService().getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_CONSULTATION), Context
+			            .getFormService().getFormByUuid(PrepMetadata._Form.PREP_CONSULTATION_FORM));
 			
 			Encounter lastMonthlyRefillEncounter = EmrUtils.lastEncounter(patient, Context.getEncounterService()
 			        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_MONTHLY_REFILL), Context.getFormService()
@@ -79,6 +94,17 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 			Encounter lastFollowUp = EmrUtils.lastEncounter(patient,
 			    Context.getEncounterService().getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_CONSULTATION), Context
 			            .getFormService().getFormByUuid(PrepMetadata._Form.PREP_CONSULTATION_FORM));
+			
+			Date visistDate = null;
+			List<Visit> activeVisit = visitService.getActiveVisitsByPatient(patient);
+			
+			if (activeVisit.size() > 0) {
+				for (Visit v : activeVisit) {
+					System.out.println("visistDate" + v.getStartDatetime());
+					visistDate = v.getStartDatetime();
+				}
+			}
+			
 			if (lastFollowUp != null) {
 				for (Obs o : lastFollowUp.getObs()) {
 					if (o.getConcept().getConceptId() == 165109) {
@@ -96,22 +122,22 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 					
 				}
 			}
-			int diffBetweenFollowupEncounters = 0;
-			if (lastFollowUp != null && checkPrevious != null) {
-				diffBetweenFollowupEncounters = (lastFollowUp.getEncounterDatetime().getMonth() - checkPreviousFollowup
+			
+			if (lastFollowUp != null && previousFollowupEnc != null) {
+				diffBetweenFollowupEncounters = (lastFollowUp.getEncounterDatetime().getMonth() - previousFollowupEnc
 				        .getEncounterDatetime().getMonth())
-				        + ((lastFollowUp.getEncounterDatetime().getYear() - checkPreviousFollowup.getEncounterDatetime()
+				        + ((lastFollowUp.getEncounterDatetime().getYear() - previousFollowupEnc.getEncounterDatetime()
 				                .getYear()) * 12);
 			}
-			Date today = new Date();
-			Integer missAppointmentBySevenDays = 0;
 			
 			Obs nextAppointmentObs = EmrCalculationUtils.obsResultForPatient(nextAppointmentLastObs, ptId);
-			if (nextAppointmentObs != null) {
-				if (today.before(DateUtils.addDays(nextAppointmentObs.getValueDate(), 7))) {
+			if (nextAppointmentObs != null && visistDate != null) {
+				if (visistDate.before(DateUtils.addDays(nextAppointmentObs.getValueDate(), 7))) {
 					missAppointmentBySevenDays = 0;
-				} else {}
-				missAppointmentBySevenDays = 1;
+				} else {
+					missAppointmentBySevenDays = 1;
+				}
+				
 			}
 			
 			List<Encounter> followupEncounters = encounterService.getEncounters(
@@ -132,26 +158,60 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 			    Arrays.asList(Context.getEncounterService().getEncounterTypeByUuid(
 			        PrepMetadata._EncounterType.PREP_ENROLLMENT)), null, null, null, false);
 			
-			int diffBetweenMonthlyRefillEncounters = 0;
-			if (lastMonthlyRefillEncounter != null && checkPrevious != null) {
-				diffBetweenMonthlyRefillEncounters = (lastMonthlyRefillEncounter.getEncounterDatetime().getMonth() - checkPrevious
+			if (lastMonthlyRefillEncounter != null && previousMonthlyRefillEnc != null) {
+				diffBetweenMonthlyRefillEncounters = (lastMonthlyRefillEncounter.getEncounterDatetime().getMonth() - previousMonthlyRefillEnc
 				        .getEncounterDatetime().getMonth())
-				        + ((lastMonthlyRefillEncounter.getEncounterDatetime().getYear() - checkPrevious
+				        + ((lastMonthlyRefillEncounter.getEncounterDatetime().getYear() - previousMonthlyRefillEnc
 				                .getEncounterDatetime().getYear()) * 12);
 			}
-			if (firstMonthlyEncounter != null && setRestartWhenFollowup == 0 && followupEncounters.size() >= 2
-			        && (diffBetweenMonthlyRefillEncounters != 1 || diffBetweenMonthlyRefillEncounters > 1)) {
+			//
+			if (lastFollowUp != null && lastMonthlyRefillEncounter != null) {
+				diffInMonthBtwnLastFollowupEncAndLastRefil = (lastFollowUp.getEncounterDatetime().getMonth() - lastMonthlyRefillEncounter
+				        .getEncounterDatetime().getMonth())
+				        + ((lastFollowUp.getEncounterDatetime().getYear() - lastMonthlyRefillEncounter
+				                .getEncounterDatetime().getYear()) * 12);
+			}
+			
+			if (diffInMonthBtwnLastFollowupEncAndLastRefil == 1
+			        && setRestartWhenFollowup == 0
+			        && missAppointmentBySevenDays == 0
+			        && !DATE_FORMAT.format(lastFollowUp.getEncounterDatetime()).equalsIgnoreCase(
+			            DATE_FORMAT.format(visistDate))) {
+				showMonthlyRefillForm = true;
+			}
+			
+			if (visistDate != null
+			        && setRestartWhenFollowup == 0
+			        && missAppointmentBySevenDays == 0
+			        && lastFollowUp != null
+			        && diffBetweenFollowupEncounters == 3
+			        && diffBetweenMonthlyRefillEncounters != 1
+			        && !DATE_FORMAT.format(lastFollowUp.getEncounterDatetime()).equalsIgnoreCase(
+			            DATE_FORMAT.format(visistDate))) {
+				showMonthlyRefillForm = true;
+			}
+			
+			if (firstMonthlyEncounter != null
+			        && visistDate != null
+			        && setRestartWhenFollowup == 0
+			        && followupEncounters.size() >= 2
+			        && lastFollowUp != null
+			        && missAppointmentBySevenDays == 0
+			        && (diffBetweenMonthlyRefillEncounters != 1 || diffBetweenMonthlyRefillEncounters > 1)
+			        && !DATE_FORMAT.format(lastFollowUp.getEncounterDatetime()).equalsIgnoreCase(
+			            DATE_FORMAT.format(visistDate))) {
 				showMonthlyRefillForm = true;
 				
 			}
 			
-			if (diffBetweenFollowupEncounters == 3) {
-				showMonthlyRefillForm = true;
-			}
-			
-			if (enrollmentEncounters.size() > 0 && followupEncounters.size() > 0 && setRestartWhenFollowup == 0
-			        && missAppointmentBySevenDays == 0 && firstMonthlyRefill == 0 && lastFollowUp != null) {
-				//&& !DateUtils.isSameDay(lastFollowUp.getEncounterDatetime(), today)
+			if (enrollmentEncounters.size() > 0
+			        && followupEncounters.size() > 0
+			        && setRestartWhenFollowup == 0
+			        && firstMonthlyRefill == 0
+			        && lastFollowUp != null
+			        && visistDate != null
+			        && !DATE_FORMAT.format(lastFollowUp.getEncounterDatetime()).equalsIgnoreCase(
+			            DATE_FORMAT.format(visistDate))) {
 				showMonthlyRefillForm = true;
 			}
 			
