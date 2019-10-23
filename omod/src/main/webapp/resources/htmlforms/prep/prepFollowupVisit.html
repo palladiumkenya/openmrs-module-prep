@@ -102,6 +102,48 @@
                 jq("#vmmc-status input[value=1067]").prop("disabled", true);
             }
 
+            jq('#pregnancy-status input:radio').change(function () {
+                if ((getValue('pregnancy-status.value')) == 1066) {
+                    var pregOtions=jq('#pregnancyOptionValues :input').val('');
+                    var ancProfile=jq('#anc-profile');
+                    jq('#pregnancyOptionValues').hide();
+                    jq('#fp-details').hide();
+                    jq('#fpOptionValues :input').prop('disabled', false);
+                    jq('#fpOptionValues :input').prop('checked', false);
+                    jq("#wants-pregnancy").show();
+                    clearHiddenSections([pregOtions,ancProfile]);
+                }
+                if((getValue('pregnancy-status.value')) == 1065){
+                    jq('#pregnancyOptionValues :input').prop('disabled', false);
+                    var wantsPreg=jq('#wants-pregnancy');
+                    jq('#pregnancyOptionValues').show();
+                    jq('#fp-details').hide();
+                    jq("#wants-pregnancy").hide();
+                    clearHiddenSections([wantsPreg]);
+                    //Automate EDC Computation
+                    var lmpDate = getValue('lmp.value');
+                    var formattedlmp=moment(moment(lmpDate, 'YYYY-MM-DD').toDate()).format('DD-MMM-YYYY');
+                    var expectedDeliveryDate = moment(formattedlmp, "DD-MMM-YYYY").add(280, 'days').format('DD-MMM-YYYY');
+                    //Find recent EDD if it exists Using LMP
+                    var recentEDD = "<lookup expression="fn.latestObs(5596).getValueDatetime()"/>";
+                    var recentLMP = "<lookup expression="fn.latestObs(1427).getValueDatetime()"/>";
+                    //Using recent LMP
+                    var formattedRecentlmp=moment(moment(recentLMP, 'DD-MMM-YYYY').toDate()).format('DD-MMM-YYYY');
+                    var expectedDeliveryDateByRecentLMP = moment(formattedRecentlmp, "DD-MMM-YYYY").add(280, 'days').format('DD-MMM-YYYY');
+                    //Calculation
+                    if(recentEDD !=""){
+                        getField('edd.value').val(recentEDD);
+                    }else if(recentLMP !="") {
+                        getField('edd.value').val(expectedDeliveryDateByRecentLMP);
+                    }else if (lmpDate!=""){
+                        getField('edd.value').val(expectedDeliveryDate);
+                    }else{
+                        getField('edd.value').val("");
+                    }
+
+                }
+            });
+
 
             beforeSubmit.push(function () {
                 var tca_date = getValue('tca-date.value');
@@ -551,6 +593,7 @@
             <table class="simple-table">
                 <tr>
                     <td> <b>LMP</b> </td>
+                    <td> <b>Recent</b> </td>
                     <td> <b>Is the client <br /> pregnant</b> </td>
                     <td> <b>EDD</b> </td>
                     <td> <b>Was the pregnancy planned?</b> </td>
@@ -564,13 +607,18 @@
                         <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" allowFutureDates="false" required="true" />
                     </td>
                     <td>
+                        <span class="value"><recentObs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+                    </td>
+                    <td>
                         <obs conceptId="5272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="pregnancy-status"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Yes,No" answerSeparator="&lt;br /&gt;" required="true"
                              style="radio"/>
                     </td>
                     <td>
-                        <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="edd" allowFutureDates="true" />
+                        <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " id="edd" allowFutureDates="true" readonly="true" />
+                        <span class="value"><recentObs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+
                     </td>
                     <td width="100">
                         <obs conceptId="1426AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="planned-pregnancy"
