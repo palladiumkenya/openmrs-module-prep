@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.prep.fragment.controller.program;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.openmrs.Visit;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
@@ -21,10 +22,11 @@ import org.openmrs.module.kenyacore.form.FormManager;
 import org.openmrs.module.kenyacore.program.ProgramManager;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.prep.calculation.library.prep.EmrCalculationUtils;
+import org.openmrs.module.prep.calculation.library.prep.LastCreatinineResultsCalculation;
 import org.openmrs.module.prep.calculation.library.prep.LastHtsResultsCalculation;
 import org.openmrs.module.prep.calculation.library.prep.LastWeightCalculation;
+import org.openmrs.module.prep.calculation.library.prep.NextAppointmentCalculation;
 import org.openmrs.module.prep.calculation.library.prep.WillingnessToStartPrepCalculation;
-import org.openmrs.module.prep.calculation.library.prep.LastCreatinineResultsCalculation;
 import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.util.EmrUtils;
 import org.openmrs.ui.framework.UiUtils;
@@ -58,6 +60,10 @@ public class PrepEligibilitySummaryFragmentController {
 		Long htsInitialValidPeriod = null;
 		Double creatinine = null;
 		String creatinineNoResult = "";
+		Date appointment = null;
+		Date visistDate = null;
+		int missAppointmentBySevenDays = 0;
+		
 		CalculationResult weightResults = EmrCalculationUtils.evaluateForPatient(LastWeightCalculation.class, null, patient);
 		if (weightResults != null && weightResults.getValue() != null) {
 			weight = ((Obs) weightResults.getValue()).getValueNumeric();
@@ -81,7 +87,7 @@ public class PrepEligibilitySummaryFragmentController {
 		} else {
 			creatinineNoResult = "No result";
 		}
-		
+
 		administrationService = Context.getAdministrationService();
 		Integer prepWeightCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.weight"));
 		Integer prepAgeCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.age"));
@@ -120,6 +126,7 @@ public class PrepEligibilitySummaryFragmentController {
 		List<Visit> activeVisit = visitService.getActiveVisitsByPatient(patient);
 		if (activeVisit.size() > 0) {
 			for (Visit v : activeVisit) {
+				visistDate = v.getStartDatetime();
 				if (!DATE_FORMAT.format(v.getStartDatetime()).equalsIgnoreCase(DATE_FORMAT.format(currentDate))) {
 					htsInitialValidPeriod = validPeriod;
 					
@@ -127,6 +134,18 @@ public class PrepEligibilitySummaryFragmentController {
 			}
 		}
 		
+		CalculationResult nextAppointmentObs = EmrCalculationUtils.evaluateForPatient(NextAppointmentCalculation.class,
+		    null, patient);
+		if (nextAppointmentObs != null && nextAppointmentObs.getValue() != null && visistDate != null) {
+			appointment = ((Obs) nextAppointmentObs.getValue()).getValueDate();
+			if (visistDate.before(DateUtils.addDays(appointment, 7))) {
+				missAppointmentBySevenDays = 0;
+			} else {
+				missAppointmentBySevenDays = 1;
+				
+			}
+		}
+
 		model.addAttribute("prepWeightCriteria", prepWeightCriteria);
 		model.addAttribute("prepAgeCriteria", prepAgeCriteria);
 		model.addAttribute("htsInitialValidPeriod", htsInitialValidPeriod);
@@ -139,6 +158,7 @@ public class PrepEligibilitySummaryFragmentController {
 		model.addAttribute("willingnessToTakePrep", willingnessToTakePrep);
 		model.addAttribute("creatinine", creatinine);
 		model.addAttribute("creatinineNoResult", creatinineNoResult);
+		model.addAttribute("missAppointmentBySevenDays", missAppointmentBySevenDays);
 	}
 	
 }
