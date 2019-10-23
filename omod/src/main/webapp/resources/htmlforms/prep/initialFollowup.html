@@ -102,6 +102,41 @@
 				jq("#vmmc-status input[value=1067]").prop("disabled", true);
 			}
 
+
+			jq('#pregnancy-status input:radio').change(function () {
+				if ((getValue('pregnancy-status.value')) == 1066) {
+					var pregOtions=jq('#pregnancyOptionValues :input').val('');
+					var ancProfile=jq('#anc-profile');
+					clearHiddenSections([pregOtions,ancProfile]);
+				}
+				if((getValue('pregnancy-status.value')) == 1065){
+					jq('#pregnancyOptionValues :input').prop('disabled', false);
+					var wantsPreg=jq('#wants-pregnancy');
+					clearHiddenSections([wantsPreg]);
+					//Automate EDC Computation
+					var lmpDate = getValue('lmp.value');
+					var formattedlmp=moment(moment(lmpDate, 'YYYY-MM-DD').toDate()).format('DD-MMM-YYYY');
+					var expectedDeliveryDate = moment(formattedlmp, "DD-MMM-YYYY").add(280, 'days').format('DD-MMM-YYYY');
+					//Find recent EDD if it exists Using LMP
+					var recentEDD = "<lookup expression="fn.latestObs(5596).getValueDatetime()"/>";
+					var recentLMP = "<lookup expression="fn.latestObs(1427).getValueDatetime()"/>";
+					//Using recent LMP
+					var formattedRecentlmp=moment(moment(recentLMP, 'DD-MMM-YYYY').toDate()).format('DD-MMM-YYYY');
+					var expectedDeliveryDateByRecentLMP = moment(formattedRecentlmp, "DD-MMM-YYYY").add(280, 'days').format('DD-MMM-YYYY');
+					//Calculation
+					if(recentEDD !=""){
+						getField('edd.value').val(recentEDD);
+					}else if(recentLMP !="") {
+						getField('edd.value').val(expectedDeliveryDateByRecentLMP);
+					}else if (lmpDate!=""){
+						getField('edd.value').val(expectedDeliveryDate);
+					}else{
+						getField('edd.value').val("");
+					}
+
+				}
+			});
+
 			beforeSubmit.push(function () {
 				var tca_date = getValue('tca-date.value');
 				if (tca_date == ""  &amp;&amp;(getValue('tca-given.value') == 1065)) {
