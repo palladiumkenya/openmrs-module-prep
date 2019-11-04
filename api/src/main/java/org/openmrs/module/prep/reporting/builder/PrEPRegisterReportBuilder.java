@@ -22,6 +22,7 @@ import org.openmrs.module.prep.reporting.data.converter.definition.prep.*;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.data.DataDefinition;
+import org.openmrs.module.reporting.data.converter.BirthdateConverter;
 import org.openmrs.module.reporting.data.converter.DataConverter;
 import org.openmrs.module.reporting.data.converter.ObjectFormatter;
 import org.openmrs.module.reporting.data.patient.definition.ConvertedPatientDataDefinition;
@@ -89,7 +90,7 @@ public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
 		        upn.getName(), upn), identifierFormatter);
 		
-		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName}");
+		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName} {middleName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		dsd.addColumn("id", new PersonIdDataDefinition(), "");
 		dsd.addColumn("Serial Number", new SerialNumberDataDefinition(), "");
@@ -97,7 +98,7 @@ public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Visit Date", new PrEPVisitDateDataDefinition(), "");
 		dsd.addColumn("Client Unique ID", identifierDef, "");
 		dsd.addColumn("Sex", new GenderDataDefinition(), "");
-		dsd.addColumn("DOB", new BirthdateDataDefinition(), "");
+		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Age", new AgeDataDefinition(), "");
 		dsd.addColumn("Population Type", new PrEPPopulationTypeDataDefinition(), "");
 		dsd.addColumn("Assessed", new AssessedDataDefinition(), "");
