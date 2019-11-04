@@ -440,4 +440,93 @@ public class ETLMoh731BIndicatorLibrary {
 		    map(moh731BCohorts.discontinuedPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
+	/**
+	 * Number assessed for HIV risk
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator assessedForHIVRisk() {
+		return cohortIndicator("Number assessed for HIV risk",
+		    map(moh731BCohorts.assessedForHIVRisk(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number Eligible for PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator eligibleForPrEP() {
+		return cohortIndicator("Eligible for PrEP",
+		    map(moh731BCohorts.eligibleForPrEP(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number Initiated on PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator initiatedOnPrEP() {
+		return cohortIndicator("Number initiated on PrEP",
+		    map(moh731BCohorts.initiatedOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number continuing PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator continuingOnPrEP() {
+		return cohortIndicator("Number continuing PrEP",
+		    map(moh731BCohorts.continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number Restarting PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator restartingPrEP() {
+		return cohortIndicator("Number restarting PrEP",
+		    map(moh731BCohorts.restartingPrEP(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number current on PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator currentOnPrEP() {
+		return cohortIndicator("Number current on PrEP",
+		    map(moh731BCohorts.currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number retested HIV Positive while on PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator retestedPositiveOnPrEP() {
+		return cohortIndicator("Number retested HIV+ while on PrEP",
+		    map(moh731BCohorts.retestedPositiveOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number diagnosed with STI
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator diagnosedWithSTI() {
+		return cohortIndicator("Diagnosed with STI",
+		    map(moh731BCohorts.diagnosedWithSTI(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number Discontinued PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator discontinuedPrEP() {
+		return cohortIndicator("Discontinued PrEP",
+		    map(moh731BCohorts.discontinuedPrEP(), "startDate=${startDate},endDate=${endDate}"));
+	}
 }
