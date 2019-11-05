@@ -10,17 +10,22 @@
 package org.openmrs.module.prep.fragment.controller.program;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.openmrs.Visit;
-import org.openmrs.Encounter;
 import org.openmrs.Obs;
+import org.openmrs.Encounter;
 import org.openmrs.Patient;
+import org.openmrs.Program;
+import org.openmrs.Visit;
+import org.openmrs.PatientProgram;
 import org.openmrs.api.AdministrationService;
+import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.module.kenyacore.form.FormManager;
 import org.openmrs.module.kenyacore.program.ProgramManager;
+import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.prep.calculation.library.prep.EmrCalculationUtils;
 import org.openmrs.module.prep.calculation.library.prep.LastCreatinineResultsCalculation;
 import org.openmrs.module.prep.calculation.library.prep.LastHtsResultsCalculation;
@@ -87,7 +92,7 @@ public class PrepEligibilitySummaryFragmentController {
 		} else {
 			creatinineNoResult = "No result";
 		}
-
+		
 		administrationService = Context.getAdministrationService();
 		Integer prepWeightCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.weight"));
 		Integer prepAgeCriteria = Integer.parseInt(administrationService.getGlobalProperty("prep.age"));
@@ -145,7 +150,14 @@ public class PrepEligibilitySummaryFragmentController {
 				
 			}
 		}
-
+		
+		ProgramWorkflowService service = Context.getProgramWorkflowService();
+		Program hivProgram = MetadataUtils.existing(Program.class, HivMetadata._Program.HIV);
+		List<PatientProgram> programs = service.getPatientPrograms(patient, hivProgram, null, null, null, null, true);
+		if (programs.size() > 0) {
+			htsResults = "POSITIVE";
+		}
+		
 		model.addAttribute("prepWeightCriteria", prepWeightCriteria);
 		model.addAttribute("prepAgeCriteria", prepAgeCriteria);
 		model.addAttribute("htsInitialValidPeriod", htsInitialValidPeriod);
