@@ -77,6 +77,8 @@
 			jq("#sti-treatment-offerd").hide();
 			jq("#signs-header").hide();
 			jq("#treatment-header").hide();
+			jq('#other-sti-symptoms').hide();
+
 
 
 			jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
@@ -91,6 +93,8 @@
 			jq('#contraindications :input[type=radio]').change(contraindicationsSelected);
 			jq('#family-planning-status :input[type=radio]').click(notOnFamilyPlanning);
 			jq('#sti_screened :input[type=radio]').click(isStiScreened);
+			jq('#sti-symptoms :input[type=checkbox]').click(isStiScreenedSymptoms);
+
 			creatininelabs();
 			hepatitisClabs();
 			hepatitisBlabs();
@@ -289,6 +293,38 @@
 				jq("#treatment-header").show();
 
 
+			}
+
+		}
+
+		function isStiScreenedSymptoms() {
+			if(getValue('sti-none.value') == 1107) {
+				jq("#sti-treatment-offerd").hide();
+				jq("#treatment-header").hide();
+				jq("#sti-other input[type=checkbox]").prop("disabled",true).removeAttr('checked');
+				jq("#sti-anal input[type=checkbox]").prop("disabled",true).removeAttr('checked');
+				jq("#sti-urethral input[type=checkbox]").prop("disabled",true).removeAttr('checked');
+				jq("#sti-pelvic input[type=checkbox]").prop("disabled",true).removeAttr('checked');
+				jq("#sti-cervical input[type=checkbox]").prop("disabled",true).removeAttr('checked');
+				jq("#sti-vaginal input[type=checkbox]").prop("disabled",true).removeAttr('checked');
+				jq("#sti-genital input[type=checkbox]").prop("disabled",true).removeAttr('checked');
+
+			}else {
+				jq("#sti-treatment-offerd").show();
+				jq("#treatment-header").show();
+				jq("#sti-other input[type=checkbox]").prop("disabled",false);
+				jq("#sti-anal input[type=checkbox]").prop("disabled",false);
+				jq("#sti-urethral input[type=checkbox]").prop("disabled",false);
+				jq("#sti-pelvic input[type=checkbox]").prop("disabled",false);
+				jq("#sti-cervical input[type=checkbox]").prop("disabled",false);
+				jq("#sti-vaginal input[type=checkbox]").prop("disabled",false);
+				jq("#sti-genital input[type=checkbox]").prop("disabled",false);
+
+			}
+			if(getValue('sti-other.value') ==5622) {
+				jq('#other-sti-symptoms').show();
+			}else {
+				jq('#other-sti-symptoms').hide();
 			}
 
 		}
@@ -529,40 +565,42 @@
 					<td> <obs id="sti_screened" conceptId="161558" required="true" style="radio" answerConceptIds="1065,1066" /> </td>
 					<td id="sti-signs">
 						<div id="sti-symptoms" style="float: left; padding-right: 50px">
-							<obs conceptId="165098"
+							<obs conceptId="165098" id="sti-genital"
 								 answerConceptId="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 								 answerLabel="Genital Ulcer Desease(GUD)" style="checkbox" />
 							<br />
-							<obs conceptId="165098"
+							<obs conceptId="165098" id="sti-vaginal"
 								 answerConceptId="121809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 								 answerLabel="Vaginitis and/or Vaginal Discharge(VG)" style="checkbox"/>
 							<br />
-							<obs conceptId="165098"
+							<obs conceptId="165098" id="sti-cervical"
 								 answerConceptId="116995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 								 answerLabel="Cervicitis and/or Cervical Discharge(CD)" style="checkbox"/>
 							<br />
-							<obs conceptId="165098"
+							<obs conceptId="165098" id="sti-pelvic"
 								 answerConceptId="130644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 								 answerLabel="Pelvic Inflammatory Desease(PID)" style="checkbox"/>
 							<br />
-							<obs conceptId="165098"
+							<obs conceptId="165098" id="sti-urethral"
 								 answerConceptId="123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 								 answerLabel="Urethral Discharge(UD)" style="checkbox"/>
 							<br />
-							<obs conceptId="165098"
+							<obs conceptId="165098" id="sti-anal"
 								 answerConceptId="148895AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 								 answerLabel="Anal Discharge(AD)" style="checkbox"/>
 							<br />
 							<obs conceptId="165098"
 								 answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Other(O)"
+								 answerLabel="Other(O)" id="sti-other"
 								 style="checkbox"/>
+							<obs id="other-sti-symptoms" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 							<br />
 							<obs conceptId="165098"
 								 answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="None"
+								 answerLabel="None" id="sti-none"
 								 style="checkbox"/>
 							<br />
+
 						</div>
 					</td>
 					<td id="sti-treatment-offerd"> <obs id="sti-treated" conceptId="165200" style="radio" answerConceptIds="1065,1066" /> </td>
