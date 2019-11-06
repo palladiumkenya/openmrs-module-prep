@@ -198,6 +198,7 @@
         function creatininelabs() {
             if(creatinineResult != null|| creatinineResult != undefined||creatinineResult != 'undefined') {
                 jq('#creatinine-result:text').val(creatinineResult);
+                jq("#serum-creatinine input[value=1065]").prop("checked", true);
             }else {
                 jq('#creatinine-result:text').val("None");
             }
@@ -207,7 +208,8 @@
                 jq('#creatinine-result-date:text').val("None");
             }
             if(creatinineOrderDate !=null ||creatinineOrderDate !=undefined || creatinineOrderDate !='undefined'){
-                jq('#creatinine-order-date:text').val(creatinineResultDate);
+                jq('#creatinine-order-date:text').val(creatinineOrderDate);
+                jq("#serum-creatinine input[value=1065]").prop("checked", true);
             }else {
                 jq('#creatinine-order-date:text').val("None");
             }
