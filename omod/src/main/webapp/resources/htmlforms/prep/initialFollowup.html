@@ -52,6 +52,10 @@
 		var vmmcScreened = "<lookup expression="fn.latestObs(165352).getValueCoded()"/>";
 		var circumsised = "<lookup expression="fn.latestObs(165099).getValueCoded()"/>";
 		var gender = "<lookup expression="patient.gender" />";
+		var sexWithoutCondom = "<lookup expression="fn.latestObs(165097).getValueCoded()"/>";
+		var sexPartnerHivStatus = "<lookup expression="fn.latestObs(1436).getValueCoded()"/>";
+
+
 
 
 		jq(function() {
@@ -98,12 +102,17 @@
 			creatininelabs();
 			hepatitisClabs();
 			hepatitisBlabs();
+			populateHivPositvePartnerProfile();
 			if (vmmcScreened ==1065 &amp;&amp; circumsised ==1065) {
 				jq("#vmmc-screened input[value=1065]").prop("checked", true);
 				jq("#vmmc-screened input[value=1066]").prop("disabled", true);
 				jq("#vmmc-status input[value=1065]").prop("checked", true);
 				jq("#vmmc-status input[value=1066]").prop("disabled", true);
 				jq("#vmmc-status input[value=1067]").prop("disabled", true);
+			}
+
+			if(sexPartnerHivStatus == 664 || sexPartnerHivStatus ==1067 ) {
+				jq("#hiv-positive-partner-profile-tab").hide();
 			}
 
 
@@ -204,6 +213,13 @@
 			}
 
 		}
+		function populateHivPositvePartnerProfile() {
+			if(sexWithoutCondom != null || sexWithoutCondom != undefined ||
+					sexWithoutCondom != 'undefined') {
+				jq("#sex-without-condom input[value=1065]").prop("checked", true);
+			}
+		}
+
 		function hepatitisClabs() {
 			if(hepatitisCresult != null || hepatitisCresult != undefined ||hepatitisCresult != 'undefined') {
 				jq('#hepatitisc-result:text').val(hepatitisCresult);
@@ -531,26 +547,42 @@
 						<td><obs conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="partners-ccc" size="15" /></td>
 						<td><obs conceptId="159812" answerConceptId="1067"
 								 answerLabel="CCC number/Enrollment status unknown" style="checkbox" /></td>
+						<td>
+							<span class="value"><recentObs conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+						</td>
 					</tr>
 					<tr>
 						<td>HIV+ partners ART start date</td>
 						<td><obs conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id ="art-start-date"/></td>
+						<td>
+							<span class="value"><recentObs conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+						</td>
 					</tr>
 					<tr>
 						<td>Time known to be HIV- serodiscordant</td>
-						<td><obs conceptId="163191" id="years"/>Year(s)</td>
+						<td><obs conceptId="164393AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="years"/>Year(s)</td>
+						<td>
+							<span class="value"><recentObs conceptId="164393AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+						</td>
 						<td><obs conceptId="165356" id="months"/>Month(s)</td>
+						<td>
+						<span class="value"><recentObs conceptId="4978edd0-75ab-40a9-9c07-d4bbeb43fed5"/></span>
+						</td>
 					</tr>
 					<tr>
 						<td>Sex without a condom with a HIV+ partner in the past 30 days &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 							&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 						</td>
-						<td><obs conceptId="165097" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+						<td><obs conceptId="165097" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="sex-without-condom" />
 						</td>
 					</tr>
 					<tr>
 						<td>Number of living children with HIV+ partner</td>
-						<td><obs conceptId="1825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+						<td><obs conceptId="1825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="number-of-children" /></td>
+						<td>
+							<span class="value"><recentObs conceptId="1825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+						</td>
 					</tr>
 				</obsgroup>
 			</table>
