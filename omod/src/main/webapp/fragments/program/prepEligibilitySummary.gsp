@@ -12,9 +12,9 @@
 .label-color {
 	color: Black;
 	padding-left:10px;
-	padding-bottom: 2px;
+	padding-bottom: 1px;
 	display: block;
-	width: 47%;
+	width: 65%;
 }
 .success {background-color: #4CAF50;}
 .danger {background-color: #f44336;}
