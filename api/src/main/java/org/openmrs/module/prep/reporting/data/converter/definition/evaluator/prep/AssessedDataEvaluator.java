@@ -36,7 +36,10 @@ public class AssessedDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select encounter_id, remarks from kenyaemr_etl.etl_hts_test ";
+		String qry = "select e.patient_id,if(ba.visit_date>=f.visit_date or ba.visit_date>=r.visit_date,'Yes','No') as assessed from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "                left outer join (select patient_id,max(visit_date) as visit_date from kenyaemr_etl.etl_prep_followup group by patient_id) f on e.patient_id =f.patient_id\n"
+		        + "left outer join (select patient_id,max(visit_date) as visit_date from kenyaemr_etl.etl_prep_monthly_refill group by patient_id) r on e.patient_id = r.patient_id\n"
+		        + "left outer join (select patient_id,max(visit_date) as visit_date from kenyaemr_etl.etl_prep_behaviour_risk_assessment group by patient_id)ba on e.patient_id = ba.patient_id group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

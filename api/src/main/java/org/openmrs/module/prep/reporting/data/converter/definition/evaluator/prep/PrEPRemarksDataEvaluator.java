@@ -35,10 +35,12 @@ public class PrEPRemarksDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,coalesce(mid(max(concat(r.visit_date,r.remarks)),11),mid(max(concat(f.visit_date,f.clinical_notes)),11),mid(max(concat(n.visit_date,n.notes)),11)) as remarks from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "                             left outer join kenyaemr_etl.etl_prep_monthly_refill r\n"
-		        + "       on e.patient_id = r.patient_id left outer join kenyaemr_etl.etl_prep_followup f on e.patient_id = f.patient_id\n"
-		        + "left outer join kenyaemr_etl.etl_progress_note n on e.patient_id = n.patient_id group by e.patient_id;";
+		String qry = "select e.patient_id, mid(greatest(ifnull(pf.max_cn,''),ifnull(mr.max_rem,''),ifnull(pn.max_notes,'')),11) as remarks\n"
+		        + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "       left outer join (select f.patient_id,f.visit_date,max(concat(f.visit_date, f.clinical_notes)) as max_cn from kenyaemr_etl.etl_prep_followup f group by patient_id) pf on e.patient_id =pf.patient_id\n"
+		        + "       left outer join (select r.patient_id,r.visit_date,r.remarks, max(concat(r.visit_date, r.remarks)) as max_rem from kenyaemr_etl.etl_prep_monthly_refill r group by patient_id) mr on e.patient_id = mr.patient_id\n"
+		        + "       left outer join (select n.patient_id,n.visit_date,n.notes,max(concat(n.visit_date, n.notes)) as max_notes from kenyaemr_etl.etl_progress_note n group by n.patient_id) pn on e.patient_id = pn.patient_id\n"
+		        + "group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

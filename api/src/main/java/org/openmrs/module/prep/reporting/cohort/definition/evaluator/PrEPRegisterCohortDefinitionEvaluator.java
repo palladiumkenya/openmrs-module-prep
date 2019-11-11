@@ -52,7 +52,7 @@ public class PrEPRegisterCohortDefinitionEvaluator implements CohortDefinitionEv
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		
-		String qry = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e where e.voided =0 group by patient_id having timestampdiff(year,max(date(e.visit_date)),date(:endDate)) <= 1;";
+		String qry = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e where e.voided =0 group by e.patient_id having max(date(e.visit_date)) between date(:startDate) and date(:endDate);";
 		
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);

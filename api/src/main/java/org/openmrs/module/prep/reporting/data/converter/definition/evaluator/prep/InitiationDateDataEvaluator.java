@@ -35,7 +35,7 @@ public class InitiationDateDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,e.initial_enrolment_date from kenyaemr_etl.etl_prep_enrolment e;";
+		String qry = "select e.patient_id,coalesce(date(e.initial_enrolment_date),date(e.visit_date)) from kenyaemr_etl.etl_prep_enrolment e;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

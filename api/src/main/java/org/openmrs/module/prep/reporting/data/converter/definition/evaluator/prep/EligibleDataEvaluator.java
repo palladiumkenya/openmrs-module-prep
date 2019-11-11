@@ -36,7 +36,7 @@ public class EligibleDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select encounter_id, remarks from kenyaemr_etl.etl_hts_test ";
+		String qry = "select e.patient_id,'Y' from kenyaemr_etl.etl_prep_enrolment e;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

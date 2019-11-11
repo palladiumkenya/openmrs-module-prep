@@ -617,4 +617,128 @@ public class ETLMoh731BCohortLibrary {
 		
 		return cd;
 	}
+	
+	public CohortDefinition assessedForHIVRisk() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e inner join  kenyaemr_etl.etl_prep_behaviour_risk_assessment ba  on e.patient_id = ba.patient_id\n"
+		        + " group by e.patient_id;";
+		cd.setName("assessedForHIVRisk");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Number assessed for HIV risk");
+		
+		return cd;
+	}
+	
+	public CohortDefinition eligibleForPrEP() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select distinct e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "where date(e.visit_date) between date(:startDate) and date(:endDate);";
+		cd.setName("eligibleForPrEP");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Eligible for PrEP");
+		
+		return cd;
+	}
+	
+	public CohortDefinition initiatedOnPrEP() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "where e.patient_type  ='New Patient' and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		cd.setName("initiatedOnPrEP");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Number initiated on PrEP");
+		
+		return cd;
+	}
+	
+	public CohortDefinition continuingOnPrEP() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select r.patient_id from kenyaemr_etl.etl_prep_monthly_refill r\n"
+		        + "where r.prescribed_prep_today ='Yes' and date(r.visit_date) between date(:startDate) and date(:endDate);";
+		cd.setName("continuingOnPrEP");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Number continuing PrEP");
+		
+		return cd;
+	}
+	
+	public CohortDefinition restartingPrEP() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "                     where e.patient_type  ='Re-enrollment(Re-activation)' and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		cd.setName("restartingPrEP");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Number restarting PrEP");
+		
+		return cd;
+	}
+	
+	public CohortDefinition currentOnPrEP() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "\t\t               left join kenyaemr_etl.etl_prep_monthly_refill r on e.patient_id = r.patient_id\n"
+		        + "\t\t        where (e.patient_type in ('New Patient','Re-enrollment(Re-activation)') or r.prescribed_prep_today = 'Yes') and (date(e.visit_date) between date(:startDate) and date(:endDate) or date(r.visit_date) between date(:startDate) and date(:endDate));";
+		cd.setName("currentOnPrEP");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Number current on PrEP");
+		
+		return cd;
+	}
+	
+	public CohortDefinition retestedPositiveOnPrEP() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select e.patient_id\n"
+		        + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "       left join (select mid(max(concat(d.visit_date, d.patient_id)),11) as patient_id,d.discontinue_reason as discontine_reason from kenyaemr_etl.etl_prep_discontinuation d group by d.patient_id)pd on pd.patient_id = e.patient_id\n"
+		        + "       left join (select mid(max(concat(e.visit_date, e.patient_id)),11) as patient_id from kenyaemr_etl.etl_hiv_enrollment e group by e.patient_id ) he on he.patient_id = e.patient_id\n"
+		        + "       left join (select mid(max(concat(r.visit_date, r.patient_id)),11) as patient_id,r.prep_discontinue_reasons as prep_discontinue_reasons from kenyaemr_etl.etl_prep_monthly_refill r group by r.patient_id )mr on mr.patient_id = e.patient_id\n"
+		        + "       left join (select mid(max(concat(t.visit_date, t.patient_id)),11) as patient_id,t.final_test_result,max(t.visit_date) as visit_date from kenyaemr_etl.etl_hts_test t  group by t.patient_id) ht on ht.patient_id = e.patient_id\n"
+		        + "where  pd.discontine_reason = \"HIV test is positive\" or mr.prep_discontinue_reasons = \"HIV test is positive\" or ht.final_test_result=\"Positive\" and date(e.visit_date) between  date(:startDate) and date(:endDate) group by e.patient_id;";
+		cd.setName("retestedPositiveOnPrEP");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Number retested HIV+ while on PrEP");
+		
+		return cd;
+	}
+	
+	public CohortDefinition diagnosedWithSTI() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select max(f.patient_id) patient_id from kenyaemr_etl.etl_prep_followup f\n"
+		        + "                                          where concat(f.genital_ulcer_desease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
+		        + "  and f.visit_date between date(:startDate) and date(:endDate) group by f.patient_id;";
+		cd.setName("diagnosedWithSTI");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Diagnosed with STI");
+		
+		return cd;
+	}
+	
+	public CohortDefinition discontinuedPrEP() {
+		SqlCohortDefinition cd = new SqlCohortDefinition();
+		String sqlQuery = "select max(d.patient_id) patient_id from kenyaemr_etl.etl_prep_discontinuation d\n"
+		        + "                                  where d.visit_date between date(:startDate) and date(:endDate) group by d.patient_id;";
+		cd.setName("discontinuedPrEP");
+		cd.setQuery(sqlQuery);
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.setDescription("Discontinued PrEP");
+		
+		return cd;
+	}
 }
