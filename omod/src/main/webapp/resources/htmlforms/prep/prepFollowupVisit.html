@@ -196,7 +196,8 @@
         });
 
         function creatininelabs() {
-            if(creatinineResult != null|| creatinineResult != undefined||creatinineResult != 'undefined') {
+            if(creatinineResult != null &amp;&amp; creatinineResult != undefined &amp;&amp; creatinineResult != 'undefined'
+                &amp;&amp; creatinineResult != "null") {
                 jq('#creatinine-result:text').val(creatinineResult);
                 jq("#serum-creatinine input[value=1065]").prop("checked", true);
             }else {
@@ -207,7 +208,8 @@
             }else {
                 jq('#creatinine-result-date:text').val("None");
             }
-            if(creatinineOrderDate !=null ||creatinineOrderDate !=undefined || creatinineOrderDate !='undefined'){
+            if(creatinineOrderDate != null &amp;&amp; creatinineOrderDate != undefined &amp;&amp; creatinineOrderDate !='undefined'
+                &amp;&amp; creatinineOrderDate != "null" ){
                 jq('#creatinine-order-date:text').val(creatinineOrderDate);
                 jq("#serum-creatinine input[value=1065]").prop("checked", true);
             }else {

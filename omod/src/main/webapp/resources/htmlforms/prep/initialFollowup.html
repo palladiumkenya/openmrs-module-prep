@@ -82,6 +82,7 @@
 			jq("#signs-header").hide();
 			jq("#treatment-header").hide();
 			jq('#other-sti-symptoms').hide();
+			jq("#serum-creatinine input[value=1065]").prop("checked", false);
 
 
 
@@ -194,28 +195,33 @@
 
 		});
 		function creatininelabs() {
-			if(creatinineResult != null|| creatinineResult != undefined||creatinineResult != 'undefined') {
+			if(creatinineResult != null &amp;&amp; creatinineResult != undefined &amp;&amp; creatinineResult != "null" &amp;&amp; creatinineResult != "") {
 				jq('#creatinine-result:text').val(creatinineResult);
 				jq("#serum-creatinine input[value=1065]").prop("checked", true);
 			}else {
-				jq('#creatinine-result:text').val("None");
+				jq('#creatinine-result:text').val(" ");
+				jq("#serum-creatinine input[value=1065]").prop("checked", false);
+
+
 			}
 			if(creatinineResultDate !=null || creatinineResultDate !=undefined|| creatinineResultDate !='undefined'){
 				jq('#creatinine-result-date:text').val(creatinineResultDate);
 			}else {
 				jq('#creatinine-result-date:text').val("None");
 			}
-			if(creatinineOrderDate !=null ||creatinineOrderDate !=undefined || creatinineOrderDate !='undefined'){
+			if(creatinineOrderDate != null &amp;&amp; creatinineOrderDate !=undefined &amp;&amp; creatinineOrderDate !="null" &amp;&amp; creatinineOrderDate !=""){
 				jq('#creatinine-order-date:text').val(creatinineOrderDate);
 				jq("#serum-creatinine input[value=1065]").prop("checked", true);
 			}else {
 				jq('#creatinine-order-date:text').val("None");
+				jq("#serum-creatinine input[value=1065]").prop("checked", false);
+
 			}
 
 		}
 		function populateHivPositvePartnerProfile() {
-			if(sexWithoutCondom != null || sexWithoutCondom != undefined ||
-					sexWithoutCondom != 'undefined') {
+			if(sexWithoutCondom != null &amp;&amp; sexWithoutCondom != undefined &amp;&amp; sexWithoutCondom !="" &amp;&amp;
+					sexWithoutCondom != 'undefined'  &amp;&amp; sexWithoutCondom !="null") {
 				jq("#sex-without-condom input[value=1065]").prop("checked", true);
 			}
 		}
