@@ -78,6 +78,8 @@
             jq("#signs-header").hide();
             jq("#treatment-header").hide();
             jq('#other-sti-symptoms').hide();
+            jq("#number-of-condoms-issued").hide();
+            jq("#condom-issiued-label").hide();
 
 
             jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
@@ -93,6 +95,7 @@
             jq('#family-planning-status :input[type=radio]').click(notOnFamilyPlanning);
             jq('#sti_screened :input[type=radio]').click(isStiScreened);
             jq('#sti-symptoms :input[type=checkbox]').click(isStiScreenedSymptoms);
+            jq('#condom-issued :input[type=radio]').click(isCondomsIssued);
             creatininelabs();
             hepatitisClabs();
             hepatitisBlabs();
@@ -308,6 +311,19 @@
                 jq("#treatment-header").show();
 
 
+            }
+
+        }
+        function isCondomsIssued() {
+            var val = jq(this).val();
+            if(val ==1065) {
+                jq("#number-of-condoms-issued").show();
+                jq("#condom-issiued-label").show();
+
+            }else {
+                jq("#number-of-condoms-issued").hide();
+                jq("#condom-issiued-label").hide();
+                jq('#number-of-condoms-issued :input').val('');
             }
 
         }
@@ -1042,7 +1058,7 @@
                     <td width="250"> <b>Contraindication for PrEP</b> </td>
                     <td> <b>PrEP treatment plan </b> </td>
                     <td> <b>Condoms issued</b> </td>
-                    <td> <b>Number of condoms issued</b> </td>
+                    <td id="condom-issiued-label"> <b>Number of condoms issued</b> </td>
                 </tr>
                 <tr>
                     <td>
@@ -1085,14 +1101,14 @@
                     </td>
                     <td width="100">
                         <!-- CONDOMS ISSUED -->
-                        <obs conceptId="159777"
+                        <obs conceptId="159777" id="condom-issued"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Yes,No"
                              style="radio"/>
                     </td>
-                    <td>
+                    <td id="number-of-condoms-issued">
                         <!-- NUMBER OF CONDOMS ISSUED -->
-                        <obs conceptId="165055"/>
+                        <obs conceptId="165055" />
                     </td>
 
                 </tr>
