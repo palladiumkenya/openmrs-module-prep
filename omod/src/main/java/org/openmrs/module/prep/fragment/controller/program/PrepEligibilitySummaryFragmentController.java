@@ -68,6 +68,7 @@ public class PrepEligibilitySummaryFragmentController {
 		Date appointment = null;
 		Date visistDate = null;
 		int missAppointmentBySevenDays = 0;
+		ProgramWorkflowService service = Context.getProgramWorkflowService();
 		
 		CalculationResult weightResults = EmrCalculationUtils.evaluateForPatient(LastWeightCalculation.class, null, patient);
 		if (weightResults != null && weightResults.getValue() != null) {
@@ -138,10 +139,13 @@ public class PrepEligibilitySummaryFragmentController {
 				}
 			}
 		}
+		Program prepProgram = MetadataUtils.existing(Program.class, PrepMetadata._Program.PREP);
+		List<PatientProgram> prePprograms = service.getPatientPrograms(patient, prepProgram, null, null, null, null, true);
 		
 		CalculationResult nextAppointmentObs = EmrCalculationUtils.evaluateForPatient(NextAppointmentCalculation.class,
 		    null, patient);
-		if (nextAppointmentObs != null && nextAppointmentObs.getValue() != null && visistDate != null) {
+		if (nextAppointmentObs != null && nextAppointmentObs.getValue() != null && visistDate != null
+		        && prePprograms.size() > 0) {
 			appointment = ((Obs) nextAppointmentObs.getValue()).getValueDate();
 			if (visistDate.before(DateUtils.addDays(appointment, 7))) {
 				missAppointmentBySevenDays = 0;
@@ -151,7 +155,6 @@ public class PrepEligibilitySummaryFragmentController {
 			}
 		}
 		
-		ProgramWorkflowService service = Context.getProgramWorkflowService();
 		Program hivProgram = MetadataUtils.existing(Program.class, HivMetadata._Program.HIV);
 		List<PatientProgram> programs = service.getPatientPrograms(patient, hivProgram, null, null, null, null, true);
 		if (programs.size() > 0) {
