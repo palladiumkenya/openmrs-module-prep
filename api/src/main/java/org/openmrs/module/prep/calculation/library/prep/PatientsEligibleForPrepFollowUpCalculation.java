@@ -222,6 +222,15 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				showFollowUpForm = true;
 			}
 			
+			List<Encounter> hivEnrollmentEncounters = encounterService.getEncounters(
+			    Context.getPatientService().getPatient(ptId), null, null, null, null,
+			    Arrays.asList(Context.getEncounterService().getEncounterTypeByUuid("de78a6be-bfc5-4634-adc3-5f1a280455cc")),
+			    null, null, null, false);
+			
+			if (hivEnrollmentEncounters.size() > 0) {
+				showFollowUpForm = false;
+			}
+			
 			ret.put(ptId, new BooleanResult(showFollowUpForm, this));
 		}
 		return ret;
