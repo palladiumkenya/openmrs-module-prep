@@ -38,7 +38,10 @@
 
 	<script type="text/javascript">
 		var value1;
+
 		jq(document).ready(function(){
+			jq('#discontinue-message-link-to-care').hide();
+			jq('#discontinue-message').hide();
 			jq('#other-reason').hide();
 			jq('#discontinue').click(showOptionsOther);
 
@@ -77,21 +80,42 @@
 				discontinueDate = new Date(getValue('encounter-date.value')).getTime();
 
 				if(discontinueDate &lt; pbirthdate){
-					getField('discontinueDate.error').html('Discontinue date, should not be earlier than Birth date').show();
+					getField('encounter-date.error').html('Discontinue date, should not be earlier than Birth date').show();
 					return false;
 				}
-				// alert(pbirthdate+" and "+discontinueDate);
 				return true;
 			});
 		});
 
 		function showOptionsOther() {
-			var other = jq('#discontinue option:selected').val();
-			if(other ==5622) {
+			var discontinueReason = jq('#discontinue option:selected').val();
+			if(discontinueReason ==5622) {
 				jq('#other-reason').show();
 			}else {
 				jq('#other-reason').hide();
 			}
+
+			if(discontinueReason ==113338) {
+				jq('#discontinue-message').hide();
+
+			}else {
+				jq('#discontinue-message').show();
+			}
+			if(discontinueReason ==138571) {
+				jq('#discontinue-message-link-to-care').show();
+
+			}else {
+				jq('#discontinue-message-link-to-care').hide();
+			}
+
+			if(discontinueReason ==1302 || discontinueReason ==159598 || discontinueReason ==164401 || discontinueReason ==162696
+					|| discontinueReason ==150506 || discontinueReason ==978 || discontinueReason ==160581 || discontinueReason ==5622) {
+				jq('#discontinue-message').show();
+			}else {
+				jq('#discontinue-message').hide();
+			}
+
+
 
 		}
 	</script>
@@ -107,7 +131,8 @@
 	<div class="ke-form-content">
 		<fieldset>
 			<legend>Discontinue PrEP Care</legend>
-			<div style="color: lightsalmon"><b>Please counsel client on safe prep discontinuation and give drugs for 28 days</b></div>
+			<div id="discontinue-message" style="color: lightsalmon"><b>Please counsel client on safe prep discontinuation and give drugs for 28 days</b></div>
+			<div id="discontinue-message-link-to-care" style="color: lightsalmon"><b>Please link the client to care</b></div>
 			<table class="simple-table">
 				<tr id="discontinue-status">
 					<td>Discontinue reasons</td>
@@ -115,17 +140,13 @@
 						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150506AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+						978AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
 							 answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
 							 Not adherent to PrEP,Too many HIV tests,Client request,Intimate partner violence,
-							 Self Discontinuation,Low risk of HIV,Other-specify"  style="dropdown"/>
+							 Self Discontinuation,Low risk of HIV,Adverse drug reaction,Other-specify"  style="dropdown"/>
 						<obs id="other-reason" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 					</td>
 
-				</tr>
-				<tr>
-					<td id="care-end-date-label">Date Prep Discontinued:</td>
-					<td id="care-end-date"><obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 				</tr>
 
 				<tr>

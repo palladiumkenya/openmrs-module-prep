@@ -146,7 +146,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(encounterType("PrEP Initial", "Handles PrEP Initial encounter", _EncounterType.PREP_INITIAL_FOLLOWUP));
 		
 		//Installing forms
-		install(form("PrEP Behavior Risk Assessment", "PrEP Behavior Risk Assessment Form",
+		install(form("PrEP Behavior Risk Assessment in the last six months ", "PrEP Behavior Risk Assessment Form",
 		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT, "1.0", _Form.PREP_BEHAVIOR_RISK_ASSESSMENT_FORM));
 		install(form("PrEP INITIATION ", "PrEP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
 		    _Form.PREP_ENROLLMENT_FORM));
