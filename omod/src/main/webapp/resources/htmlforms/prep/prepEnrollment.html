@@ -395,28 +395,7 @@
 		<table style="width: 100%">
 			<tr>
 				<td>
-					<ifMode mode="EDIT">
-						<script type="text/javascript">
-                            jq(function(){
-                                jq("#transfer-in-status input[value=164144]").prop("disabled", false);
-                               // setValue("encounter-date.value", "");
-                            });
-						</script>
-					</ifMode>
-					<ifMode mode="EDIT">
-						<includeIf velocityTest="$kenyaemr.hasHivUniquePatientNumber() == true">
-							Enrollment date: <encounterDate id="encounter-date" showTime="true" />
-						</includeIf>
-					</ifMode>
-					<ifMode mode="ENTER">
-						<includeIf velocityTest="$kenyaemr.hasHivUniquePatientNumber() == true">
-							Re-enrollment date: <encounterDate id="encounter-date" showTime="true" />
-						</includeIf>
-						<includeIf velocityTest="$kenyaemr.hasHivUniquePatientNumber() == false">
-							Enrollment date: <encounterDate id="encounter-date" showTime="true" />
-						</includeIf>
-					</ifMode>
-
+				Enrollment date: <encounterDate id="encounter-date" showTime="true" />
 				</td>
 				<td>Enrolled by: <encounterProvider default="currentUser" /></td>
 				<td>Enrolled at: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" /></td>
