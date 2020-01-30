@@ -317,7 +317,10 @@
                 jq('#prep-id :input').prop('disabled', false);
                 jq('#generate-prep-id').hide();
                 clearHiddenSections([transferDetails, artStatus]);
-            }
+            }else {
+				jq('#treatment-supporter-fieldset').show();
+
+			}
             if (transferStatus == RE_ENROLL) {
                 jq('#prep-id :input').prop('disabled', true);
                 jq('#transit-patient').hide();
@@ -412,8 +415,8 @@
 					<td>
 						<obs
 								id="transfer-in-status" conceptId="164932" style="radio"
-								answerConceptIds="164144,160563,164931,162904,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								answerLabels="New Client,Transfer in,Transit,Re-start,Continue"
+								answerConceptIds="164144,160563"
+								answerLabels="New Client,Transfer in"
 								required="true"
 						/>
 					</td>

@@ -72,6 +72,7 @@
             onReferralChange();
             jq('#referral input').click(onReferralChange);
 			jq('#risk-eduction-offered :input[type=radio]').click(isRiskEducationOffered);
+			jq('#enrolled-in-ccc :input[type=radio]').click(enrolledInccc);
 			jq('#willing-prep :input[type=radio]').click(isNotWilingForPrep);
 			jq('#assessment-outcome :input[type=radio]').click(riskLevel);
 
@@ -191,6 +192,20 @@
 			}else {
 				jq('#specify-education-offered').hide();
 			}
+		}
+		function enrolledInccc() {
+			var val = jq(this).val();
+			if(val ==1066 || val ==1067) {
+				jq('#partners-ccc-no').hide();
+				jq('#art-start-date-id').hide();
+
+
+			}else {
+				jq('#partners-ccc-no').show();
+				jq('#art-start-date-id').show();
+
+			}
+
 		}
 
 		function isNotWilingForPrep() {
@@ -466,17 +481,18 @@
 					<tr></tr>
 					<tr>
 						<td>2. Is partner enrolled to a CCC?</td>
-						<td><obs conceptId="165095" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No,Unknown" />
+						<td><obs conceptId="165095" id="enrolled-in-ccc" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No,Unknown" />
 						</td>
 					</tr>
 					<tr></tr>
-					<tr>
+					<tr id="partners-ccc-no">
 						<td>3. CCC Number?</td>
 						<td><obs conceptId="162053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="partners-ccc" size="15" />
 						</td>
 					</tr>
 					<tr></tr>
-					<tr>
+					<tr id="art-start-date-id">
 						<td>4. HIV+ partners ART start date
 						</td>
 						<td><obs conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id ="art-start-date"/>
