@@ -98,6 +98,7 @@
             <set>
                 <ref bean="kenyaemr.prep.prep.report.prepRegister" />
                 <ref bean="kenyaemr.prep.prep.report.moh731B" />
+                <ref bean="kenyaemr.prep.prep.report.enrolledInPREP" />
             </set>
         </property>
     </bean>
@@ -253,5 +254,13 @@
                 <ref bean="kenyaemr.app.reports" />
             </set></property>
         <property name="template" value="prep:MoH731B_Template.xls" />
+    </bean>
+
+    <bean id="kenyaemr.prep.prep.report.enrolledInPREP" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+        <property name="targetUuid" value="4c102857-4a76-49d7-a002-eaa197afb339" />
+        <property name="name" value="Clients currently on PrEP" />
+        <property name="description" value="Clients currently on PrEP" />
+        <property name="calculation" value="org.openmrs.module.prep.calculation.library.prep.OnPREPProgramCalculation" />
+        <property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
     </bean>
 </beans>
