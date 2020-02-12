@@ -51,20 +51,32 @@
         var DISCORDANT =  "<lookup expression="fn.latestObs(6096).getValueCoded()"/>";
         var PATIENT_HAS_UPN = <lookup expression="kenyaemr.hasHivUniquePatientNumber()" />;
         var ctxPath = typeof openmrsContextPath === 'string' ? openmrsContextPath : OPENMRS_CONTEXT_PATH;
+        var populationTypeSelected = function () {
+            var val = jq(this).val();
+            var keypop = jq('#key-populations');
+            if (val == 164929 ){
+                jq("#key-populations").show();
+            }
+            if(val == 164928 || val == 6096){
+                jq("#female-sex-worker input[type=checkbox]").prop("checked", false);
+                jq("#men-with-men input[type=checkbox]").prop("checked", false);
+                jq("#male-sex-worker input[type=checkbox]").prop("checked", false);
+                jq("#pwid input[type=checkbox]").prop("checked", false);
+                jq("#key-populations").hide();
+                clearHiddenSections(keypop);
+            }
+        }
         //On Ready
         jq(function() {
-            //var PATIENT_IS_ENROLLED_HIV = "<lookup expression="kenyaemr.hasHivUniquePatientNumber()" />";
-            var confirmed_positive = "<lookup expression="fn.latestObs(159427).getValueCoded()"/>";
-            var date_confirmed_positive = "<lookup expression="fn.latestObs(159427).getObsDatetime()"/>";
-            var date_added_as_confirmed_positive = "<lookup expression="fn.latestObs(160554).getObsDatetime()"/>";
-            var date_enrolled_in_care = "<lookup expression="fn.latestObs(160555).getValueDatetime()"/>";
-            var art_start_date = "<lookup expression="fn.latestObs(159599).getValueDatetime()"/>";
-            var facility_confirmed = "<lookup expression="fn.latestObs(162724).getValueText()"/>";
             var hasBeenOnARVs = "<lookup expression="fn.latestObs(160533).getValueCoded()"/>";
             var pgender = "<lookup expression="patient.gender" />";
             var pAge = parseInt('<lookup expression="patient.age"/>');
+            jq("#key-populations").hide();
+            jq('input[type=radio].key-population').prop("checked", false);
             jq('#upnError').hide();
             jq("#prep-id input[type=text]").blur(checkForExistingPatientIdentifiers);
+            jq('#population-type :input[type=radio]').change(populationTypeSelected);
+
 
             ageGroup();
             jq('.muac').hide();
@@ -421,6 +433,33 @@
 						/>
 					</td>
 				</tr>
+                <tr>
+                   <td> Population type </td>
+                    <td>
+                    <obs conceptId="164930"
+                         answerConceptIds="164928,6096,164929"
+                         answerLabels="General Population,Discordant Couple,Key Population" id="population-type"
+                         style="radio" />
+                    </td>
+                    <td id="key-populations">
+                        <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="PWID" style="checkbox"  id="pwid"/><br/>
+                        <includeIf velocityTest="$patient.gender == 'M'">
+                            <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160578AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="MSM" style="checkbox" id="men-with-men"/><br/>
+                        </includeIf>
+                        <includeIf velocityTest="$patient.gender == 'M'">
+                            <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165084"
+                                 answerLabel="MSW" style="checkbox" id="male-sex-worker" /><br/>
+                        </includeIf>
+                        <includeIf velocityTest="$patient.gender == 'F'">
+                            <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160579AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="FSW" style="checkbox" id="female-sex-worker" /><br/>
+                        </includeIf>
+
+                    </td>
+
+                </tr>
 				<tr>
 					<td>Referred from:</td>
 					<td colspan="3">
