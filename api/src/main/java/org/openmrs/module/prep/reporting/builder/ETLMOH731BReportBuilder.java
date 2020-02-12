@@ -33,7 +33,7 @@ import java.util.List;
  * Report builder for ETL MOH 731 for Green Card
  */
 @Component
-@Builds({ "kenyaemr.prep.common.report.moh731B" })
+@Builds({ "kenyaemr.prep.prep.report.moh731B" })
 public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 	
 	@Autowired

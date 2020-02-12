@@ -46,7 +46,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-@Builds({ "kenyaemr.prep.common.report.prepRegister" })
+@Builds({ "kenyaemr.prep.prep.report.prepRegister" })
 public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 	
 	@Autowired
