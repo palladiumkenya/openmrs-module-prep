@@ -105,6 +105,8 @@
 			jq('#sti-symptoms :input[type=checkbox]').click(isStiScreenedSymptoms);
 			jq('#condom-issued :input[type=radio]').click(isCondomsIssued);
 			jq('#vmmc-status :input[type=radio]').change(onVmmcStatusSelected);
+			jq('#menopause :input[type=checkbox]').click(menopausalStatus);
+
 
 
 			creatininelabs();
@@ -203,6 +205,28 @@
 			});
 
 		});
+
+		function menopausalStatus() {
+			if(getValue('menopause.value') == 134346) {
+				jq("#edd input[type=text]").prop("disabled",true);
+				jq("#lmp input[type=text]").prop("disabled",true);
+				jq("#planned-pregnancy input[type=radio]").prop("disabled",true);
+				jq("#pregnancy-status input[type=radio]").prop("disabled",true);
+				jq("#breastfeeding input[type=radio]").prop("disabled",true);
+				jq("#pregnancy-wanted input[type=radio]").prop("disabled",true);
+				jq("#family-planning-status input[type=radio]").prop("disabled",true);
+				jq("#fp-method-1 :input").prop("disabled",true);
+				jq("#fp-method-2 :input").prop("disabled",true);
+				jq('#lmp :input').val('');
+				jq('#edd :input').val('');
+			}else {
+				jq("#lmp input[type=text]").prop("disabled",false);
+				jq("#pregnancy-status input[type=radio]").prop("disabled",false);
+				jq("#breastfeeding input[type=radio]").prop("disabled",false);
+
+			}
+
+		}
 		function creatininelabs() {
 			if(creatinineResult != null &amp;&amp; creatinineResult != undefined &amp;&amp; creatinineResult != "null" &amp;&amp; creatinineResult != "") {
 				jq('#creatinine-result:text').val(creatinineResult);
@@ -720,6 +744,7 @@
 				<table class="simple-table">
 					<tr>
 						<td> <b>LMP</b> </td>
+						<td> <b>Menopausal status</b> </td>
 						<td> <b>Is the client <br /> pregnant</b> </td>
 						<td> <b>EDD</b> </td>
 						<td> <b>Was the pregnancy planned?</b> </td>
@@ -730,12 +755,18 @@
 					</tr>
 					<tr>
 						<td>
-							<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" allowFutureDates="false" required="true" />
+							<obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" allowFutureDates="false" />
 						</td>
+						<td>
+							<obs conceptId="160596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="134346AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								 answerLabel="Menopause" style="checkbox" id="menopause" /> <br />
+
+						</td>
+
 						<td>
 							<obs conceptId="5272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="pregnancy-status"
 								 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Yes,No" answerSeparator="&lt;br /&gt;" required="true"
+								 answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
 								 style="radio"/>
 						</td>
 						<td>
