@@ -19,6 +19,7 @@ import org.openmrs.module.htmlformentry.FormEntrySession;
 import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.prep.calculation.library.prep.LabaratoryVelocityCalculation;
+import org.openmrs.module.prep.calculation.library.prep.PrepVelocityCalculation;
 import org.openmrs.module.reporting.common.DateUtil;
 
 import java.util.ArrayList;
@@ -60,6 +61,14 @@ public class PrepVelocityFunctions {
 		CalculationResult labVelocity = EmrCalculationUtils.evaluateForPatient(LabaratoryVelocityCalculation.class, null,
 		    session.getPatient());
 		return (String) labVelocity.getValue();
+		
+	}
+	
+	public String PrepVelocityCalculation() {
+		
+		CalculationResult prepVelocity = EmrCalculationUtils.evaluateForPatient(PrepVelocityCalculation.class, null,
+		    session.getPatient());
+		return (String) prepVelocity.getValue();
 		
 	}
 	
