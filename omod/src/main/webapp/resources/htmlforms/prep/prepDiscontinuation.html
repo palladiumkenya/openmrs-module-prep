@@ -37,7 +37,8 @@
 	</style>
 
 	<script type="text/javascript">
-		var value1;
+		var prepVelocity = "<lookup expression="prep.PrepVelocityCalculation()" />";
+		var enrollmentDate = prepVelocity.split(",")[0].split(":")[1];
 
 		jq(document).ready(function(){
 			jq('#discontinue-message-link-to-care').hide();
@@ -82,6 +83,14 @@
 				if(discontinueDate &lt; pbirthdate){
 					getField('encounter-date.error').html('Discontinue date, should not be earlier than Birth date').show();
 					return false;
+				}
+
+				if(discontinueDate &lt; enrollmentDate){
+					getField('encounter-date.error').html('Discontinue date, should not be earlier than Enrollment date').show();
+					return false;
+				}else {
+					getField('encounter-date.error').html('Discontinue date, should not be earlier than Enrollment').hide();
+
 				}
 				return true;
 			});
