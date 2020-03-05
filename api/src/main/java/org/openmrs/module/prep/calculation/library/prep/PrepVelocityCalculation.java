@@ -19,7 +19,6 @@ import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.calculation.result.SimpleResult;
 import org.openmrs.module.kenyaemr.calculation.BaseEmrCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.otz.OtzDiscontinuationVelocityCalculation;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.prep.metadata.PrepMetadata;
 
@@ -29,7 +28,7 @@ import java.util.Map;
 
 public class PrepVelocityCalculation extends BaseEmrCalculation {
 	
-	protected static final Log log = LogFactory.getLog(OtzDiscontinuationVelocityCalculation.class);
+	protected static final Log log = LogFactory.getLog(PrepVelocityCalculation.class);
 	
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues,
