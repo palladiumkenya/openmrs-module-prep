@@ -83,6 +83,13 @@
             jq("#vmmc-referrals").hide();
             jq("#referred-header").hide();
 
+            jq('#months-options').hide();
+            jq('#months').hide();
+            jq('#prescription-option').hide();
+            jq('#prescription').hide();
+            jq('#regimen-options').hide();
+            jq('#regimen').hide();
+
 
             jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
             jq('#vmmc-screened :input[type=radio]').change(onVmmcScreenedSelected);
@@ -100,6 +107,7 @@
             jq('#condom-issued :input[type=radio]').click(isCondomsIssued);
             jq('#vmmc-status :input[type=radio]').change(onVmmcStatusSelected);
             jq('#menopause :input[type=checkbox]').click(menopausalStatus);
+            jq('#treatment-plan :input[type=radio]').click(prepStatus);
 
 
             creatininelabs();
@@ -552,6 +560,25 @@
             }else{
                 jq("#treatment-plan input[value=1260]").prop("checked", false);
                // clearHiddenSections([tcaDate]);
+            }
+        }
+        function prepStatus() {
+
+            var status = jq(this).val();
+            if(status ==1256 || status ==1257||status ==162904) {
+                jq('#months-options').show();
+                jq('#months').show();
+                jq('#prescription-option').show();
+                jq('#prescription').show();
+                jq('#regimen-options').show();
+                jq('#regimen').show()
+            }else {
+                jq('#months-options').hide();
+                jq('#months').hide();
+                jq('#prescription-option').hide();
+                jq('#prescription').hide();
+                jq('#regimen-options').hide();
+                jq('#regimen').hide()
             }
         }
 
@@ -1149,11 +1176,34 @@
 
                     </td>
                     <td>
-                        <!-- PrEP TREATMENT PLAN -->
-                        <obs conceptId="165109" id="treatment-plan"
-                             answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
-                             style="radio" required="true" />
+                        <table>
+                            <tr>
+
+                            <td>
+                                <!-- PrEP TREATMENT PLAN -->
+                                <obs conceptId="165109" id="treatment-plan"
+                                     answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
+                                     style="radio" required="true" />
+                            </td>
+
+                                <td id="prescription">Prescribed PrEP today?</td>
+                                <td id="prescription-option"><obs conceptId="1417" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                        1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+                                </td>
+
+                                <td id="regimen">Regimen prescribed</td>
+                                <td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                              answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
+                                </td>
+                                <td id="months">Number of months</td>
+                                <td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="regimen-months-prescribed"/></td>
+
+                            </tr>
+                        </table>
+
+
                     </td>
                     <td width="100">
                         <!-- CONDOMS ISSUED -->
