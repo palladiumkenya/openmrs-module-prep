@@ -99,6 +99,7 @@
                 <ref bean="kenyaemr.prep.prep.report.prepRegister" />
                 <ref bean="kenyaemr.prep.prep.report.moh731B" />
                 <ref bean="kenyaemr.prep.prep.report.enrolledInPREP" />
+                <ref bean="kenyaemr.prep.prep.report.EverEnrolledClientsLinelist" />
             </set>
         </property>
     </bean>
@@ -262,5 +263,15 @@
         <property name="description" value="Clients currently on PrEP" />
         <property name="calculation" value="org.openmrs.module.prep.calculation.library.prep.OnPREPProgramCalculation" />
         <property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+    </bean>
+
+    <bean id="kenyaemr.prep.prep.report.EverEnrolledClientsLinelist" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+        <property name="targetUuid" value="c1797405-86e0-461c-ab19-91067d453b0d" />
+        <property name="name" value="Ever Enrolled on PrEP Clients Line list" />
+        <property name="description" value="A comprehensive line list of clients ever enrolled on PrEP program" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
     </bean>
 </beans>
