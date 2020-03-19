@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Calculate the date of enrollment into HIV Program
  */
-public class DateOfEnrollmentPrepCalculation extends AbstractPatientCalculation {
+public class DateOfEnrollmentInPrepCalculation extends AbstractPatientCalculation {
 	
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues,
