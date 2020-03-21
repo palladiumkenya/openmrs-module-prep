@@ -100,6 +100,7 @@
                 <ref bean="kenyaemr.prep.prep.report.moh731B" />
                 <ref bean="kenyaemr.prep.prep.report.enrolledInPREP" />
                 <ref bean="kenyaemr.prep.prep.report.EverEnrolledClientsLinelist" />
+                <ref bean="kenyaemr.prep.prep.report.prepMissedAppointments" />
             </set>
         </property>
     </bean>
@@ -273,5 +274,16 @@
             <set>
                 <ref bean="kenyaemr.app.reports" />
             </set></property>
+    </bean>
+
+    <bean id="kenyaemr.prep.prep.report.prepMissedAppointments" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+        <property name="targetUuid" value="e7b6d09e-0188-4ba2-86e2-f6bd37d616f0" />
+        <property name="name" value="Missed Appointments" />
+        <property name="description" value="Missed Appointments" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set>
+        </property>
     </bean>
 </beans>
