@@ -18,7 +18,7 @@ import java.util.Date;
 /**
  * Converter to get obsDatetime from an observation
  */
-public class DateEnrolledPrepDateConverter implements DataConverter {
+public class DateOfEnrollmentInPrepDateConverter implements DataConverter {
 	
 	@Override
 	public Object convert(Object original) {

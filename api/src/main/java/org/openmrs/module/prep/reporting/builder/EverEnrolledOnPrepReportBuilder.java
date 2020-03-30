@@ -17,9 +17,9 @@ import org.openmrs.module.kenyacore.report.builder.AbstractHybridReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
 import org.openmrs.module.kenyacore.report.data.patient.definition.CalculationDataDefinition;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
-import org.openmrs.module.prep.calculation.library.prep.DateOfEnrollmentPrepCalculation;
+import org.openmrs.module.prep.calculation.library.prep.DateOfEnrollmentInPrepCalculation;
 import org.openmrs.module.prep.metadata.PrepMetadata;
-import org.openmrs.module.prep.reporting.calculation.converter.DateEnrolledPrepDateConverter;
+import org.openmrs.module.prep.reporting.calculation.converter.DateOfEnrollmentInPrepDateConverter;
 import org.openmrs.module.prep.reporting.cohort.definition.EverEnrolledOnPrepCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.data.DataDefinition;
@@ -85,7 +85,7 @@ public class EverEnrolledOnPrepReportBuilder extends AbstractHybridReportBuilder
 		dsd.addColumn("Sex", new GenderDataDefinition(), "", null);
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Enrollment Date", new CalculationDataDefinition("Enrollment Date",
-		        new DateOfEnrollmentPrepCalculation()), "", new DateEnrolledPrepDateConverter());
+		        new DateOfEnrollmentInPrepCalculation()), "", new DateOfEnrollmentInPrepDateConverter());
 		
 		return dsd;
 	}
