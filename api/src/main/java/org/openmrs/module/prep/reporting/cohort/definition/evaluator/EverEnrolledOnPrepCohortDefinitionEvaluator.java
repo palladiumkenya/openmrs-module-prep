@@ -50,9 +50,9 @@ public class EverEnrolledOnPrepCohortDefinitionEvaluator implements CohortDefini
 		
 		Cohort newCohort = new Cohort();
 		
-		String qry = "SELECT e.patient_id FROM kenyaemr_etl.etl_prep_enrolment e\n" +
-				"join kenyaemr_etl.etl_patient_demographics p on p.patient_id=e.patient_id and p.voided=0\n" +
-				"group by patient_id;";
+		String qry = "SELECT e.patient_id FROM kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "join kenyaemr_etl.etl_patient_demographics p on p.patient_id=e.patient_id and p.voided=0\n"
+		        + "group by patient_id;";
 		
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);

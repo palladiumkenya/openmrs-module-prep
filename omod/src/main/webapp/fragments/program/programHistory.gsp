@@ -46,7 +46,7 @@
 	<% } else if (patientIsEligible) { %>
 
 	<button type="button" onclick="ui.navigate('${ ui.pageLink("prep", "enterForm", [ patientId: patient.id, formUuid: defaultEnrollmentForm.targetUuid, appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
-		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/enroll.png") }" /> Enroll
+		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/enroll.png") }" /> Initiate PrEP
 	</button>
 
 	<% } %>
