@@ -410,10 +410,10 @@
 		<table style="width: 100%">
 			<tr>
 				<td>
-				Enrollment date: <encounterDate id="encounter-date" showTime="true" />
+				Initiation date: <encounterDate id="encounter-date" showTime="true" />
 				</td>
-				<td>Enrolled by: <encounterProvider default="currentUser" /></td>
-				<td>Enrolled at: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" /></td>
+				<td>Initiated by: <encounterProvider default="currentUser" /></td>
+				<td>Initiated at: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" /></td>
 			</tr>
 		</table>
 	</div>
@@ -478,7 +478,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Unique PREP Number (UPN)</td>
+					<td>Unique PrEP Number (UPN)</td>
 					<td> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 						<span id="prep-id"><patient id="upn" field="identifier" identifierTypeId="ac64e5cb-e3e2-4efa-9060-0dd715a843a1" /></span>
 						<span id="upnError" class="error"></span>
@@ -515,23 +515,23 @@
 						<td><obs conceptId="160535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  size="20"/></td>
 					</tr>
 					<tr>
-						<td>Date <i>first</i> enrolled in PREP care:</td>
+						<td>Date <i>first</i> initiated in PrEP care:</td>
 						<td><obs conceptId="160555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="first-enrolled-date"/></td>
 					</tr>
 					<tr>
-						<td>Date started PREP at transferring facility:</td>
+						<td>Date started PrEP at transferring facility:</td>
 						<td><obs conceptId="159599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id ="art-start-date"/></td>
 					</tr>
 				</table>
 			</div>
 		</fieldset>
 		<fieldset id="patient-history" >
-			<legend>PREP Initiation Details</legend>
+			<legend>PrEP Initiation Details</legend>
 
 			<table class="simple-table" >
 
 				<tr>
-					<td>Client has previously been on PREP</td>
+					<td>Client has previously been on PrEP</td>
 					<td>
 						<obs id="art-status" conceptId="160533AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="yes_no" />
 					</td>
