@@ -75,7 +75,7 @@
             jq('input[type=radio].key-population').prop("checked", false);
             jq('#upnError').hide();
             jq("#prep-id input[type=text]").blur(checkForExistingPatientIdentifiers);
-            jq('#population-type :input[type=radio]').change(populationTypeSelected);
+            jq('#population_type :input[type=radio]').change(populationTypeSelected);
 
 
             ageGroup();
@@ -438,7 +438,7 @@
                     <td>
                     <obs conceptId="164930"
                          answerConceptIds="164928,6096,164929"
-                         answerLabels="General Population,Discordant Couple,Key Population" id="population-type"
+                         answerLabels="General Population,Discordant Couple,Key Population" id="population_type"
                          style="radio" />
                     </td>
                     <td id="key-populations">
