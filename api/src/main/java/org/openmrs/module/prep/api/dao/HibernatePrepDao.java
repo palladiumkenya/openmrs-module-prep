@@ -10,11 +10,6 @@
 package org.openmrs.module.prep.api.dao;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.openmrs.api.db.hibernate.DbSession;
-import org.openmrs.api.db.hibernate.DbSessionFactory;
-import org.openmrs.module.prep.Item;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class HibernatePrepDao implements PrEPDAO {
 	
