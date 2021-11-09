@@ -62,6 +62,8 @@
                 jq("#men-with-men input[type=checkbox]").prop("checked", false);
                 jq("#male-sex-worker input[type=checkbox]").prop("checked", false);
                 jq("#pwid input[type=checkbox]").prop("checked", false);
+                jq("#transgender input[type=checkbox]").prop("checked", false);
+                jq("#prisoner input[type=checkbox]").prop("checked", false);
                 jq("#key-populations").hide();
                 clearHiddenSections(keypop);
             }
@@ -116,6 +118,10 @@
                 jq('#key-population:text').val('MSM');
             }else if(KEY_POPULATION == 160579) {
                 jq('#key-population:text').val('FSW');
+            }else if(KEY_POPULATION == 162277) {
+                jq('#key-population:text').val('People in prison and other closed settings');
+            }else if(KEY_POPULATION == 165100) {
+                jq('#key-population:text').val('Transgender');
             }else{
                 jq('#key-population:text').val('NA');
             }
@@ -414,6 +420,19 @@
 				</td>
 				<td>Initiated by: <encounterProvider default="currentUser" /></td>
 				<td>Initiated at: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" /></td>
+
+				<ifMode mode="EDIT">
+					<script type="text/javascript">
+                        jq(function(){
+
+                            var popTypeSelected = getValue('population_type.value');
+                            if (popTypeSelected == 164929 ){
+                                jq("#key-populations").show();
+                            }
+                        });
+					</script>
+				</ifMode>
+
 			</tr>
 		</table>
 	</div>
@@ -442,6 +461,10 @@
                          style="radio" />
                     </td>
                     <td id="key-populations">
+						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="People in prison and other closed settings" style="checkbox"  id="prisoner"/><br/>
+						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165100"
+							 answerLabel="Transgender" style="checkbox"  id="transgender"/><br/>
                         <obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="PWID" style="checkbox"  id="pwid"/><br/>
                         <includeIf velocityTest="$patient.gender == 'M'">
