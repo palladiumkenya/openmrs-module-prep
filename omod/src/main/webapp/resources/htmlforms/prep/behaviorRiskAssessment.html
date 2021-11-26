@@ -250,6 +250,20 @@
 	<div class="ke-form-header">
 		<table width="100%">
 			<tr>
+				<td>
+				      	<ifMode mode="EDIT">
+								<script type="text/javascript">
+                                    jq(function(){
+                                        var otherReasons = getValue('other-reasons.value');
+                                        if(otherReasons ==1065) {
+                                            jq('#other-reasons-specify').show();
+                                        }else {
+                                            jq('#other-reasons-specify').hide();
+                                        }
+                                    });
+								</script>
+						</ifMode>
+				</td>
 				<td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
 				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
 			</tr>
