@@ -11,7 +11,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>prep</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 	<packaging>pom</packaging>
 	<name>Prep in KenyaEMR module</name>
 	<description>Module for managing HIV pre-exposed clients</description>
