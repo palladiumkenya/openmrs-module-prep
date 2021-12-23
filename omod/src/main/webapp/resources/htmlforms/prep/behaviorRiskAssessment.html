@@ -53,6 +53,7 @@
             jq('#risk-profile').hide();
             jq('#hiv-positive-partner-profile-tab').hide();
 			jq('#risk-reduction-specify').hide();
+			jq('#other-reasons-specify').hide();
 			jq('#referral-specify').hide();
 			jq('#risk-education-label').hide();
 			jq('#risk-eduction-offered').hide();
@@ -72,6 +73,7 @@
             onReferralChange();
             jq('#referral input').click(onReferralChange);
 			jq('#risk-eduction-offered :input[type=radio]').click(isRiskEducationOffered);
+			jq('#other-reasons :input[type=radio]').click(onOtherReasonsSelected);
 			jq('#enrolled-in-ccc :input[type=radio]').click(enrolledInccc);
 			jq('#willing-prep :input[type=radio]').click(isNotWilingForPrep);
 			jq('#assessment-outcome :input[type=radio]').click(riskLevel);
@@ -193,6 +195,14 @@
 				jq('#specify-education-offered').hide();
 			}
 		}
+        function onOtherReasonsSelected() {
+            var val = jq(this).val();
+            if(val ==1065) {
+                jq('#other-reasons-specify').show();
+            }else {
+                jq('#other-reasons-specify').hide();
+            }
+        }
 		function enrolledInccc() {
 			var val = jq(this).val();
 			if(val ==1066 || val ==1067) {
@@ -240,6 +250,20 @@
 	<div class="ke-form-header">
 		<table width="100%">
 			<tr>
+				<td>
+				      	<ifMode mode="EDIT">
+								<script type="text/javascript">
+                                    jq(function(){
+                                        var otherReasons = getValue('other-reasons.value');
+                                        if(otherReasons ==1065) {
+                                            jq('#other-reasons-specify').show();
+                                        }else {
+                                            jq('#other-reasons-specify').hide();
+                                        }
+                                    });
+								</script>
+						</ifMode>
+				</td>
 				<td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
 				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
 			</tr>
@@ -381,6 +405,25 @@
 							 style="checkbox" />
 					</td>
 					<td>Injecting drug use with shared needles and/or syringes</td>
+				</tr>
+				<tr>
+					<td>Other reasons:</td>
+					<td>
+						<obs conceptId="165241"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Yes,No" id="other-reasons"
+							 style="radio" />
+					</td>
+					<td>
+						<table class="simple-table" id="other-reasons-specify">
+							<tr>
+								<td>
+									<obs conceptId="160632" cols="20"/>
+
+								</td>
+							</tr>
+						</table>
+					</td>
 				</tr>
 				<tr>
 					<td>Assessment outcome:</td>
