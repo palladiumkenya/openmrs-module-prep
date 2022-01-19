@@ -25,6 +25,7 @@ import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.reporting.cohort.definition.PrEPMissedAppointmentsCohortDefinition;
 import org.openmrs.module.prep.reporting.data.converter.definition.prep.NextAppointmentDateDataDefinition;
 import org.openmrs.module.prep.reporting.data.converter.definition.prep.NumberOfDaysLateDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepPopulatonTypeDataDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.common.SortCriteria;
 import org.openmrs.module.reporting.common.TimeQualifier;
@@ -76,6 +77,7 @@ public class PrEPMissedAppointmentsReportBuilder extends AbstractHybridReportBui
 		dsd.addColumn("Last Visit Date", definition, "", new EncounterDatetimeConverter());
 		dsd.addColumn("Last PrEP Appointment date", new NextAppointmentDateDataDefinition(), "", new DateConverter(
 		        DATE_FORMAT));
+		dsd.addColumn("Population type", new PrepPopulatonTypeDataDefinition(), "");
 		dsd.addColumn("Number of days late", new NumberOfDaysLateDataDefinition(), "");
 		dsd.addColumn("Program", new CalculationDataDefinition("Program", new PatientProgramEnrollmentCalculation()), "",
 		    new PatientProgramEnrollmentConverter());
