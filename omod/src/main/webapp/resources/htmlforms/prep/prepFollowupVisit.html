@@ -108,7 +108,7 @@
             jq('#vmmc-status :input[type=radio]').change(onVmmcStatusSelected);
             jq('#menopause :input[type=checkbox]').click(menopausalStatus);
             jq('#treatment-plan :input[type=radio]').click(prepStatus);
-
+            jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
 
             creatininelabs();
             hepatitisClabs();
@@ -591,6 +591,18 @@
                 jq("#treatment-plan input[value=1260]").prop("checked", false);
               }
         }
+        function adherenceAssessmentSelected() {
+            var val = jq(this).val();
+            var adherenceOutcome = jq('#adherence-outcome');
+            if(val == 1065) {
+                jq("#adherence-outcome input[type=radio]").prop("disabled", false);
+
+            }else{
+                jq("#adherence-outcome input[type=radio]").prop("disabled", true);
+                clearHiddenSections([adherenceOutcome]);
+            }
+        }
+
         clearHiddenSections = function(parentObj) {
             for(var i=0; i &lt; parentObj.length; i++){
                 parentObj[i].find('input[type=radio]').each(function() {
@@ -1153,10 +1165,19 @@
                     </td>
                     <td>
                         <!-- ADHERENCE COUNSELLING DONE -->
-                        <obs conceptId="165104"
+                        <obs conceptId="165104" id="adherence-assessment"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Yes,No"
                              style="radio" required="true"/>
+                    </td>
+                    <td><obs id="adherence-outcome"
+                             conceptId="164075"
+                             style="radio"
+                             answerConceptIds="159405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                        159406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                        159407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Good,Fair,Poor"
+                             answerSeparator="&lt;br /&gt;"/>
                     </td>
                     <!--<td>-->
                         <!--&lt;!&ndash; MEDICALLY INELIGIBLE TO START PrEP &ndash;&gt;-->
