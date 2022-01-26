@@ -81,7 +81,6 @@
         <property name="visitForms">
             <set>
                 <ref bean="prep.prep.form.followupVisit" />
-                <ref bean="prep.prep.form.behaviorRiskAssessment" />
                 <ref bean="prep.prep.form.monthlyRefill" />
                 <ref bean="prep.prep.form.initialFollowup" />
             </set>
@@ -101,6 +100,14 @@
                 <ref bean="kenyaemr.prep.prep.report.EverEnrolledClientsLinelist" />
                 <ref bean="kenyaemr.prep.prep.report.prepMissedAppointments" />
                 <ref bean="kenyaemr.prep.prep.report.CurrentlyOnPrepLineList" />
+            </set>
+        </property>
+    </bean>
+
+    <bean id="prep.config.form" class="org.openmrs.module.kenyacore.form.FormConfiguration">
+        <property name="commonVisitForms">
+            <set>
+                <ref bean="prep.prep.form.behaviorRiskAssessment" />
             </set>
         </property>
     </bean>
