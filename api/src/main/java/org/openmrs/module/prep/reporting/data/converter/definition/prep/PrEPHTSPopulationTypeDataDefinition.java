@@ -16,24 +16,24 @@ import org.openmrs.module.reporting.definition.configuration.ConfigurationProper
 import org.openmrs.module.reporting.evaluation.caching.Caching;
 
 /**
- * Visit ID Column
+ * Column PrEPHTSPopulationTypeDataDefinition
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class PrEPPopulationTypeDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
+public class PrEPHTSPopulationTypeDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
 	
 	public static final long serialVersionUID = 1L;
 	
 	/**
 	 * Default Constructor
 	 */
-	public PrEPPopulationTypeDataDefinition() {
+	public PrEPHTSPopulationTypeDataDefinition() {
 		super();
 	}
 	
 	/**
 	 * Constructor to populate name only
 	 */
-	public PrEPPopulationTypeDataDefinition(String name) {
+	public PrEPHTSPopulationTypeDataDefinition(String name) {
 		super(name);
 	}
 	
