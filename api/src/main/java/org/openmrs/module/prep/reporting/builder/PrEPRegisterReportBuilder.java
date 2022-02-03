@@ -134,7 +134,7 @@ public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Sex", new GenderDataDefinition(), "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Age", new AgeDataDefinition(), "");
-		dsd.addColumn("Population Type", new PrEPPopulationTypeDataDefinition(), "");
+		dsd.addColumn("Population Type", new PrEPHTSPopulationTypeDataDefinition(), "");
 		dsd.addColumn("Assessed", new AssessedDataDefinition(), "");
 		dsd.addColumn("Eligible", new EligibleDataDefinition(), "");
 		dsd.addColumn("PrEP Initiation Date", new InitiationDateDataDefinition(), "");
