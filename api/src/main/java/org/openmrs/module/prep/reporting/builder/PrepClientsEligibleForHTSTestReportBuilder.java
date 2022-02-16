@@ -107,7 +107,7 @@ public class PrepClientsEligibleForHTSTestReportBuilder extends AbstractHybridRe
 		dsd.addColumn("Sex", new GenderDataDefinition(), "", null);
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Population type", new PrepPopulatonTypeDataDefinition(), "");
-		dsd.addColumn("Prep Start date", new InitiationDateDataDefinition(), "");
+		dsd.addColumn("PrEP Start date", new InitiationDateDataDefinition(), "");
 		dsd.addColumn("Last visit date", new PrEPVisitDateDataDefinition(), "");
 		dsd.addColumn("Date due for HIV test", new HivTestDueDateDataDefinition(), "");
 		dsd.addColumn("Next appointment date", new NextAppointmentDateDataDefinition(), "");
