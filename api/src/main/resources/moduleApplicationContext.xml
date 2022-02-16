@@ -297,7 +297,7 @@
             </set>
         </property>
     </bean>
-    <!--Prep eligible for HTS-->
+    <!--PrEP eligible for HTS-->
     <bean id="kenyaemr.prep.prep.report.PrepClientsEligibleForHtsTestLineList" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
         <property name="targetUuid" value="56ff20f5-231b-447f-a58f-681184c3b377" />
         <property name="name" value="PrEP clients eligible for HTS Test" />
