@@ -10,7 +10,7 @@
 package org.openmrs.module.prep.reporting.data.converter.definition.evaluator.prep;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrEPPopulationTypeDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepPopulatonTypeDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -23,10 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 /**
- * Evaluates PersonDataDefinition
+ * Evaluates Population type Data Definition from Prep enrollment
  */
-@Handler(supports = PrEPPopulationTypeDataDefinition.class, order = 50)
-public class PrEPPopulationTypeDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = PrepPopulatonTypeDataDefinition.class, order = 50)
+public class PrepPopulationTypeDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -35,8 +35,8 @@ public class PrEPPopulationTypeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,t.population_type from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_hts_test t\n"
-		        + "on e.patient_id = t.patient_id group by e.patient_id;";
+		String qry = "SELECT patient_id,mid(max(concat(visit_date,case population_type when 164928 then 'General Population' when 6096 then 'Discondant Couple' when 164929 then 'Key Population' end)),11) as population_type \n"
+		        + "FROM kenyaemr_etl.etl_prep_enrolment group by patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
