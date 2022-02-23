@@ -506,8 +506,8 @@
         var adverseReactionSelected = function() {
             var val = getValue('adverse-reactions.value');
             var medicineCausing= jq('.medicine-causing select').val('');
-            var reaction = jq('.reaction select').val('');
-            var severity = jq('.severity select').val('');
+            var reaction = jq('.adverse-drug-reaction select').val('');
+            var severity = jq('.adverse-drug-severity select').val('');
             var onsetDate = jq('.adverse-events-onset-date input').val('');
             var action = jq('.action-taken select').val('');
             if (val == "false" || val == 1066){
@@ -955,14 +955,14 @@
                                                              style="dropdown" id="adverse"
                                                     />
                                                     </td>
-                                                    <td><obs class ="reaction"
+                                                    <td><obs class ="adverse-drug-reaction"
                                                              conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                                              answerConceptIds="1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121629AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148888AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148787AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,143264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118773AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139084AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
                                                                             111061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117399AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121677AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159347AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                                              answerLabels="Unknown,Anaemia,Anaphylaxis,Angioedema,Arrhythmia,Bronchospasm,Cough,Diarrhea,Dystonia,Fever,Flushing,GI upset,Headache,Hepatotoxicity,Hives,Hypertension,Itching,Mental status change,Musculoskeletal pain,Myalgia,Rash,Other"
                                                              style="dropdown"
                                                     /></td>
-                                                    <td><obs  class="severity"
+                                                    <td><obs  class="adverse-drug-severity"
                                                               conceptId="162760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                                               answerConceptIds="1498AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1500AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                                               answerLabels="Mild,Moderate,Severe,Life threatening,Not graded" /></td>
