@@ -60,7 +60,7 @@
 			jq('#specify-education-offered').hide();
             jq('#not-willing-reasons-label').hide();
             jq('#not-willing-reasons').hide();
-
+			jq('#referral-specify').hide();
 
             onPartnerHivStatusChange();
             getField('partner-hiv-status.value').change(onPartnerHivStatusChange);
@@ -70,19 +70,18 @@
             jq('#assessment-outcome input').click(onNoRiskOutcomeChange);
             onRiskReductionChange();
             jq('#risk-reduction input').click(onRiskReductionChange);
-            onReferralChange();
-            jq('#referral input').click(onReferralChange);
+
 			jq('#risk-eduction-offered :input[type=radio]').click(isRiskEducationOffered);
 			jq('#other-reasons :input[type=radio]').click(onOtherReasonsSelected);
 			jq('#enrolled-in-ccc :input[type=radio]').click(enrolledInccc);
 			jq('#willing-prep :input[type=radio]').click(isNotWilingForPrep);
 			jq('#assessment-outcome :input[type=radio]').click(riskLevel);
 
-
-
-
 //Validation on behavior risk assessment
             jq('#assessment-questions  :input[type=checkbox]').change(behaviorQuestionsChecked);
+
+			jq('#referral-services :input[type=checkbox]').click(referralOtherServices);
+			jq('#referral-services :input[type=checkbox]').change(onReferralChange);
 
            beforeSubmit.push(function() {
            	//138643 risk
@@ -178,14 +177,23 @@
                 jq('#risk-reduction-specify').hide();
             }
         }
-        function onReferralChange() {
-            var val = getValue('referral.value');
-            if(val == 1065){
-                jq('#referral-specify').show();
-            }else{
-                jq('#referral-specify').hide();
-            }
-        }
+
+		function referralOtherServices() {
+			if (getValue('other-referral.value') == 5622) {
+				jq('#referral-specify').show();
+			} else {
+				jq('#referral-specify').hide();
+			}
+
+		}
+		function onReferralChange() {
+			var val = getValue('other-referral.value');
+			if(val == 5622){ 
+				jq('#referral-specify').show();
+			}else{
+				jq('#referral-specify').hide();
+			}
+		}
 
 		function isRiskEducationOffered() {
 			var val = jq(this).val();
@@ -489,25 +497,6 @@
 
 					</td>
 				</tr>
-
-				<tr>
-					<td>Referral for other prevention services:</td>
-					<td>
-						<obs conceptId="165093"
-							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="Yes,No" id="referral"
-							 style="radio" />
-					</td>
-					<td>
-						<table class="simple-table" id="referral-specify">
-							<tr>
-								<td>
-									<obs conceptId="161550AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" cols="20"/>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
 			</table>
 		</fieldset>
 		<fieldset id="hiv-positive-partner-profile-tab">
@@ -565,7 +554,40 @@
 				</obsgroup>
 			</table>
 		</fieldset>
-
+		<fieldset id="referral-for-prevention-services">
+			<legend>
+				Referral for other prevention services
+			</legend>
+			<table class="simple-table">
+				<tr>
+					<td>
+						<div id="referral-services" style="float: left; padding-right: 50px">
+							<obs conceptId="165093" answerConceptId="165276"
+								 answerLabel="Risk reduction counselling" style="checkbox" id="risk-reduction-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="159612AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								 answerLabel="Safer sex practices" style="checkbox" id="safer-sex-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="162223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								 answerLabel="VMMC" style="checkbox" id="vmmc-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="161594AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								 answerLabel="Consistent and correct use of male and female Condom with compatible lubricant" style="checkbox" id="condoms-use-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="165149"
+								 answerLabel="Post-exposure prophylaxis" style="checkbox" id="pep-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="164882AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								 answerLabel="Prevention and treatment of STIs" style="checkbox" id="sti-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="165151"
+								 answerLabel="Substance abuse and mental health treatment" style="checkbox" id="mental-health-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="165273"
+								 answerLabel="Prevention of GBV" style="checkbox" id="gbv-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="1459AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								 answerLabel="HIV testing and re-testing" style="checkbox" id="hts-referral"/><br/>
+							<obs conceptId="165093" answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								 answerLabel="Other" style="checkbox" id="other-referral"/>
+							<obs conceptId="161550AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" cols="20" id="referral-specify" style="textarea"/>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
 	</div>
 	<div class="ke-form-footer">
 		<submit />
