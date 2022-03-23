@@ -211,12 +211,12 @@
 
             if (PATIENT_HAS_UPN) {
                 if((/^[0-9]{14}$/.test(upn) === false) &amp;&amp; (/^[0-9]{14}$/.test(upn) === false)) {
-                    jq("#upnError").text("Invalid Unique Patient Number(UPN) Format! Should be mfl,year and 5 digits number, each 5 digits (accepts 11 digits for existing UPN) e.g.10829202200001 ").show();
+                    jq("#upnError").text("Invalid Unique Patient Number(UPN) Format! Should be 5 digit MFL Code, 4 digit year and 5 digit client number e.g.10829202200001 (accepts 11 digits for existing UPN) ").show();
                     return false;
                 }
             } else {
                 if(/^[0-9]{14}$/.test(upn) === false) {
-                    jq("#upnError").text("Invalid Unique Patient Number(UPN) Format! Should be mfl,year and 5 digits number, each 5 digits for new enrollments e.g.10829202200001").show();
+                    jq("#upnError").text("Invalid Unique Patient Number(UPN) Format! Should be 5 digit MFL Code, 4 digit year and 5 digit client number e.g.10829202200001").show();
                     return false;
                 }
             }
