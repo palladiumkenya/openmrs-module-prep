@@ -19,6 +19,10 @@ import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.reporting.cohort.definition.CurrentlyOnPrepCohortDefinition;
 import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepPopulatonTypeDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepEnrollmentDateDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepPatientTypeDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrEPVisitDateDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.NextAppointmentDateDataDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.data.DataDefinition;
 import org.openmrs.module.reporting.data.converter.BirthdateConverter;
@@ -84,6 +88,10 @@ public class CurrentlyOnPrepReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Sex", new GenderDataDefinition(), "", null);
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Population type", new PrepPopulatonTypeDataDefinition(), "");
+		dsd.addColumn("Patient type", new PrepPatientTypeDataDefinition(), "");
+		dsd.addColumn("Enrollment date", new PrepEnrollmentDateDataDefinition(), "");
+		dsd.addColumn("Date attended", new PrEPVisitDateDataDefinition(), "");
+		dsd.addColumn("Next appointment date", new NextAppointmentDateDataDefinition(), "");
 		
 		return dsd;
 	}
