@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 /**
- * Evaluates PersonDataDefinition
+ * Evaluates Prep Date of enrollment
  */
 @Handler(supports = PrepEnrollmentDateDataDefinition.class, order = 50)
 public class PrepEnrollmentDateDataEvaluator implements PersonDataEvaluator {

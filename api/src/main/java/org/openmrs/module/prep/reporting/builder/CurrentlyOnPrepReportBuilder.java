@@ -90,7 +90,7 @@ public class CurrentlyOnPrepReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Population type", new PrepPopulatonTypeDataDefinition(), "");
 		dsd.addColumn("Patient type", new PrepPatientTypeDataDefinition(), "");
 		dsd.addColumn("Enrollment date", new PrepEnrollmentDateDataDefinition(), "");
-		dsd.addColumn("Date attended", new PrEPVisitDateDataDefinition(), "");
+		dsd.addColumn("Visit date", new PrEPVisitDateDataDefinition(), "");
 		dsd.addColumn("Next appointment date", new NextAppointmentDateDataDefinition(), "");
 		
 		return dsd;
