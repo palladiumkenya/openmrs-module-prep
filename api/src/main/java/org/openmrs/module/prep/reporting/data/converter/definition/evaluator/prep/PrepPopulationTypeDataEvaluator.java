@@ -35,7 +35,7 @@ public class PrepPopulationTypeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT patient_id,mid(max(concat(visit_date,case population_type when 164928 then 'General Population' when 6096 then 'Discondant Couple' when 164929 then 'Key Population' when 138643 then 'Priority Population' end)),11) as population_type \n"
+		String qry = "SELECT patient_id,mid(max(concat(visit_date,case population_type when 164928 then 'General Population' when 6096 then 'Discordant Couple' when 164929 then 'Key Population' when 138643 then 'Priority Population' end)),11) as population_type \n"
 		        + "FROM kenyaemr_etl.etl_prep_enrolment group by patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
