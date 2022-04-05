@@ -477,7 +477,7 @@ public class ETLMoh731BCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select max(f.patient_id) patient_id from kenyaemr_etl.etl_prep_followup f\n"
 		        + "                                           inner join (select max(t.patient_id) patient_id, max(date(t.visit_date)) test_date from kenyaemr_etl.etl_hts_test t where t.population_type ='General Population' group by t.patient_id) tst on tst.patient_id = f.patient_id\n"
-		        + "where concat(f.genital_ulcer_desease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
+		        + "where concat(f.genital_ulcer_disease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
 		        + "and f.visit_date between date(:startDate) and date(:endDate)\n" + "group by f.patient_id;";
 		cd.setName("stiDiagnosedOnPreEPGP");
 		cd.setQuery(sqlQuery);
@@ -492,7 +492,7 @@ public class ETLMoh731BCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select max(f.patient_id) patient_id from kenyaemr_etl.etl_prep_followup f\n"
 		        + "                                           inner join (select max(t.patient_id) patient_id, max(date(t.visit_date)) test_date from kenyaemr_etl.etl_hts_test t where t.key_population_type ='Men who have sex with men' group by t.patient_id) tst on tst.patient_id = f.patient_id\n"
-		        + "where concat(f.genital_ulcer_desease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
+		        + "where concat(f.genital_ulcer_disease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
 		        + "  and f.visit_date between date(:startDate) and date(:endDate)\n" + "group by f.patient_id;";
 		cd.setName("stiDiagnosedOnPreEPMSM");
 		cd.setQuery(sqlQuery);
@@ -507,7 +507,7 @@ public class ETLMoh731BCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select max(f.patient_id) patient_id from kenyaemr_etl.etl_prep_followup f\n"
 		        + "                                           inner join (select max(t.patient_id) patient_id, max(date(t.visit_date)) test_date from kenyaemr_etl.etl_hts_test t where t.key_population_type ='Female sex Worker' group by t.patient_id) tst on tst.patient_id = f.patient_id\n"
-		        + "where concat(f.genital_ulcer_desease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
+		        + "where concat(f.genital_ulcer_disease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
 		        + "  and f.visit_date between date(:startDate) and date(:endDate)\n" + "group by f.patient_id;";
 		cd.setName("stiDiagnosedOnPreEPFSW");
 		cd.setQuery(sqlQuery);
@@ -522,7 +522,7 @@ public class ETLMoh731BCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select max(f.patient_id) patient_id from kenyaemr_etl.etl_prep_followup f\n"
 		        + "                                           inner join (select max(t.patient_id) patient_id, max(date(t.visit_date)) test_date from kenyaemr_etl.etl_hts_test t where t.key_population_type ='People who inject drugs' group by t.patient_id) tst on tst.patient_id = f.patient_id\n"
-		        + "where concat(f.genital_ulcer_desease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
+		        + "where concat(f.genital_ulcer_disease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
 		        + "  and f.visit_date between date(:startDate) and date(:endDate)\n" + "group by f.patient_id;";
 		cd.setName("stiDiagnosedOnPreEPPWID");
 		cd.setQuery(sqlQuery);
@@ -537,7 +537,7 @@ public class ETLMoh731BCohortLibrary {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select max(f.patient_id) patient_id from kenyaemr_etl.etl_prep_followup f\n"
 		        + "                                           inner join (select max(t.patient_id) patient_id, max(date(t.visit_date)) test_date from kenyaemr_etl.etl_hts_test t where t.couple_discordant = 'Yes' group by t.patient_id) tst on tst.patient_id = f.patient_id\n"
-		        + "where concat(f.genital_ulcer_desease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
+		        + "where concat(f.genital_ulcer_disease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
 		        + "  and f.visit_date between date(:startDate) and date(:endDate)\n" + "group by f.patient_id;";
 		cd.setName("stiDiagnosedOnPreEPDiscordant");
 		cd.setQuery(sqlQuery);
@@ -718,7 +718,7 @@ public class ETLMoh731BCohortLibrary {
 	public CohortDefinition diagnosedWithSTI() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select max(f.patient_id) patient_id from kenyaemr_etl.etl_prep_followup f\n"
-		        + "                                          where concat(f.genital_ulcer_desease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
+		        + "                                          where concat(f.genital_ulcer_disease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms) is not null\n"
 		        + "  and f.visit_date between date(:startDate) and date(:endDate) group by f.patient_id;";
 		cd.setName("diagnosedWithSTI");
 		cd.setQuery(sqlQuery);
