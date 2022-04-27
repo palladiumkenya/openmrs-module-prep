@@ -179,6 +179,7 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				        && diffInMonthsBtwnFollowUpEnc != 3
 				        && diffInMonthsBtwnMonthlyRefillEnc == 1
 				        && lastMonthlyRefillEncounter != null
+				        && visistDate != null
 				        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
 				            DATE_FORMAT.format(visistDate))) {
 					showFollowUpForm = true;
@@ -192,6 +193,7 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				}
 				if (diffInMonthBtwnLastFollowupEncAndLastRefil == 2
 				        && lastMonthlyRefillEncounter != null
+				        && visistDate != null
 				        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
 				            DATE_FORMAT.format(visistDate))) {
 					showFollowUpForm = true;
@@ -201,6 +203,7 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				        && monthlyRefillEncounters.size() % 2 != 0
 				        && diffInMonthsBtwnMonthlyRefillEnc != 1
 				        && lastMonthlyRefillEncounter != null
+				        && visistDate != null
 				        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
 				            DATE_FORMAT.format(visistDate))) {
 					showFollowUpForm = true;
