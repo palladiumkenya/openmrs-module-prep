@@ -20,4 +20,5 @@ jobs:
           cd /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
           git pull origin mer-2.6
           git status
+          mvn clean install -DskipTests
          
