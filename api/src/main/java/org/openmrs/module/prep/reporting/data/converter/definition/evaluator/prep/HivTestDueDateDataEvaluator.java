@@ -10,7 +10,7 @@
 package org.openmrs.module.prep.reporting.data.converter.definition.evaluator.prep;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.prep.reporting.data.converter.definition.prep.STIDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.HivTestDueDateDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -21,12 +21,13 @@ import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
+import java.util.Date;
 
 /**
- * Evaluates PersonDataDefinition
+ * Evaluates HivTestDueDateDataDefinition
  */
-@Handler(supports = STIDataDefinition.class, order = 50)
-public class STIDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = HivTestDueDateDataDefinition.class, order = 50)
+public class HivTestDueDateDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -35,10 +36,17 @@ public class STIDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select f.patient_id,concat_ws('\\r\\n',f.sti_screened,concat_ws(',',f.genital_ulcer_disease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms)) as sti_scrrened_results\n"
-		        + "from kenyaemr_etl.etl_prep_followup f;";
+		String qry = "select enr.patient_id,\n"
+		        + "  if(enr.visit_date between date_sub(:endDate, interval 1 MONTH) and date(:endDate),date_add(max(t.visit_date), INTERVAL 1 MONTH),date_add(max(t.visit_date), INTERVAL 3 MONTH)) as due_test_date\n"
+		        + "from  kenyaemr_etl.etl_prep_enrolment enr\n"
+		        + "  join (select patient_id, visit_date from kenyaemr_etl.etl_hts_test) t on t.patient_id = enr.patient_id\n"
+		        + "group by t.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
+		Date startDate = (Date) context.getParameterValue("startDate");
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
+		queryBuilder.addParameter("startDate", startDate);
 		queryBuilder.append(qry);
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);

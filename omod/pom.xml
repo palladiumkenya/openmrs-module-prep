@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openmrs.module</groupId>
         <artifactId>prep</artifactId>
-        <version>1.0.1</version>
+        <version>1.2.2</version>
     </parent>
 
     <artifactId>prep-omod</artifactId>
@@ -13,17 +13,16 @@
     <description>Omod project for PrepinKenyaEMR</description>
 
     <dependencies>
-        <!--  <dependency>
-              <groupId>org.openmrs.module</groupId>
-              <artifactId>prep-api</artifactId>
-              <version>1.0.0-SNAPSHOT</version>
-          </dependency>-->
 
         <!-- Begin OpenMRS modules -->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>${project.parent.artifactId}-api</artifactId>
             <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>legacyui-omod</artifactId>
         </dependency>
 
         <dependency>

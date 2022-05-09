@@ -11,7 +11,6 @@ package org.openmrs.module.prep.metadata;
 
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
-import org.simpleframework.xml.util.Dictionary;
 import org.springframework.stereotype.Component;
 
 import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.*;

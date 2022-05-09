@@ -10,7 +10,7 @@
 package org.openmrs.module.prep.reporting.data.converter.definition.evaluator.prep;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.prep.reporting.data.converter.definition.prep.STIDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepPopulatonTypeDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -23,10 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 /**
- * Evaluates PersonDataDefinition
+ * Evaluates Population type Data Definition from Prep enrollment
  */
-@Handler(supports = STIDataDefinition.class, order = 50)
-public class STIDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = PrepPopulatonTypeDataDefinition.class, order = 50)
+public class PrepPopulationTypeDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
@@ -35,8 +35,8 @@ public class STIDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select f.patient_id,concat_ws('\\r\\n',f.sti_screened,concat_ws(',',f.genital_ulcer_disease,vaginal_discharge,cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms)) as sti_scrrened_results\n"
-		        + "from kenyaemr_etl.etl_prep_followup f;";
+		String qry = "SELECT patient_id,mid(max(concat(visit_date,case population_type when 164928 then 'General Population' when 6096 then 'Discordant Couple' when 164929 then 'Key Population' when 138643 then 'Priority Population' end)),11) as population_type \n"
+		        + "FROM kenyaemr_etl.etl_prep_enrolment group by patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

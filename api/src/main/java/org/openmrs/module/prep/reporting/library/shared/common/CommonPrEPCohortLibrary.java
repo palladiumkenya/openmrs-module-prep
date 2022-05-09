@@ -12,7 +12,6 @@ package org.openmrs.module.prep.reporting.library.shared.common;
 import org.openmrs.Concept;
 import org.openmrs.EncounterType;
 import org.openmrs.Program;
-import org.openmrs.api.PatientSetService;
 import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.kenyacore.report.cohort.definition.CalculationCohortDefinition;
 import org.openmrs.module.prep.calculation.library.prep.EligibleForPrepProgramCalculation;
@@ -21,6 +20,7 @@ import org.openmrs.module.reporting.common.DurationUnit;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.cohort.definition.BaseObsCohortDefinition.TimeModifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -229,7 +229,7 @@ public class CommonPrEPCohortLibrary {
 		cd.setName("has obs between dates");
 		cd.setQuestion(question);
 		cd.setOperator(SetComparator.IN);
-		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setTimeModifier(TimeModifier.ANY);
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		if (answers.length > 0) {
@@ -366,7 +366,7 @@ public class CommonPrEPCohortLibrary {
 		cd.setName("dispensed medication between");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
+		cd.setTimeModifier(TimeModifier.ANY);
 		//cd.setQuestion(Dictionary.getConcept(Dictionary.MEDICATION_ORDERS));
 		cd.setValueList(Arrays.asList(concepts));
 		cd.setOperator(SetComparator.IN);

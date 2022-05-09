@@ -81,7 +81,6 @@
         <property name="visitForms">
             <set>
                 <ref bean="prep.prep.form.followupVisit" />
-                <ref bean="prep.prep.form.behaviorRiskAssessment" />
                 <ref bean="prep.prep.form.monthlyRefill" />
                 <ref bean="prep.prep.form.initialFollowup" />
             </set>
@@ -98,9 +97,18 @@
             <set>
                 <ref bean="kenyaemr.prep.prep.report.prepRegister" />
                 <ref bean="kenyaemr.prep.prep.report.moh731B" />
-                <ref bean="kenyaemr.prep.prep.report.enrolledInPREP" />
                 <ref bean="kenyaemr.prep.prep.report.EverEnrolledClientsLinelist" />
                 <ref bean="kenyaemr.prep.prep.report.prepMissedAppointments" />
+                <ref bean="kenyaemr.prep.prep.report.CurrentlyOnPrepLineList" />
+                <ref bean="kenyaemr.prep.prep.report.PrepClientsEligibleForHtsTestLineList" />
+            </set>
+        </property>
+    </bean>
+
+    <bean id="prep.config.form" class="org.openmrs.module.kenyacore.form.FormConfiguration">
+        <property name="commonVisitForms">
+            <set>
+                <ref bean="prep.prep.form.behaviorRiskAssessment" />
             </set>
         </property>
     </bean>
@@ -258,12 +266,15 @@
         <property name="template" value="prep:MoH731B_Template.xls" />
     </bean>
 
-    <bean id="kenyaemr.prep.prep.report.enrolledInPREP" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+
+    <bean id="kenyaemr.prep.prep.report.CurrentlyOnPrepLineList" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
         <property name="targetUuid" value="4c102857-4a76-49d7-a002-eaa197afb339" />
         <property name="name" value="Clients currently on PrEP" />
-        <property name="description" value="Clients currently on PrEP" />
-        <property name="calculation" value="org.openmrs.module.prep.calculation.library.prep.OnPREPProgramCalculation" />
-        <property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+        <property name="description" value="A comprehensive line list of clients currently on PrEP program" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
     </bean>
 
     <bean id="kenyaemr.prep.prep.report.EverEnrolledClientsLinelist" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
@@ -285,5 +296,15 @@
                 <ref bean="kenyaemr.app.reports" />
             </set>
         </property>
+    </bean>
+    <!--PrEP eligible for HTS-->
+    <bean id="kenyaemr.prep.prep.report.PrepClientsEligibleForHtsTestLineList" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+        <property name="targetUuid" value="56ff20f5-231b-447f-a58f-681184c3b377" />
+        <property name="name" value="PrEP clients eligible for HTS Test" />
+        <property name="description" value="A comprehensive line list of PrEP clients eligible for HTS Test" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
     </bean>
 </beans>
