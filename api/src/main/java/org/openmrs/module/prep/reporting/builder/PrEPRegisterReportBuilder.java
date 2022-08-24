@@ -177,7 +177,7 @@ public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 		    ReportUtils.map(moh731BIndicators.continuingOnPrEP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "numberRestartingPrEP", "Number restarting (Restart) PrEP",
-		    ReportUtils.map(moh731BIndicators.restartingPrEP(), indParams), ageAndSexDisaggregation,
+		    ReportUtils.map(moh731BIndicators.restartingPrEPTotal(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "numberCurrentOnPrEP", "Number current on PrEP(New+Refill+Restart)",
 		    ReportUtils.map(moh731BIndicators.currentOnPrEP(), indParams), ageAndSexDisaggregation,

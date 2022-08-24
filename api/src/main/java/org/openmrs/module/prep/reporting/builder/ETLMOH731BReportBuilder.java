@@ -60,10 +60,16 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 	
 	ColumnParameters f_30_and_above = new ColumnParameters(null, "30+, Female", "gender=F|age=30+");
 	
+	ColumnParameters allFemales = new ColumnParameters(null, "Females", "gender=F");
+	
+	ColumnParameters allMales = new ColumnParameters(null, "Males", "gender=M");
+	
 	ColumnParameters colTotal = new ColumnParameters(null, "Total", "");
 	
 	List<ColumnParameters> ageAndSexDisaggregation = Arrays.asList(m_15_to_19, f_15_to_19, m_20_to_24, f_20_to_24,
 	    m_25_to_30, f_25_to_30, m_30_and_above, f_30_and_above);
+	
+	List<ColumnParameters> sexDisaggregation = Arrays.asList(allFemales, allMales);
 	
 	@Override
 	protected List<Parameter> getParameters(ReportDescriptor reportDescriptor) {
@@ -92,135 +98,158 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		String indParams = "startDate=${startDate},endDate=${endDate}";
 		
 		// 1.0 Prep summary report
-		EmrReportingUtils.addRow(cohortDsd, "HV01", "General Population",
-		    ReportUtils.map(moh731BIndicators.eligibleForPreEPGP(), indParams), ageAndSexDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-General Population",
+		    ReportUtils.map(moh731BIndicators.eligibleForPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "HV01", "MSM",
-		    ReportUtils.map(moh731BIndicators.eligibleForPreEPMSM(), indParams), ageAndSexDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-MSM",
+		    ReportUtils.map(moh731BIndicators.eligibleForPrEPMSM(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
-		EmrReportingUtils.addRow(cohortDsd, "HV01", "FSW",
-		    ReportUtils.map(moh731BIndicators.eligibleForPreEPFSW(), indParams), ageAndSexDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-FSW",
+		    ReportUtils.map(moh731BIndicators.eligibleForPrEPFSW(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
-		EmrReportingUtils.addRow(cohortDsd, "HV01", "PWID",
-		    ReportUtils.map(moh731BIndicators.eligibleForPreEPPWID(), indParams), ageAndSexDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-PWID",
+		    ReportUtils.map(moh731BIndicators.eligibleForPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
-		EmrReportingUtils.addRow(cohortDsd, "HV01", "Discordant Couple",
-		    ReportUtils.map(moh731BIndicators.eligibleForPreEPDiscordant(), indParams), ageAndSexDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-Discordant Couple",
+		    ReportUtils.map(moh731BIndicators.eligibleForPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
+		EmrReportingUtils.addRow(cohortDsd, "HV01", "Total Eligible for PrEP",
+		    ReportUtils.map(moh731BIndicators.eligibleForPrEP(), indParams), sexDisaggregation, Arrays.asList("01", "02"));
 		
 		//2.0 Number newly initiated on PrEP
-		EmrReportingUtils.addRow(cohortDsd, "HV02", "General Population",
-		    ReportUtils.map(moh731BIndicators.newOnPrEPGP(), indParams), ageAndSexDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "HV02", "Initiated on PrEP-General Population",
+		    ReportUtils.map(moh731BIndicators.newlyOnPrePGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "HV02", "MSM", ReportUtils.map(moh731BIndicators.newOnPrEPMSM(), indParams),
-		    ageAndSexDisaggregation, Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
-		EmrReportingUtils.addRow(cohortDsd, "HV02", "FSW", ReportUtils.map(moh731BIndicators.newOnPrEPFSW(), indParams),
-		    ageAndSexDisaggregation, Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
-		EmrReportingUtils.addRow(cohortDsd, "HV02", "PWID", ReportUtils.map(moh731BIndicators.newOnPrEPPWID(), indParams),
-		    ageAndSexDisaggregation, Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
-		EmrReportingUtils.addRow(cohortDsd, "HV02", "Discordant Couple",
+		EmrReportingUtils.addRow(cohortDsd, "HV02", "Initiated on PrEP-MSM",
+		    ReportUtils.map(moh731BIndicators.newOnPrEPMSM(), indParams), ageAndSexDisaggregation,
+		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		EmrReportingUtils.addRow(cohortDsd, "HV02", "Initiated on PrEP-FSW",
+		    ReportUtils.map(moh731BIndicators.newOnPrEPFSW(), indParams), ageAndSexDisaggregation,
+		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		EmrReportingUtils.addRow(cohortDsd, "HV02", "Initiated on PrEP-PWID",
+		    ReportUtils.map(moh731BIndicators.newOnPrEPPWID(), indParams), ageAndSexDisaggregation,
+		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
+		EmrReportingUtils.addRow(cohortDsd, "HV02", "Initiated on PrEP-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.newOnPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
+		EmrReportingUtils.addRow(cohortDsd, "HV02", "Total initiated on PrEP",
+		    ReportUtils.map(moh731BIndicators.newOnPrEP(), indParams), sexDisaggregation, Arrays.asList("01", "02"));
 		
 		//3.0 Number continuing PrEP - Refill
-		EmrReportingUtils.addRow(cohortDsd, "HV03", "General Population",
-		    ReportUtils.map(moh731BIndicators.refillingPrEPGP(), indParams), ageAndSexDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "HV03", "PrEP refill-General Population",
+		    ReportUtils.map(moh731BIndicators.refillOnPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "HV03", "MSM", ReportUtils.map(moh731BIndicators.refillingPrEPMSM(), indParams),
-		    ageAndSexDisaggregation, Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
-		EmrReportingUtils.addRow(cohortDsd, "HV03", "FSW", ReportUtils.map(moh731BIndicators.refillingPrEPFSW(), indParams),
-		    ageAndSexDisaggregation, Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
-		EmrReportingUtils.addRow(cohortDsd, "HV03", "PWID",
+		EmrReportingUtils.addRow(cohortDsd, "HV03", "PrEP refill-MSM",
+		    ReportUtils.map(moh731BIndicators.refillingPrEPMSM(), indParams), ageAndSexDisaggregation,
+		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		EmrReportingUtils.addRow(cohortDsd, "HV03", "PrEP refill-FSW",
+		    ReportUtils.map(moh731BIndicators.refillingPrEPFSW(), indParams), ageAndSexDisaggregation,
+		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		EmrReportingUtils.addRow(cohortDsd, "HV03", "PrEP refill-PWID",
 		    ReportUtils.map(moh731BIndicators.refillingPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
-		EmrReportingUtils.addRow(cohortDsd, "HV03", "Discordant Couple",
+		EmrReportingUtils.addRow(cohortDsd, "HV03", "PrEP refill-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.refillingPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
+		EmrReportingUtils.addRow(cohortDsd, "HV03", "Total PrEP refill",
+		    ReportUtils.map(moh731BIndicators.refillOnPrEPTotal(), indParams), sexDisaggregation, Arrays.asList("01", "02"));
 		
 		//4.0 Number restarting PrEP
-		EmrReportingUtils.addRow(cohortDsd, "HV04", "General Population",
+		EmrReportingUtils.addRow(cohortDsd, "HV04", "Restarting PrEP-General Population",
 		    ReportUtils.map(moh731BIndicators.restartingPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "HV04", "MSM",
+		EmrReportingUtils.addRow(cohortDsd, "HV04", "Restarting PrEP-MSM",
 		    ReportUtils.map(moh731BIndicators.restartingPrEPMSM(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
-		EmrReportingUtils.addRow(cohortDsd, "HV04", "FSW",
+		EmrReportingUtils.addRow(cohortDsd, "HV04", "Restarting PrEP-FSW",
 		    ReportUtils.map(moh731BIndicators.restartingPrEPFSW(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
-		EmrReportingUtils.addRow(cohortDsd, "HV04", "PWID",
+		EmrReportingUtils.addRow(cohortDsd, "HV04", "Restarting PrEP-PWID",
 		    ReportUtils.map(moh731BIndicators.restartingPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
-		EmrReportingUtils.addRow(cohortDsd, "HV04", "Discordant Couple",
+		EmrReportingUtils.addRow(cohortDsd, "HV04", "Restarting PrEP-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.restartingPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
+		EmrReportingUtils.addRow(cohortDsd, "HV04", "Total Restarting PrEP",
+		    ReportUtils.map(moh731BIndicators.restartingPrEPTotal(), indParams), sexDisaggregation,
+		    Arrays.asList("01", "02"));
 		
 		//5.0 Number currently on PrEP (New + Refill + Restart)
-		EmrReportingUtils.addRow(cohortDsd, "HV05", "General Population",
+		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-General Population",
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "HV05", "MSM",
+		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-MSM",
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPMSM(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
-		EmrReportingUtils.addRow(cohortDsd, "HV05", "FSW",
+		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-FSW",
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPFSW(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
-		EmrReportingUtils.addRow(cohortDsd, "HV05", "PWID",
+		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-PWID",
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
-		EmrReportingUtils.addRow(cohortDsd, "HV05", "Discordant Couple",
+		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
+		EmrReportingUtils.addRow(cohortDsd, "HV05", "Total Current on PrEP",
+		    ReportUtils.map(moh731BIndicators.currentOnPrEP(), indParams), sexDisaggregation, Arrays.asList("01", "02"));
 		
 		//6.0 Number tested HIV+ while on PrEP
-		EmrReportingUtils.addRow(cohortDsd, "HV06", "General Population",
+		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-General Population",
 		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "HV06", "MSM",
+		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-MSM",
 		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPMSM(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
-		EmrReportingUtils.addRow(cohortDsd, "HV06", "FSW",
+		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-FSW",
 		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPFSW(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
-		EmrReportingUtils.addRow(cohortDsd, "HV06", "PWID",
+		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-PWID",
 		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
-		EmrReportingUtils.addRow(cohortDsd, "HV06", "Discordant Couple",
+		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
+		EmrReportingUtils.addRow(cohortDsd, "HV06", "Total Sero-converted",
+		    ReportUtils.map(moh731BIndicators.seroConvertedOnPrEP(), indParams), sexDisaggregation,
+		    Arrays.asList("01", "02"));
 		
 		//7.0 Number diagnosed with STI
-		EmrReportingUtils.addRow(cohortDsd, "HV07", "General Population",
+		EmrReportingUtils.addRow(cohortDsd, "HV07", "Diagnosed with STI-General Population",
 		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "HV07", "MSM",
+		EmrReportingUtils.addRow(cohortDsd, "HV07", "Diagnosed with STI-MSM",
 		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIMSM(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
-		EmrReportingUtils.addRow(cohortDsd, "HV07", "FSW",
+		EmrReportingUtils.addRow(cohortDsd, "HV07", "Diagnosed with STI-FSW",
 		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIFSW(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
-		EmrReportingUtils.addRow(cohortDsd, "HV07", "PWID",
+		EmrReportingUtils.addRow(cohortDsd, "HV07", "Diagnosed with STI-PWID",
 		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
-		EmrReportingUtils.addRow(cohortDsd, "HV07", "Discordant Couple",
+		EmrReportingUtils.addRow(cohortDsd, "HV07", "Diagnosed with STI-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
+		EmrReportingUtils.addRow(cohortDsd, "HV07", "Total Diagnosed with STI",
+		    ReportUtils.map(moh731BIndicators.diagnosedWithSTI(), indParams), sexDisaggregation, Arrays.asList("01", "02"));
 		
 		//8.0 Number Discontinued PrEP
-		EmrReportingUtils.addRow(cohortDsd, "HV08", "General Population",
+		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discontinued from PrEP-General Population",
 		    ReportUtils.map(moh731BIndicators.discontinuedPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
-		EmrReportingUtils.addRow(cohortDsd, "HV08", "MSM",
+		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discontinued from PrEP-MSM",
 		    ReportUtils.map(moh731BIndicators.discontinuedPrEPMSM(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
-		EmrReportingUtils.addRow(cohortDsd, "HV08", "FSW",
+		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discontinued from PrEP-FSW",
 		    ReportUtils.map(moh731BIndicators.discontinuedPrEPFSW(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
-		EmrReportingUtils.addRow(cohortDsd, "HV08", "PWID",
+		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discontinued from PrEP-PWID",
 		    ReportUtils.map(moh731BIndicators.discontinuedPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
-		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discordant Couple",
+		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discontinued from PrEP-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.discontinuedPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
+		EmrReportingUtils.addRow(cohortDsd, "HV08", "Total Discontinued from PrEP",
+		    ReportUtils.map(moh731BIndicators.discontinuedPrEP(), indParams), sexDisaggregation, Arrays.asList("01", "02"));
 		
 		return cohortDsd;
 		

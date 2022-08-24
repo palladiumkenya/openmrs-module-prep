@@ -9,7 +9,6 @@
  */
 package org.openmrs.module.prep.reporting.library.ETLReports.MOH731B;
 
-import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,13 +33,13 @@ public class ETLMoh731BIndicatorLibrary {
 	// 1.Number Eligible for PrEP
 	
 	/**
-	 * Number GP Eligible for PrEP covers indicators HV01- - HV01-
+	 * Number GP Eligible for PrEP covers indicators HV01
 	 * 
 	 * @return indicator
 	 */
-	public CohortIndicator eligibleForPreEPGP() {
+	public CohortIndicator eligibleForPrEPGP() {
 		return cohortIndicator("GP eligible for PrEP",
-		    map(moh731BCohorts.eligibleForPreEPGP(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.eligibleForPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -48,9 +47,9 @@ public class ETLMoh731BIndicatorLibrary {
 	 * 
 	 * @return indicator
 	 */
-	public CohortIndicator eligibleForPreEPMSM() {
+	public CohortIndicator eligibleForPrEPMSM() {
 		return cohortIndicator("MSM Individuals eligible for PrEP",
-		    map(moh731BCohorts.eligibleForPreEPMSM(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.eligibleForPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -58,9 +57,9 @@ public class ETLMoh731BIndicatorLibrary {
 	 * 
 	 * @return indicator
 	 */
-	public CohortIndicator eligibleForPreEPFSW() {
+	public CohortIndicator eligibleForPrEPFSW() {
 		return cohortIndicator("FSW Individuals eligible for PrEP",
-		    map(moh731BCohorts.eligibleForPreEPFSW(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.eligibleForPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -68,9 +67,9 @@ public class ETLMoh731BIndicatorLibrary {
 	 * 
 	 * @return indicator
 	 */
-	public CohortIndicator eligibleForPreEPPWID() {
+	public CohortIndicator eligibleForPrEPPWID() {
 		return cohortIndicator("PWID Individuals eligible for PrEP",
-		    map(moh731BCohorts.eligibleForPreEPPWID(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.eligibleForPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -78,9 +77,19 @@ public class ETLMoh731BIndicatorLibrary {
 	 * 
 	 * @return indicator
 	 */
-	public CohortIndicator eligibleForPreEPDiscordant() {
+	public CohortIndicator eligibleForPrEPDiscordant() {
 		return cohortIndicator("Discordant Individuals eligible for PrEP",
-		    map(moh731BCohorts.eligibleForPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.eligibleForPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number Eligible for PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator eligibleForPrEP() {
+		return cohortIndicator("Discordant Individuals eligible for PrEP",
+		    map(moh731BCohorts.eligibleForPrEP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	// 2.Number Newly on PrEP
@@ -89,9 +98,9 @@ public class ETLMoh731BIndicatorLibrary {
 	 * 
 	 * @return indicator
 	 */
-	public CohortIndicator newOnPrEPGP() {
+	public CohortIndicator newlyOnPrePGP() {
 		return cohortIndicator("GP Individuals newly on PrEP",
-		    map(moh731BCohorts.newlyOnPreEPGP(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.newlyOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -101,7 +110,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator newOnPrEPMSM() {
 		return cohortIndicator("MSM Individuals newly on PrEP",
-		    map(moh731BCohorts.newlyOnPreEPMSM(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.newlyOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -111,7 +120,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator newOnPrEPFSW() {
 		return cohortIndicator("FSW Individuals newly on PrEP",
-		    map(moh731BCohorts.newlyOnPreEPFSW(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.newlyOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -121,7 +130,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator newOnPrEPPWID() {
 		return cohortIndicator("PWID Individuals newly on PrEP",
-		    map(moh731BCohorts.newlyOnPreEPPWID(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.newlyOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -131,7 +140,15 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator newOnPrEPDiscordant() {
 		return cohortIndicator("Discordant Individuals Newly on PrEP",
-		    map(moh731BCohorts.newlyOnPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.newlyOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Newly started on PrEP
+	 */
+	public CohortIndicator newOnPrEP() {
+		return cohortIndicator("Individuals Newly on PrEP",
+		    map(moh731BCohorts.newOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	// 3.Number Refilling on PrEP
@@ -140,9 +157,9 @@ public class ETLMoh731BIndicatorLibrary {
 	 * 
 	 * @return indicator
 	 */
-	public CohortIndicator refillingPrEPGP() {
+	public CohortIndicator refillOnPrEPGP() {
 		return cohortIndicator("GP Individuals refill on PrEP",
-		    map(moh731BCohorts.refillOnPreEPGP(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.refillOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -152,7 +169,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator refillingPrEPMSM() {
 		return cohortIndicator("MSM Individuals refill on PrEP",
-		    map(moh731BCohorts.refillOnPreEPMSM(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.refillOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -162,7 +179,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator refillingPrEPFSW() {
 		return cohortIndicator("FSW Individuals refill on PrEP",
-		    map(moh731BCohorts.refillOnPreEPFSW(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.refillOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -172,7 +189,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator refillingPrEPPWID() {
 		return cohortIndicator("PWID Individuals refill on PrEP",
-		    map(moh731BCohorts.refillOnPreEPPWID(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.refillOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -182,7 +199,15 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator refillingPrEPDiscordant() {
 		return cohortIndicator("Discordant Individuals Refill on PrEP",
-		    map(moh731BCohorts.refillOnPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.refillOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Refill PrEP within the reporting period
+	 */
+	public CohortIndicator refillOnPrEPTotal() {
+		return cohortIndicator("Individuals Refilling PrEP",
+		    map(moh731BCohorts.refillOnPrEPTotal(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	// 4.Number Restart on PrEP
@@ -193,7 +218,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator restartingPrEPGP() {
 		return cohortIndicator("GP Individuals restart on PrEP",
-		    map(moh731BCohorts.restartOnPreEPGP(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.restartOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -203,7 +228,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator restartingPrEPMSM() {
 		return cohortIndicator("MSM Individuals restart on PrEP",
-		    map(moh731BCohorts.restartOnPreEPMSM(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.restartOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -213,7 +238,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator restartingPrEPFSW() {
 		return cohortIndicator("FSW Individuals restart on PrEP",
-		    map(moh731BCohorts.restartOnPreEPFSW(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.restartOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -223,7 +248,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator restartingPrEPPWID() {
 		return cohortIndicator("PWID Individuals restart on PrEP",
-		    map(moh731BCohorts.restartOnPreEPPWID(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.restartOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -236,6 +261,16 @@ public class ETLMoh731BIndicatorLibrary {
 		    map(moh731BCohorts.restartOnPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
+	/**
+	 * Total restarting PrEP
+	 * 
+	 * @return
+	 */
+	public CohortIndicator restartingPrEPTotal() {
+		return cohortIndicator("Individuals Restart PrEP",
+		    map(moh731BCohorts.restartingPrEPTotal(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
 	// 5.Number Current on PrEP
 	/**
 	 * Number GP Current on PrEP HV05
@@ -244,7 +279,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator currentlyOnPrEPGP() {
 		return cohortIndicator("GP Individuals current on PrEP",
-		    map(moh731BCohorts.currentOnPreEPGP(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.currentOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -254,7 +289,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator currentlyOnPrEPMSM() {
 		return cohortIndicator("MSM Individuals current on PrEP",
-		    map(moh731BCohorts.currentOnPreEPMSM(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.currentOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -264,7 +299,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator currentlyOnPrEPFSW() {
 		return cohortIndicator("FSW Individuals current on PrEP",
-		    map(moh731BCohorts.currentOnPreEPFSW(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.currentOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -274,7 +309,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator currentlyOnPrEPPWID() {
 		return cohortIndicator("PWID Individuals current on PrEP",
-		    map(moh731BCohorts.currentOnPreEPPWID(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.currentOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -284,7 +319,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator currentlyOnPrEPDiscordant() {
 		return cohortIndicator("Discordant Individuals Current on PrEP",
-		    map(moh731BCohorts.currentOnPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.currentOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	// 6.Number Positive while on PrEP
@@ -295,7 +330,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator seroconvertedOnPrEPGP() {
 		return cohortIndicator("GP Individuals positive on PrEP",
-		    map(moh731BCohorts.positiveOnPreEPGP(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.positiveOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -305,7 +340,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator seroconvertedOnPrEPMSM() {
 		return cohortIndicator("MSM Individuals Positive on PrEP",
-		    map(moh731BCohorts.positiveOnPreEPMSM(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.positiveOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -315,7 +350,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator seroconvertedOnPrEPFSW() {
 		return cohortIndicator("FSW Individuals Positive on PrEP",
-		    map(moh731BCohorts.positiveOnPreEPFSW(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.positiveOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -325,7 +360,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator seroconvertedOnPrEPPWID() {
 		return cohortIndicator("PWID Individuals Positive on PrEP",
-		    map(moh731BCohorts.positiveOnPreEPPWID(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.positiveOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -335,7 +370,17 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator seroconvertedOnPrEPDiscordant() {
 		return cohortIndicator("Discordant Individuals Positive on PrEP",
-		    map(moh731BCohorts.positiveOnPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.positiveOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	/**
+	 * Number sero-converted while on PrEP
+	 * 
+	 * @return indicator
+	 */
+	public CohortIndicator seroConvertedOnPrEP() {
+		return cohortIndicator("Individuals Positive on PrEP",
+		    map(moh731BCohorts.positiveOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	// 7.Number STI Diagnosed while on PrEP
@@ -346,7 +391,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator diagnosedWithSTIGP() {
 		return cohortIndicator("GP Individuals STI disgnosed on PrEP",
-		    map(moh731BCohorts.stiDiagnosedOnPreEPGP(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.stiDiagnosedOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -356,7 +401,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator diagnosedWithSTIMSM() {
 		return cohortIndicator("MSM Individuals STI disgnosed on PrEP",
-		    map(moh731BCohorts.stiDiagnosedOnPreEPMSM(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.stiDiagnosedOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -366,7 +411,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator diagnosedWithSTIFSW() {
 		return cohortIndicator("FSW Individuals STI disgnosed on PrEP",
-		    map(moh731BCohorts.stiDiagnosedOnPreEPFSW(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.stiDiagnosedOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -376,7 +421,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator diagnosedWithSTIPWID() {
 		return cohortIndicator("PWID Individuals STI disgnosed on PrEP",
-		    map(moh731BCohorts.stiDiagnosedOnPreEPPWID(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.stiDiagnosedOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -386,7 +431,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator diagnosedWithSTIDiscordant() {
 		return cohortIndicator("Discordant Individuals STI disgnosed on PrEP",
-		    map(moh731BCohorts.stiDiagnosedOnPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.stiDiagnosedOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	// 8.Number Discontinued on PrEP
@@ -397,7 +442,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator discontinuedPrEPGP() {
 		return cohortIndicator("GP Individuals Discontinued PrEP",
-		    map(moh731BCohorts.discontinuedPreEPGP(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.discontinuedPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -407,7 +452,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator discontinuedPrEPMSM() {
 		return cohortIndicator("MSM Individuals Discontinued PrEP",
-		    map(moh731BCohorts.discontinuedPreEPMSM(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.discontinuedPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -417,7 +462,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator discontinuedPrEPFSW() {
 		return cohortIndicator("FSW Individuals Discontinued PrEP",
-		    map(moh731BCohorts.discontinuedPreEPFSW(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.discontinuedPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -427,7 +472,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator discontinuedPrEPPWID() {
 		return cohortIndicator("PWID Individuals Discontinued PrEP",
-		    map(moh731BCohorts.discontinuedPreEPPWID(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.discontinuedPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -437,7 +482,7 @@ public class ETLMoh731BIndicatorLibrary {
 	 */
 	public CohortIndicator discontinuedPrEPDiscordant() {
 		return cohortIndicator("Discordant Individuals Discontinued PrEP",
-		    map(moh731BCohorts.discontinuedPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+		    map(moh731BCohorts.discontinuedPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -448,16 +493,6 @@ public class ETLMoh731BIndicatorLibrary {
 	public CohortIndicator assessedForHIVRisk() {
 		return cohortIndicator("Number assessed for HIV risk",
 		    map(moh731BCohorts.assessedForHIVRisk(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	/**
-	 * Number Eligible for PrEP
-	 * 
-	 * @return indicator
-	 */
-	public CohortIndicator eligibleForPrEP() {
-		return cohortIndicator("Eligible for PrEP",
-		    map(moh731BCohorts.eligibleForPrEP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
@@ -478,16 +513,6 @@ public class ETLMoh731BIndicatorLibrary {
 	public CohortIndicator continuingOnPrEP() {
 		return cohortIndicator("Number continuing PrEP",
 		    map(moh731BCohorts.continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-	}
-	
-	/**
-	 * Number Restarting PrEP
-	 * 
-	 * @return indicator
-	 */
-	public CohortIndicator restartingPrEP() {
-		return cohortIndicator("Number restarting PrEP",
-		    map(moh731BCohorts.restartingPrEP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**
