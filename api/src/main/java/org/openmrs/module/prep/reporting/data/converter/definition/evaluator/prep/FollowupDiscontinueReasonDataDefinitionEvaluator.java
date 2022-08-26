@@ -10,7 +10,11 @@
 package org.openmrs.module.prep.reporting.data.converter.definition.evaluator.prep;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.prep.reporting.data.converter.definition.prep.STIDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.DiscontinueReasonDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.FollowupDiscontinueReasonDataDefinition;
+import org.openmrs.module.reporting.data.encounter.EvaluatedEncounterData;
+import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
+import org.openmrs.module.reporting.data.encounter.evaluator.EncounterDataEvaluator;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -25,18 +29,19 @@ import java.util.Map;
 /**
  * Evaluates PersonDataDefinition
  */
-@Handler(supports = STIDataDefinition.class, order = 50)
-public class STIDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = FollowupDiscontinueReasonDataDefinition.class, order = 50)
+public class FollowupDiscontinueReasonDataDefinitionEvaluator implements EncounterDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
 	
-	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
+	public EvaluatedEncounterData evaluate(EncounterDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
-		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
+		EvaluatedEncounterData c = new EvaluatedEncounterData(definition, context);
 		
-		String qry = "select f.patient_id,concat_ws('\\r\\n',f.sti_screened,concat_ws(',',f.genital_ulcer_disease,f.vaginal_discharge,f.cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms)) as sti_scrrened_results\n"
-		        + "from kenyaemr_etl.etl_prep_followup f;";
+		String qry = "select pf.encounter_id,pd.discontinue_reason as discontinuation_reason\n"
+		        + "from kenyaemr_etl.etl_prep_discontinuation pd\n"
+		        + "inner join kenyaemr_etl.etl_prep_followup pf on pf.patient_id = pd.patient_id and pf.visit_date = pd.visit_date;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

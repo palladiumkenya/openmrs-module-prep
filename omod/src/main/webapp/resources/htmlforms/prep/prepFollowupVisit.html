@@ -89,6 +89,9 @@
             jq('#prescription').hide();
             jq('#regimen-options').hide();
             jq('#regimen').hide();
+            jq('#fair-bad-reasons').hide();
+            jq('#fair-bad-label').hide();
+            jq('#reason-fair-other').hide();
 
 
             jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
@@ -109,6 +112,8 @@
             jq('#menopause :input[type=checkbox]').click(menopausalStatus);
             jq('#treatment-plan :input[type=radio]').click(prepStatus);
             jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
+            jq('#adherence-outcome :input[type=radio]').change(adherenceOutcomeSelected);
+            jq('#fair-bad').click(showOptionsOther);
 
             creatininelabs();
             hepatitisClabs();
@@ -602,7 +607,27 @@
                 clearHiddenSections([adherenceOutcome]);
             }
         }
+        function adherenceOutcomeSelected() {
+            var val = jq(this).val();
+            if(val ==159406 || val ==159407) {
+                jq('#fair-bad-reasons').show();
+                jq('#fair-bad-label').show();
+            }else {
+                jq('#fair-bad-reasons').hide();
+                jq('#fair-bad-label').hide();
+                getField('fair-bad.value').prop("selectedIndex", 0);
+                getField('reason-fair-other.value').val("");
+            }
+        }
 
+        function showOptionsOther() {
+            var fairReason = jq('#fair-bad option:selected').val();
+            if(fairReason ==5622) {
+                jq('#reason-fair-other').show();
+            }else {
+                jq('#reason-fair-other').hide();
+            }
+        }
         clearHiddenSections = function(parentObj) {
             for(var i=0; i &lt; parentObj.length; i++){
                 parentObj[i].find('input[type=radio]').each(function() {
@@ -1150,6 +1175,7 @@
                     <td> <b>Signs and symptoms <br /> of acute HIV</b> </td>
                     <td> <b>Adherence counselling done</b> </td>
                     <td> <b>Adherence outcome</b> </td>
+                    <td width="250" id="fair-bad-label">If fair or poor, what are the reasons?	</td>
                     <td width="250"> <b>Contraindication for PrEP</b> </td>
                     <td> <b>PrEP treatment plan </b> </td>
                     <td> <b>Condoms issued</b> </td>
@@ -1179,13 +1205,15 @@
                              answerLabels="Good,Fair,Poor"
                              answerSeparator="&lt;br /&gt;"/>
                     </td>
-                    <!--<td>-->
-                        <!--&lt;!&ndash; MEDICALLY INELIGIBLE TO START PrEP &ndash;&gt;-->
-                        <!--<obs conceptId="165105"-->
-                             <!--answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"-->
-                             <!--answerLabel="Yes,No"-->
-                             <!--style="radio"/>-->
-                    <!--</td>-->
+                    <td id="fair-bad-reasons"><obs  id="fair-bad" conceptId="160582"   answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164997,160583AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1064AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160584AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                        1056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+                                                    answerLabels="Sick,None,Stigma,Shared with others, No perceived risk,Pill burden, Lost/out of pills
+						,Separated from HIV+,Side effects, Forgot,Other-specify" style="dropdown" />
+                        <br/> <br/>
+                        <obs id="reason-fair-other" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+                    </td>
                     <td width="100">
                         <!-- CONTRAINDICATIONS FOR PrEP -->
 

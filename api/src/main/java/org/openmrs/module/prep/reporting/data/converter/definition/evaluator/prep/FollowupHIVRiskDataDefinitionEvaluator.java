@@ -10,7 +10,11 @@
 package org.openmrs.module.prep.reporting.data.converter.definition.evaluator.prep;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.prep.reporting.data.converter.definition.prep.STIDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.FollowupHIVRiskDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.HIVRiskDataDefinition;
+import org.openmrs.module.reporting.data.encounter.EvaluatedEncounterData;
+import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
+import org.openmrs.module.reporting.data.encounter.evaluator.EncounterDataEvaluator;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -23,20 +27,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 /**
- * Evaluates PersonDataDefinition
+ * Evaluates Encounter DataDefinition
  */
-@Handler(supports = STIDataDefinition.class, order = 50)
-public class STIDataEvaluator implements PersonDataEvaluator {
+@Handler(supports = FollowupHIVRiskDataDefinition.class, order = 50)
+public class FollowupHIVRiskDataDefinitionEvaluator implements EncounterDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
 	
-	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
+	public EvaluatedEncounterData evaluate(EncounterDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
-		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
+		EvaluatedEncounterData c = new EvaluatedEncounterData(definition, context);
 		
-		String qry = "select f.patient_id,concat_ws('\\r\\n',f.sti_screened,concat_ws(',',f.genital_ulcer_disease,f.vaginal_discharge,f.cervical_discharge,f.pid,f.urethral_discharge,f.anal_discharge,f.other_sti_symptoms)) as sti_scrrened_results\n"
-		        + "from kenyaemr_etl.etl_prep_followup f;";
+		String qry = "select pf.encounter_id,\n"
+		        + "(case ba.assessment_outcome when 'Risk' then 'Yes'\n"
+		        + "                            when 'No risk' then \"Yes\" else 'No' end) as at_risk\n"
+		        + "from kenyaemr_etl.etl_prep_behaviour_risk_assessment ba\n"
+		        + "inner join kenyaemr_etl.etl_prep_followup pf on pf.patient_id = ba.patient_id and pf.visit_date = ba.visit_date;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);

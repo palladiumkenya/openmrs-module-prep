@@ -9,44 +9,35 @@
  */
 package org.openmrs.module.prep.reporting.cohort.definition;
 
+import org.openmrs.Encounter;
 import org.openmrs.module.reporting.cohort.definition.BaseCohortDefinition;
 import org.openmrs.module.reporting.common.Localized;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationProperty;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationPropertyCachingStrategy;
 import org.openmrs.module.reporting.evaluation.caching.Caching;
+import org.openmrs.module.reporting.query.BaseQuery;
+import org.openmrs.module.reporting.query.encounter.definition.EncounterQuery;
 
 import java.util.Date;
 
 /**
- * PrEP cohort definition
+ * PrEP followup register cohort definition
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-@Localized("reporting.PrEPRegisterCohortDefinition")
-public class PrEPRegisterCohortDefinition extends BaseCohortDefinition {
+@Localized("reporting.PrEPFollowupRegisterCohortDefinition")
+public class PrEPFollowupRegisterCohortDefinition extends BaseQuery<Encounter> implements EncounterQuery {
 	
 	@ConfigurationProperty
-	private Date startDate;
+	private Date asOfDate;
 	
-	@ConfigurationProperty
-	private Date endDate;
-	
-	public PrEPRegisterCohortDefinition() {
+	public PrEPFollowupRegisterCohortDefinition() {
 	}
 	
-	public Date getStartDate() {
-		return startDate;
+	public Date getAsOfDate() {
+		return asOfDate;
 	}
 	
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setAsOfDate(Date asOfDate) {
+		this.asOfDate = asOfDate;
 	}
-	
-	public Date getEndDate() {
-		return endDate;
-	}
-	
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-	
 }
