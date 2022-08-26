@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Cohort;
 import org.openmrs.annotation.Handler;
 
-import org.openmrs.module.prep.reporting.cohort.definition.PrEPRegisterCohortDefinition;
+import org.openmrs.module.prep.reporting.cohort.definition.PrEPInitiationRegisterCohortDefinition;
 import org.openmrs.module.reporting.cohort.EvaluatedCohort;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.evaluator.CohortDefinitionEvaluator;
@@ -30,10 +30,10 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Evaluator for PrEP Cohort Register
+ * Evaluator for PrEP Initiation Cohort Register
  */
-@Handler(supports = { PrEPRegisterCohortDefinition.class })
-public class PrEPRegisterCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
+@Handler(supports = { PrEPInitiationRegisterCohortDefinition.class })
+public class PrEPInitiationRegisterCohortDefinitionEvaluator implements CohortDefinitionEvaluator {
 	
 	private final Log log = LogFactory.getLog(this.getClass());
 	
@@ -43,7 +43,7 @@ public class PrEPRegisterCohortDefinitionEvaluator implements CohortDefinitionEv
 	@Override
 	public EvaluatedCohort evaluate(CohortDefinition cohortDefinition, EvaluationContext context) throws EvaluationException {
 		
-		PrEPRegisterCohortDefinition definition = (PrEPRegisterCohortDefinition) cohortDefinition;
+		PrEPInitiationRegisterCohortDefinition definition = (PrEPInitiationRegisterCohortDefinition) cohortDefinition;
 		
 		if (definition == null)
 			return null;

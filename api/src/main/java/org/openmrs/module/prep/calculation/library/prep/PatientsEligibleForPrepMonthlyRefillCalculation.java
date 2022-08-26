@@ -175,7 +175,7 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 			if (diffInMonthBtwnLastFollowupEncAndLastRefil == 1
 			        && setRestartWhenFollowup == 0
 			        && missAppointmentBySevenDays == 0
-					&& visistDate != null
+			        && visistDate != null
 			        && !DATE_FORMAT.format(lastFollowUp.getEncounterDatetime()).equalsIgnoreCase(
 			            DATE_FORMAT.format(visistDate))) {
 				showMonthlyRefillForm = true;

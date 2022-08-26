@@ -19,7 +19,7 @@ import org.openmrs.module.kenyaemr.reporting.ColumnParameters;
 import org.openmrs.module.kenyaemr.reporting.EmrReportingUtils;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.prep.metadata.PrepMetadata;
-import org.openmrs.module.prep.reporting.cohort.definition.PrEPRegisterCohortDefinition;
+import org.openmrs.module.prep.reporting.cohort.definition.PrEPInitiationRegisterCohortDefinition;
 import org.openmrs.module.prep.reporting.data.converter.definition.prep.*;
 import org.openmrs.module.prep.reporting.library.ETLReports.MOH731B.ETLMoh731BIndicatorLibrary;
 import org.openmrs.module.prep.reporting.library.shared.common.CommonPrEPDimensionLibrary;
@@ -46,8 +46,8 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-@Builds({ "kenyaemr.prep.prep.report.prepRegister" })
-public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
+@Builds({ "kenyaemr.prep.prep.report.prepInitiationRegister" })
+public class PrEPInitiationRegisterReportBuilder extends AbstractHybridReportBuilder {
 	
 	@Autowired
 	private CommonPrEPDimensionLibrary commonDimensions;
@@ -84,7 +84,7 @@ public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 	}
 	
 	protected Mapped<CohortDefinition> allClientsCohort() {
-		CohortDefinition cd = new PrEPRegisterCohortDefinition();
+		CohortDefinition cd = new PrEPInitiationRegisterCohortDefinition();
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setName("PrEPCohortRegister");
@@ -111,7 +111,7 @@ public class PrEPRegisterReportBuilder extends AbstractHybridReportBuilder {
 	
 	protected PatientDataSetDefinition prepDataSetDefinition() {
 		
-		PatientDataSetDefinition dsd = new PatientDataSetDefinition("PrEPRegister");
+		PatientDataSetDefinition dsd = new PatientDataSetDefinition("PrEPInitiationRegister");
 		dsd.addSortCriteria("DOBAndAge", SortCriteria.SortDirection.DESC);
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));

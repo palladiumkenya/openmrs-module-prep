@@ -95,7 +95,8 @@
         <property name="order" value="590" />
         <property name="reports">
             <set>
-                <ref bean="kenyaemr.prep.prep.report.prepRegister" />
+                <ref bean="kenyaemr.prep.prep.report.prepInitiationRegister" />
+                <ref bean="kenyaemr.prep.prep.report.prepFollowupRegister" />
                 <ref bean="kenyaemr.prep.prep.report.moh731B" />
                 <ref bean="kenyaemr.prep.prep.report.EverEnrolledClientsLinelist" />
                 <ref bean="kenyaemr.prep.prep.report.prepMissedAppointments" />
@@ -242,16 +243,28 @@
         <property name="htmlform" value="prep:prep/initialFollowup.html" />
     </bean>
     <!--Reports-->
-    <bean id="kenyaemr.prep.prep.report.prepRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+    <bean id="kenyaemr.prep.prep.report.prepInitiationRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
         <property name="targetUuid" value="bf36c434-b99a-42a4-9926-a9a5686eca49" />
-        <property name="name" value="PrEP Register" />
-        <property name="description" value="PrEP Register" />
+        <property name="name" value="PrEP Initiation Register" />
+        <property name="description" value="PrEP Initiation Register" />
         <property name="apps">
             <set>
                 <ref bean="kenyaemr.app.reports" />
             </set></property>
         <property name="template" value="prep:PrEP_Register_Template.xls" />
-        <property name="repeatingSection" value="sheet:1,row:8,dataset:PrEPRegister" />
+        <property name="repeatingSection" value="sheet:1,row:8,dataset:PrEPInitiationRegister" />
+    </bean>
+
+    <bean id="kenyaemr.prep.prep.report.prepFollowupRegister" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+        <property name="targetUuid" value="d71fffe2-f525-496d-90e6-e8bd8c9fa0b6" />
+        <property name="name" value="PrEP Followup Register" />
+        <property name="description" value="PrEP Followup Register" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.reports" />
+            </set></property>
+        <property name="template" value="prep:PrEP_Followup_Register_Template.xls" />
+        <property name="repeatingSection" value="sheet:1,row:7,dataset:PrEPFollowupRegister" />
     </bean>
 
     <!--Moh731B-->
