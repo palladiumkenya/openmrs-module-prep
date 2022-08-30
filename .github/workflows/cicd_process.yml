@@ -26,5 +26,5 @@ jobs:
           sudo cp /apps/github-workflows/kenyaemr-modules/openmrs-module-prep/omod/target/prep-*.omod /var/lib/OpenMRS/modules/
           sudo chown -R tomcat:tomcat /var/lib/OpenMRS/modules/
           sudo chmod +r /var/lib/OpenMRS/modules/*.omod
-          sudo service tomcat9 restart
+          sudo systemctl start/stop tomcat
          
