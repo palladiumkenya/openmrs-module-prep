@@ -17,15 +17,22 @@ jobs:
         port: ${{ secrets.PORT }}
         command_timeout: 200m
         script: |
-          git config --global --add safe.directory /apps/github-workflows/kenyaemr-modules/openmrs-module-prep      
-          cd /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
-          git pull origin master
-          git status
-          mvn clean install -DskipTests
-          sudo rm -rf /var/lib/OpenMRS/modules/prep-*.omod
-          sudo cp /apps/github-workflows/kenyaemr-modules/openmrs-module-prep/omod/target/prep-*.omod /var/lib/OpenMRS/modules/
-          sudo chown -R tomcat:tomcat /var/lib/OpenMRS/modules/
-          sudo chmod +r /var/lib/OpenMRS/modules/*.omod
-          sudo systemctl stop tomcat
-          sudo systemctl start tomcat
-         
+           cd /apps/github-workflows/kenyaemr-modules
+           sudo rm -rf openmrs-module-prep
+           sudo mkdir openmrs-module-prep
+           sudo chown -R cicd2:cicd2 openmrs-module-prep
+           git config --global --add safe.directory /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
+           cd /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
+           git clone https://github.com/palladiumkenya/openmrs-module-kenyaemr.git .
+           sudo chown -R cicd2:cicd2 /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
+           git status
+           mvn license:format
+           mvn clean install -DskipTests
+           sudo rm -rf /var/lib/OpenMRS/modules/kenyaemr-*.omod
+           sudo cp /apps/github-workflows/kenyaemr-modules/openmrs-module-prep/omod/target/kenyaemr-*.omod /var/lib/OpenMRS/modules/
+           sudo chown -R tomcat:tomcat /var/lib/OpenMRS/modules/
+           sudo chmod +r /var/lib/OpenMRS/modules/*.omod
+           sudo chmod 755 /var/lib/OpenMRS/modules/*.omod
+           sudo systemctl stop tomcat
+           sudo systemctl start tomcat
+     
