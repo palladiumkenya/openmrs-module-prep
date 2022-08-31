@@ -37,17 +37,10 @@ public class FollowupHIVRiskReasonDataDefinitionEvaluator implements EncounterDa
 		EvaluatedEncounterData c = new EvaluatedEncounterData(definition, context);
 		
 		String qry = "select pf.encounter_id,\n"
-		        + "concat_ws(',',(case ba.sexual_partner_hiv_status when 'HIV Positive' then 'Partner of Known HIV+ status'\n"
-		        + "                                   when 'Unknown' then 'Partner of Unknown HIV status' else '' end),\n"
-		        + "              (case ba.sex_with_multiple_partners when 'Yes' then 'Multiple Partners' else '' end),\n"
-		        + "    (case ba.ipv_gbv when 'Yes' then 'Ongoing IPV/GBV' else '' end),\n"
-		        + "    (case ba.transactional_sex when 'Yes' then 'Engaging in transactional sex' else '' end),\n"
-		        + "    (case ba.recent_sti_infected when 'Yes' then 'Recent STI in the past 6 months' else '' end),\n"
-		        + "    (case ba.recurrent_pep_use when 'Yes' then 'Recurrent use of PEP' else '' end),\n"
-		        + "    (case ba.recurrent_sex_under_influence when 'Yes' then 'Sex Under Influence' else '' end),\n"
-		        + "    (case ba.inconsistent_no_condom_use when 'Yes' then 'Inconsistent or no condom use' else '' end),\n"
-		        + "    (case ba.sharing_drug_needles when 'Yes' then 'Sharing drug needles' else '' end),\n"
-		        + "    (case ba.other_reasons when 'Yes' then 'Other reasons' else '' end)) as risk_reason\n"
+		        + "concat_ws('\\r\\n',ba.assessment_outcome,(concat_ws(',',COALESCE(if(sexual_partner_hiv_status='HIV Positive',1,null)),COALESCE(if(sex_with_multiple_partners='Yes',9,null)),\n"
+		        + " COALESCE(if(transactional_sex='Yes',2,null)),COALESCE(if(recent_sti_infected='Yes',3,null)),\n"
+		        + " COALESCE(if(recurrent_pep_use='Yes',4,null)),COALESCE(if(recurrent_sex_under_influence='Yes',5,null)),\n"
+		        + " COALESCE(if(inconsistent_no_condom_use='Yes',6,null)),COALESCE(if(sharing_drug_needles='Yes',7,null)),COALESCE(if(ipv_gbv='Yes',10,null))))) as risk_reason\n"
 		        + "from kenyaemr_etl.etl_prep_behaviour_risk_assessment ba\n"
 		        + "inner join kenyaemr_etl.etl_prep_followup pf on pf.patient_id = ba.patient_id and pf.visit_date = ba.visit_date;";
 		
