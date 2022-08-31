@@ -26,13 +26,11 @@ jobs:
            git clone https://github.com/palladiumkenya/openmrs-module-kenyaemr.git .
            sudo chown -R cicd2:cicd2 /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
            git status
-           mvn license:format
            mvn clean install -DskipTests
            sudo rm -rf /var/lib/OpenMRS/modules/kenyaemr-*.omod
-           sudo cp /apps/github-workflows/kenyaemr-modules/openmrs-module-prep/omod/target/kenyaemr-*.omod /var/lib/OpenMRS/modules/
+           sudo cp /apps/github-workflows/kenyaemr-modules/openmrs-module-prep/omod/target/prep-*.omod /var/lib/OpenMRS/modules/
            sudo chown -R tomcat:tomcat /var/lib/OpenMRS/modules/
            sudo chmod +r /var/lib/OpenMRS/modules/*.omod
            sudo chmod 755 /var/lib/OpenMRS/modules/*.omod
            sudo systemctl stop tomcat
            sudo systemctl start tomcat
-     
