@@ -93,6 +93,9 @@
 			jq('#prescription').hide();
 			jq('#regimen-options').hide();
 			jq('#regimen').hide();
+            jq('#fair-bad-reasons').hide();
+            jq('#fair-bad-label').hide();
+            jq('#reason-fair-other').hide();
 
 
 
@@ -113,6 +116,9 @@
 			jq('#vmmc-status :input[type=radio]').change(onVmmcStatusSelected);
 			jq('#menopause :input[type=checkbox]').click(menopausalStatus);
 			jq('#treatment-plan :input[type=radio]').click(prepStatus);
+            jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
+            jq('#adherence-outcome :input[type=radio]').change(adherenceOutcomeSelected);
+            jq('#fair-bad').click(showOptionsOther);
 
 
 
@@ -593,6 +599,38 @@
 				jq('#regimen').hide()
 			}
 		}
+
+        function adherenceAssessmentSelected() {
+            var val = jq(this).val();
+            var adherenceOutcome = jq('#adherence-outcome');
+            if(val == 1065) {
+                jq("#adherence-outcome input[type=radio]").prop("disabled", false);
+
+            }else{
+                jq("#adherence-outcome input[type=radio]").prop("disabled", true);
+                clearHiddenSections([adherenceOutcome]);
+            }
+        }
+        function adherenceOutcomeSelected() {
+            var val = jq(this).val();
+            if(val ==159406 || val ==159407) {
+                jq('#fair-bad-reasons').show();
+                jq('#fair-bad-label').show();
+            }else {
+                jq('#fair-bad-reasons').hide();
+                jq('#fair-bad-label').hide();
+                getField('fair-bad.value').prop("selectedIndex", 0);
+                getField('reason-fair-other.value').val("");
+            }
+        }
+        function showOptionsOther() {
+            var fairReason = jq('#fair-bad option:selected').val();
+            if(fairReason ==5622) {
+                jq('#reason-fair-other').show();
+            }else {
+                jq('#reason-fair-other').hide();
+            }
+        }
 		clearHiddenSections = function(parentObj) {
 			for(var i=0; i &lt; parentObj.length; i++){
 				parentObj[i].find('input[type=radio]').each(function() {
@@ -611,6 +649,38 @@
 		}
 
 	</script>
+	<ifMode mode="EDIT">
+		<script type="text/javascript">
+            jq(function(){
+
+                var adherenceOutcome = getValue('adherence-outcome.value');
+                if(adherenceOutcome ==159406 || adherenceOutcome ==159407) {
+                    jq('#fair-bad-reasons').show();
+                    jq('#fair-bad-label').show();
+                }else {
+                    jq('#fair-bad-reasons').hide();
+                    jq('#fair-bad-label').hide();
+                    getField('fair-bad.value').prop("selectedIndex", 0);
+                    getField('reason-fair-other.value').val("");
+                }
+                var fairReason = jq('#fair-bad option:selected').val();
+                if(fairReason ==5622) {
+                    jq('#reason-fair-other').show();
+                }else {
+                    jq('#reason-fair-other').hide();
+                }
+
+                var adherenceAssessment = getValue('adherence-assessment.value');
+                if(adherenceAssessment == 1065) {
+                    jq("#adherence-outcome input[type=radio]").prop("disabled", false);
+
+                }else{
+                    jq("#adherence-outcome input[type=radio]").prop("disabled", true);
+                    clearHiddenSections([adherenceOutcome]);
+                }
+            });
+		</script>
+	</ifMode>
 
 	<div class="ke-form-header">
 		<table width="100%">
@@ -1134,6 +1204,8 @@
 				<tr>
 					<td> <b>Signs and symptoms <br /> of acute HIV</b> </td>
 					<td> <b>Adherence counselling done</b> </td>
+					<td> <b>Adherence outcome</b> </td>
+					<td width="250" id="fair-bad-label">If fair or poor, what are the reasons?	</td>
 					<td width="250"> <b>Contraindication for PrEP</b> </td>
 					<td> <b>PrEP treatment plan </b> </td>
 					<td> <b>Condoms issued</b> </td>
@@ -1147,10 +1219,28 @@
 							 style="radio" required="true"/>
 					</td>
 					<td>
-						<obs conceptId="165104"
+						<obs conceptId="165104" id="adherence-assessment"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							 answerLabel="Yes,No"
 							 style="radio" required="true" />
+					</td>
+					<td><obs id="adherence-outcome"
+							 conceptId="164075"
+							 style="radio"
+							 answerConceptIds="159405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                        159406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                        159407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Good,Fair,Poor"
+							 answerSeparator="&lt;br /&gt;"/>
+					</td>
+					<td id="fair-bad-reasons"><obs  id="fair-bad" conceptId="160582"   answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164997,160583AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						1064AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160584AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                        1056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+													answerLabels="Sick,None,Stigma,Shared with others, No perceived risk,Pill burden, Lost/out of pills
+						,Separated from HIV+,Side effects, Forgot,Other-specify" style="dropdown" />
+						<br/> <br/>
+						<obs id="reason-fair-other" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 					</td>
 					<td width="100">
 						<obs conceptId="165106" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None" style="checkbox"/> <br />
