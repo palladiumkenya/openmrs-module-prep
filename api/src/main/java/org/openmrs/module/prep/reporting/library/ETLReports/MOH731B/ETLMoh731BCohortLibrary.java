@@ -42,7 +42,7 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition generalPopulation() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) between date(:startDate) and date(:endDate)\n"
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) <= date(:endDate)\n"
 		        + "group by t.patient_id\n"
 		        + "having mid(max(concat(t.visit_date,t.population_type)),11) = 'General Population';";
 		cd.setName("General Population");
@@ -74,7 +74,7 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition msm() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) between date(:startDate) and date(:endDate)\n"
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) <= date(:endDate)\n"
 		        + "group by t.patient_id\n"
 		        + "having mid(max(concat(t.visit_date,t.key_population_type)),11) = 'Men who have sex with men';";
 		cd.setName("MSM");
@@ -93,7 +93,7 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition fsw() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) between date(:startDate) and date(:endDate)\n"
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) <= date(:endDate)\n"
 		        + "group by t.patient_id\n"
 		        + "having mid(max(concat(t.visit_date,t.key_population_type)),11) = 'Female sex worker';";
 		cd.setName("FSW");
@@ -112,7 +112,7 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition pwid() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) between date(:startDate) and date(:endDate)\n"
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) <= date(:endDate)\n"
 		        + "group by t.patient_id\n"
 		        + "having mid(max(concat(t.visit_date,t.key_population_type)),11) = 'People who inject drugs';";
 		cd.setName("PWID");
@@ -131,7 +131,7 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition discordantCoupleInHTS() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) between date(:startDate) and date(:endDate)\n"
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) <= date(:endDate)\n"
 		        + "    group by t.patient_id\n"
 		        + "    having mid(max(concat(t.visit_date,t.couple_discordant)),11) = 'Yes';";
 		cd.setName("Discordant couple");
@@ -150,8 +150,8 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition currentWeight() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_patient_triage t where date(t.visit_date) between date(:startDate) and date(:endDate)\n"
-		        + "group by t.patient_id\n" + "having mid(max(concat(t.visit_date,t.weight)),11) >= 35;";
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_patient_triage t where date(t.visit_date) <= date(:endDate)\n"
+		        + "group by t.patient_id having mid(max(concat(t.visit_date,t.weight)),11) >= 35;";
 		cd.setName("Current weight");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -169,7 +169,7 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition currentNegativeInitialHIVTestResult() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) between date(:startDate) and date(:endDate)\n"
+		String sqlQuery = "select t.patient_id from kenyaemr_etl.etl_hts_test t where date(t.visit_date) <= date(:endDate)\n"
 		        + "group by t.patient_id\n"
 		        + "having mid(max(concat(t.visit_date,t.final_test_result)),11) = 'Negative'\n"
 		        + "   and mid(max(concat(t.visit_date,t.test_type)),11) = 1\n"
@@ -214,7 +214,7 @@ public class ETLMoh731BCohortLibrary {
 		        + "                   mid(max(concat(x.visit_date, x.lab_test)), 11)    as lab_test,\n"
 		        + "                   mid(max(concat(x.visit_date, x.test_result)), 11) as test_result\n"
 		        + "            from kenyaemr_etl.etl_laboratory_extract x\n"
-		        + "            where date(x.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "            where date(x.visit_date) <= date(:endDate)\n"
 		        + "            group by x.patient_id) x on d.patient_id = x.patient_id group by d.patient_id\n"
 		        + "      having (x.lab_test = 790 and x.test_result >= 50) or test_done is null)a;";
 		cd.setName("Serum creatinine");
@@ -529,7 +529,7 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition followupOnPrEP() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select f.patient_id,f.visit_date\n" + "from kenyaemr_etl.etl_prep_followup f\n"
+		String sqlQuery = "select f.patient_id from kenyaemr_etl.etl_prep_followup f\n"
 		        + "where date(f.visit_date) between date(:startDate) and date(:endDate);";
 		cd.setName("followupOnPrEP");
 		cd.setQuery(sqlQuery);
