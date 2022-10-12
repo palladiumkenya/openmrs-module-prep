@@ -97,7 +97,7 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		cohortDsd.addDimension("gender", ReportUtils.map(commonDimensions.gender()));
 		String indParams = "startDate=${startDate},endDate=${endDate}";
 		
-		// 1.0 Prep summary report
+		// 1.0 PrEP summary report
 		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-General Population",
 		    ReportUtils.map(moh731BIndicators.eligibleForPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
