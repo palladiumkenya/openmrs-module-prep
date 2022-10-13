@@ -42,8 +42,11 @@ public class PrEPFollowupRegisterCohortDefinitionEvaluator implements EncounterQ
 		EncounterQueryResult queryResult = new EncounterQueryResult(definition, context);
 		
 		String qry = "select v.encounter_id from kenyaemr_etl.etl_prep_followup v\n"
-		        + "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=v.patient_id\n"
-		        + "where v.form='prep-consultation' and v.visit_date between date(:startDate) and date(:endDate);";
+		        + "\tinner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=v.patient_id\n"
+		        + "where v.form='prep-consultation' and v.visit_date between date(:startDate) and date(:endDate) group by encounter_id\n"
+		        + "UNION\n" + "select r.encounter_id from kenyaemr_etl.etl_prep_monthly_refill r\n"
+		        + "\tinner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=r.patient_id\n"
+		        + "where r.visit_date between date(:startDate) and date(:endDate) group by encounter_id;";
 		
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);
