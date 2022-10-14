@@ -39,9 +39,12 @@ public class PrEPVisitMonthDataEvaluator implements EncounterDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedEncounterData c = new EvaluatedEncounterData(definition, context);
 		
-		String qry = "select v.encounter_id,\n" + "\t     timestampdiff(MONTH,e.visit_date, v.visit_date) as visit_month\n"
-		        + "        from kenyaemr_etl.etl_prep_followup v\n"
-		        + "        inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=v.patient_id;";
+		String qry = "select  v.encounter_id as encounter_id,timestampdiff(MONTH,e.visit_date,v.visit_date) as visit_month  from kenyaemr_etl.etl_prep_followup v\n"
+		        + "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=v.patient_id\n"
+		        + "where v.form='prep-consultation' group by encounter_id\n"
+		        + "UNION\n"
+		        + "select  r.encounter_id as encounter_id,timestampdiff(MONTH,e.visit_date,r.visit_date) as visit_month from kenyaemr_etl.etl_prep_monthly_refill r\n"
+		        + "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=r.patient_id\n" + "group by encounter_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
