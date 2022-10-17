@@ -15,9 +15,13 @@ import org.openmrs.module.kenyacore.report.ReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.kenyacore.report.builder.AbstractHybridReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
+import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.reporting.cohort.definition.CurrentlyOnPrepCohortDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.CurrentOnPrepVisitMonthDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.FollowupPrEPRemarksDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.LinkedToCareDataDefinition;
 import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepPopulatonTypeDataDefinition;
 import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepEnrollmentDateDataDefinition;
 import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrepPatientTypeDataDefinition;
@@ -79,6 +83,11 @@ public class CurrentlyOnPrepReportBuilder extends AbstractHybridReportBuilder {
 		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
 		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
 		        upn.getName(), upn), identifierFormatter);
+		PatientIdentifierType cccNumber = MetadataUtils.existing(PatientIdentifierType.class,
+		    HivMetadata._PatientIdentifierType.UNIQUE_PATIENT_NUMBER);
+		
+		DataDefinition identifierCCCDef = new ConvertedPatientDataDefinition("identifier",
+		        new PatientIdentifierDataDefinition(cccNumber.getName(), cccNumber), identifierFormatter);
 		
 		DataConverter formatter = new ObjectFormatter("{familyName}, {givenName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), formatter);
@@ -87,12 +96,16 @@ public class CurrentlyOnPrepReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("PrEP No", identifierDef, "");
 		dsd.addColumn("Sex", new GenderDataDefinition(), "", null);
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
+		dsd.addColumn("Age", new AgeDataDefinition(), "");
 		dsd.addColumn("Population type", new PrepPopulatonTypeDataDefinition(), "");
 		dsd.addColumn("Patient type", new PrepPatientTypeDataDefinition(), "");
 		dsd.addColumn("Enrollment date", new PrepEnrollmentDateDataDefinition(), "");
 		dsd.addColumn("Visit date", new PrEPVisitDateDataDefinition(), "");
+		dsd.addColumn("Visit month", new CurrentOnPrepVisitMonthDataDefinition(), "");
 		dsd.addColumn("Next appointment date", new NextAppointmentDateDataDefinition(), "");
-		
+		//Turned HIV Positive while on PrEP
+		dsd.addColumn("Linked to Care", new LinkedToCareDataDefinition(), "");
+		dsd.addColumn("CCC Number", identifierCCCDef, "");
 		return dsd;
 	}
 }
