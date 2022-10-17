@@ -10,11 +10,8 @@
 package org.openmrs.module.prep.reporting.data.converter.definition.evaluator.prep;
 
 import org.openmrs.annotation.Handler;
-import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrEPVisitDateDataDefinition;
-import org.openmrs.module.prep.reporting.data.converter.definition.prep.PrEPVisitMonthDataDefinition;
-import org.openmrs.module.reporting.data.encounter.EvaluatedEncounterData;
-import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
-import org.openmrs.module.reporting.data.encounter.evaluator.EncounterDataEvaluator;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.CurrentOnPrepVisitMonthDataDefinition;
+import org.openmrs.module.prep.reporting.data.converter.definition.prep.NumberOfDaysLateDataDefinition;
 import org.openmrs.module.reporting.data.person.EvaluatedPersonData;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.data.person.evaluator.PersonDataEvaluator;
@@ -27,24 +24,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 /**
- * Evaluates PrEPVisitMonth EncounterDataEvaluator
+ * Evaluates Current on Prep visit Month Data Definition
  */
-@Handler(supports = PrEPVisitMonthDataDefinition.class, order = 50)
-public class PrEPVisitMonthDataEvaluator implements EncounterDataEvaluator {
+@Handler(supports = CurrentOnPrepVisitMonthDataDefinition.class, order = 50)
+public class CurrentOnPrepVisitMonthDataEvaluator implements PersonDataEvaluator {
 	
 	@Autowired
 	private EvaluationService evaluationService;
 	
-	public EvaluatedEncounterData evaluate(EncounterDataDefinition definition, EvaluationContext context)
+	public EvaluatedPersonData evaluate(PersonDataDefinition definition, EvaluationContext context)
 	        throws EvaluationException {
-		EvaluatedEncounterData c = new EvaluatedEncounterData(definition, context);
+		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select  v.encounter_id as encounter_id,timestampdiff(MONTH,e.visit_date,v.visit_date) as visit_month  from kenyaemr_etl.etl_prep_followup v\n"
+		String qry = "select  v.patient_id as patient_id,timestampdiff(MONTH,e.visit_date,v.visit_date) as visit_month  from kenyaemr_etl.etl_prep_followup v\n"
 		        + "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=v.patient_id\n"
-		        + "where v.form='prep-consultation' group by encounter_id\n"
+		        + "where v.form='prep-consultation' group by patient_id\n"
 		        + "UNION\n"
-		        + "select  r.encounter_id as encounter_id,timestampdiff(MONTH,e.visit_date,r.visit_date) as visit_month from kenyaemr_etl.etl_prep_monthly_refill r\n"
-		        + "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=r.patient_id\n" + "group by encounter_id;";
+		        + "select  r.patient_id as patient_id,timestampdiff(MONTH,e.visit_date,r.visit_date) as visit_month from kenyaemr_etl.etl_prep_monthly_refill r\n"
+		        + "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=r.patient_id\n" + "group by patient_id;\n";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
