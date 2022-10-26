@@ -1437,23 +1437,7 @@ public class ETLMoh731BCohortLibrary {
 		
 		return cd;
 	}
-	
-	/**
-	 * Clients currently on PrEP
-	 * 
-	 * @return
-	 */
-/*	public CohortDefinition currentOnPrEP() {
-		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
-		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.addSearch("restartingPrEP", ReportUtils.map(restartingPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("refillOnPrEP", ReportUtils.map(refillOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("newlyOnPrEP", ReportUtils.map(newlyOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("newlyOnPrEP OR refillOnPrEP OR restartingPrEP");
-		return cd;
-	}*/
-	
+
 	public CohortDefinition retestedPositiveOnPrEP() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select e.patient_id\n"
