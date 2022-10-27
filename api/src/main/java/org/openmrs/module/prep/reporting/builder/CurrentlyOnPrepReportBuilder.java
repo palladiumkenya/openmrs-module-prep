@@ -40,8 +40,10 @@ import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.stereotype.Component;
+import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -61,8 +63,15 @@ public class CurrentlyOnPrepReportBuilder extends AbstractHybridReportBuilder {
 	
 	protected Mapped<CohortDefinition> allClientsCohort() {
 		CohortDefinition cd = new CurrentlyOnPrepCohortDefinition();
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		cd.setName("Clients currently on PrEP");
-		return ReportUtils.map(cd, "");
+		return ReportUtils.map(cd, "endDate=${endDate}");
+	}
+	
+	@Override
+	protected List<Parameter> getParameters(ReportDescriptor reportDescriptor) {
+		return Arrays.asList(new Parameter("endDate", "End Date", Date.class), new Parameter("dateBasedReporting", "",
+		        String.class));
 	}
 	
 	@Override
@@ -72,12 +81,13 @@ public class CurrentlyOnPrepReportBuilder extends AbstractHybridReportBuilder {
 		allVisits.addRowFilter(allClientsCohort());
 		DataSetDefinition allClientsDSD = allVisits;
 		
-		return Arrays.asList(ReportUtils.map(allClientsDSD, ""));
+		return Arrays.asList(ReportUtils.map(allClientsDSD, "endDate=${endDate}"));
 	}
 	
 	protected PatientDataSetDefinition currentlyOnPrepDataSetDefinition(String datasetName) {
 		
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition(datasetName);
+		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		PatientIdentifierType upn = MetadataUtils.existing(PatientIdentifierType.class,
 		    PrepMetadata._PatientIdentifierType.PREP_UNIQUE_NUMBER);
 		DataConverter identifierFormatter = new ObjectFormatter("{identifier}");
