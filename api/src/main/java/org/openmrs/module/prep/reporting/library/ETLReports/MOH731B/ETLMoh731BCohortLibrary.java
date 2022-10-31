@@ -648,7 +648,7 @@ public class ETLMoh731BCohortLibrary {
 	public CohortDefinition restartingPrEP() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
 		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "     where e.patient_type = 'Re-enrollment(Re-activation)' and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		        + "     where e.patient_type = 'Restart' and date(e.visit_date) between date(:startDate) and date(:endDate);";
 		cd.setName("Restarting PrEP");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
