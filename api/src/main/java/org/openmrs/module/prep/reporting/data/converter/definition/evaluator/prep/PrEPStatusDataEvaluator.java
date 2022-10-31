@@ -35,8 +35,8 @@ public class PrEPStatusDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id, if(count(e.patient_type)>1,'Restart','New Patient') from kenyaemr_etl.etl_prep_enrolment e where e.voided = 0\n"
-		        + "group by e.patient_id;";
+		String qry = "select e.patient_id, mid(max(concat(e.visit_date,e.patient_type)),11) from kenyaemr_etl.etl_prep_enrolment e where e.voided = 0\n" +
+				"group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
