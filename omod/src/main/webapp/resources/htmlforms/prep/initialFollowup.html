@@ -52,6 +52,7 @@
 		var vmmcScreened = "<lookup expression="fn.latestObs(165352).getValueCoded()"/>";
 		var circumsised = "<lookup expression="fn.latestObs(165099).getValueCoded()"/>";
 		var gender = "<lookup expression="patient.gender" />";
+		var pAge = parseInt('<lookup expression="patient.age"/>');
 		var sexWithoutCondom = "<lookup expression="fn.latestObs(165097).getValueCoded()"/>";
 		var sexPartnerHivStatus = "<lookup expression="fn.latestObs(1436).getValueCoded()"/>";
 
@@ -96,7 +97,12 @@
             jq('#fair-bad-reasons').hide();
             jq('#fair-bad-label').hide();
             jq('#reason-fair-other').hide();
-
+            jq('#type-of-prep').hide();
+            jq('#type-of-prep-option').hide();
+            jq('#reason-for-switching').hide();
+            jq('#reason-for-switching-option').hide();
+            jq('#date-of-switching').hide();
+            jq('#date-of-switching-option').hide();
 
 
 			jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
@@ -119,10 +125,13 @@
             jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
             jq('#adherence-outcome :input[type=radio]').change(adherenceOutcomeSelected);
             jq('#fair-bad').click(showOptionsOther);
+            jq('#type-of-prep-option :input[type=radio]').click(typeOfPrep);
 
 
 
-
+            if (gender == 'F') {
+               jq("#type-of-prep-option option[value='1101']").hide();
+            }
 			creatininelabs();
 			hepatitisClabs();
 			hepatitisBlabs();
@@ -348,6 +357,20 @@
 				clearHiddenSections([stiTreated]);
 
 			}
+		}
+		function typeOfPrep(){
+		var val = jq(this).val();
+		 if(val == 1100){
+		  	jq('#regimen-options').show();
+			jq('#regimen').show();
+			jq('#months-options').show();
+			jq('#number-of-months').show();
+		 }else{
+		 	jq('#regimen-options').hide();
+			jq('#regimen').hide();
+			jq('#months-options').hide();
+			jq('#number-of-months').hide();
+		 }
 		}
 		function isStiScreened() {
 			var val = jq(this).val();
@@ -580,23 +603,38 @@
 				jq("#treatment-plan input[value=1260]").prop("checked", false);
 			}
 		}
-		function prepStatus() {
 
+
+		function prepStatus() {
 			var status = jq(this).val();
 			if(status ==1256 || status ==1257||status ==162904) {
-				jq('#months-options').show();
-				jq('#number-of-months').show();
-				jq('#prescription-option').show();
-				jq('#prescription').show();
-				jq('#regimen-options').show();
-				jq('#regimen').show()
-			}else {
-				jq('#months-options').hide();
 				jq('#number-of-months').hide();
 				jq('#prescription-option').hide();
 				jq('#prescription').hide();
-				jq('#regimen-options').hide();
-				jq('#regimen').hide()
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+			}else if(status ==164515){
+			    jq('#reason-for-switching').show();
+                jq('#reason-for-switching-option').show();
+                jq('#date-of-switching').show();
+                jq('#date-of-switching-option').show();
+                jq('#type-of-prep').show();
+                jq('#type-of-prep-option').show();
+
+			}else {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').hide();
+				jq('#prescription').hide();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
 			}
 		}
 
@@ -726,7 +764,7 @@
 						</td>
 						<td><obs conceptId="165356" id="months"/>Month(s)</td>
 						<td>
-						<span class="value"><recentObs conceptId="4978edd0-75ab-40a9-9c07-d4bbeb43fed5"/></span>
+							<span class="value"><recentObs conceptId="4978edd0-75ab-40a9-9c07-d4bbeb43fed5"/></span>
 						</td>
 					</tr>
 					<tr>
@@ -760,29 +798,29 @@
 					<td id="sti-signs">
 						<div id="sti-symptoms" style="float: left; padding-right: 50px">
 							<includeIf velocityTest="$patient.gender == 'F' ">
-							<obs conceptId="165098" id="sti-genital"
-								 answerConceptId="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Genital Ulcer Disease(GUD)" style="checkbox" />
+								<obs conceptId="165098" id="sti-genital"
+									 answerConceptId="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabel="Genital Ulcer Disease(GUD)" style="checkbox" />
 
-							<br />
-							<obs conceptId="165098" id="sti-vaginal"
-								 answerConceptId="121809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Vaginitis and/or Vaginal Discharge(VG)" style="checkbox"/>
-							<br />
-							<obs conceptId="165098" id="sti-cervical"
-								 answerConceptId="116995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Cervicitis and/or Cervical Discharge(CD)" style="checkbox"/>
-							<br />
-							<obs conceptId="165098" id="sti-pelvic"
-								 answerConceptId="130644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Pelvic Inflammatory Disease(PID)" style="checkbox"/>
-							<br />
+								<br />
+								<obs conceptId="165098" id="sti-vaginal"
+									 answerConceptId="121809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabel="Vaginitis and/or Vaginal Discharge(VG)" style="checkbox"/>
+								<br />
+								<obs conceptId="165098" id="sti-cervical"
+									 answerConceptId="116995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabel="Cervicitis and/or Cervical Discharge(CD)" style="checkbox"/>
+								<br />
+								<obs conceptId="165098" id="sti-pelvic"
+									 answerConceptId="130644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabel="Pelvic Inflammatory Disease(PID)" style="checkbox"/>
+								<br />
 							</includeIf>
 							<includeIf velocityTest="$patient.gender == 'M' ">
-							<obs conceptId="165098" id="sti-urethral"
-								 answerConceptId="123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Urethral Discharge(UD)" style="checkbox"/>
-							<br />
+								<obs conceptId="165098" id="sti-urethral"
+									 answerConceptId="123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									 answerLabel="Urethral Discharge(UD)" style="checkbox"/>
+								<br />
 							</includeIf>
 							<obs conceptId="165098" id="sti-anal"
 								 answerConceptId="148895AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -1207,9 +1245,7 @@
 					<td> <b>Adherence outcome</b> </td>
 					<td width="250" id="fair-bad-label">If fair or poor, what are the reasons?	</td>
 					<td width="250"> <b>Contraindication for PrEP</b> </td>
-					<td> <b>PrEP treatment plan </b> </td>
-					<td> <b>Condoms issued</b> </td>
-					<td id="condom-issiued-label"> <b>Number of condoms issued</b> </td>
+
 				</tr>
 				<tr>
 					<td>
@@ -1249,34 +1285,68 @@
 						<obs conceptId="165106" answerConceptId="127750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Not willing" style="checkbox"/> <br />
 						<obs conceptId="165106" answerConceptId="165105" answerLabel="Less than 35ks and under 15 yrs" style="checkbox"/> <br />
 					</td>
+
+				</tr>
+			</table>
+		</fieldset>
+		<fieldset>
+			<legend>PrEP Treatment Plan</legend>
+			<table class="simple-table">
+				<tr>
+					<td> <b>Current PrEP Regimen </b> </td>
+					<td> <b>PrEP treatment plan </b> </td>
+					<td id="reason-for-switching"> <b>Reason for Switching? </b> </td>
+					<td id="date-of-switching"> <b>Date of Switch </b> </td>
+					<td id="prescription"> <b>Prescribed PrEP today? </b> </td>
+					<td id="type-of-prep"> <b>Type of PrEP </b> </td>
+					<td id="regimen"> <b>Regimen prescribed </b> </td>
+					<td id="number-of-months">Number of months</td>
+					<td> <b>Condoms issued</b> </td>
+					<td id="condom-issiued-label"> <b>Number of condoms issued</b> </td>
+				</tr>
+				<tr>
 					<td>
-						<table>
-							<tr>
-
-								<td>
-									<!-- PrEP TREATMENT PLAN -->
-									<obs conceptId="165109" id="treatment-plan"
-										 answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-										 answerLabels="Start,Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
-										 style="radio" required="true" />
-								</td>
-
-								<td id="prescription">Prescribed PrEP today?</td>
-								<td id="prescription-option"><obs conceptId="1417" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-										1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
-								</td>
-
-								<td id="regimen">Regimen prescribed</td>
-								<td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-										84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-															  answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
-								</td>
-								<td id="number-of-months">Number of months</td>
-								<td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="regimen-months-prescribed"/></td>
-
-							</tr>
-						</table>
+						<span class="value"><recentObs conceptId="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
 					</td>
+					<td><obs id="treatment-plan"
+							 conceptId="167788"
+							 style="radio"
+							 answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164515,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Start,Continue,Restart,Switch,Discontinue"
+							 answerSeparator="&lt;br /&gt;"/>
+					</td>
+
+					<td id="reason-for-switching-option"><obs
+							conceptId="167788"
+							answerConceptIds="159737,160662,121760,141748,167533"
+							answerLabels="Client Preference,Stock-out,Adverse Drug Reactions,Drug Interactions,Discontinuing Inj. PrEP"
+							answerSeparator="&lt;br /&gt;"/>
+					</td>
+					<td id="date-of-switching-option">
+						<obs conceptId="165144"/>
+					</td>
+					<td width="100" id="prescription-option">
+						<obs conceptId="1417"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Yes,No"
+							 style="radio"/>
+					</td>
+					<td id="type-of-prep-option">
+						<obs
+								conceptId="165109"
+								style="radio"
+								answerConceptIds="1100,
+						                        159406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                        159406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                        1101"
+								answerLabels="Daily Oral PrEP,CAB-LA,Dapivirine ring,Event Driven"
+								answerSeparator="&lt;br /&gt;"/>
+					</td>
+					<td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+										84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+												  answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred),CAB-LA,Dapivirine Ring" />
+					</td>
+					<td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="regimen-months-prescribed"/></td>
 					<td width="100">
 						<obs conceptId="159777" id="condom-issued"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
