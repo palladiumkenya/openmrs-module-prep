@@ -46,6 +46,7 @@
         var NO_CONCEPT_ID = 164144;
         var TRANSIT =164931;
         var RE_ENROLL=159833;
+        var RE_START=162904;
         var POPULATION_TYPE_CONCEPT =  "<lookup expression="fn.latestObs(164930).getValueCoded()"/>";
         var POPULATION_TYPE = POPULATION_TYPE_CONCEPT.replace(/[^\d]/g, '');
         var KEY_POPULATION_CONCEPT =  "<lookup expression="fn.latestObs(160581).getValueCoded()"/>";
@@ -107,6 +108,7 @@
 
             ageGroup();
             jq('.muac').hide();
+            jq('#transfer-details').hide();
             jq('#transfer-in-status input').change(onTransferStatusChange);
             jq('#art-history :input').hide();
             jq('#art-status input').change(onArtStatusChange);
@@ -367,6 +369,16 @@
 
 			}
             if (transferStatus == RE_ENROLL) {
+                jq('#prep-id :input').prop('disabled', true);
+                jq('#transit-patient').hide();
+                jq('#transfer-details').hide();
+                jq('#patient-history').hide();
+                jq('#treatment-supporter-fieldset').hide();
+                jq('#prep-id :input').prop('disabled', false);
+                jq('#generate-prep-id').hide();
+                clearHiddenSections([transferDetails, artStatus]);
+            }
+            if (transferStatus == RE_START) {
                 jq('#prep-id :input').prop('disabled', true);
                 jq('#transit-patient').hide();
                 jq('#transfer-details').hide();
