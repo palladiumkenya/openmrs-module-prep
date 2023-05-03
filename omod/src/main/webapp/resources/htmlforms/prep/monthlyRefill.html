@@ -198,10 +198,10 @@
 		}
 		function prepStatus() {
 			var status = jq(this).val();
-			if(status ==1256 || status ==1257||status ==162904) {
+			if(status ==1257||status ==162904) {
 				jq('#number-of-months').hide();
-				jq('#prescription-option').hide();
-				jq('#prescription').hide();
+				jq('#prescription-option').show();
+				jq('#prescription').show();
 				jq('#reason-for-switching').hide();
                 jq('#reason-for-switching-option').hide();
                 jq('#date-of-switching').hide();
