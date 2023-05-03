@@ -39,29 +39,69 @@
 	<script type="text/javascript">
         jq(function () {
             //On Ready
+            var pAge = parseInt('<lookup expression="patient.age"/>');
+            var gender = "<lookup expression="patient.gender" />";
 			jq('#reason-fair-other').hide();
             jq('#other-reason').hide();
             jq('#fair-bad-reasons').hide();
             jq('#fair-bad-label').hide();
-            jq('#months-options').hide();
             jq('#months').hide();
             jq('#prescription-option').hide();
             jq('#prescription').hide();
             jq('#regimen-options').hide();
             jq('#regimen').hide();
-            jq('#discontinue-status').hide();
             jq('#next-appointment-label').hide();
             jq('#next-appointment-date').hide();
 			jq('#sex-partner').hide();
 			jq('#clients-assessment').hide();
-
 			jq('#discontinue').click(showOptionsOther);
 			jq('#fair-bad').click(showOptionsOther);
 			jq('#adherence-self-assessment').click(fairBadAdherenceSelected);
 			jq('#appointment-given :input[type=radio]').click(appointmenGiven);
-			jq('#status').click(prepStatus);
 			jq('#risk-assessment-done :input[type=radio]').click(isBehaviourRiskAssessmentDone);
+			jq('#months-options').hide();
+			jq("#number-of-condoms-issued").hide();
+			jq("#condom-issiued-label").hide();
+			jq('#number-of-months').hide();
+			jq('#prescription-option').hide();
+			jq('#prescription').hide();
+			jq('#regimen-options').hide();
+			jq('#regimen').hide();
+            jq('#fair-bad-reasons').hide();
+            jq('#fair-bad-label').hide();
+            jq('#reason-fair-other').hide();
+            jq('#type-of-prep').hide();
+            jq('#type-of-prep-option').hide();
+            jq('#reason-for-switching').hide();
+            jq('#reason-for-switching-option').hide();
+            jq('#date-of-switching').hide();
+            jq('#date-of-switching-option').hide();
+            jq('#condom-issued :input[type=radio]').click(isCondomsIssued);
+			jq('#treatment-plan :input[type=radio]').click(prepStatus);
+            jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
+            jq('#adherence-outcome :input[type=radio]').change(adherenceOutcomeSelected);
+            jq('#fair-bad').click(showOptionsOther);
+            jq('#type-of-prep-option :input[type=radio]').click(typeOfPrep);
+            var currentPrepRegimen= "<lookup expression='fn.latestObs(164515).getValueCoded()' />";
+            var currentPrepRegimenReg = currentPrepRegimen.replace(/[^\d]/g, '');
 
+            if(currentPrepRegimenReg == 161364){
+                jq('#current-prep-regimen').html("TDF/3TC");
+            }else if(currentPrepRegimenReg ==84795){
+                jq('#current-prep-regimen').html("TDF");
+            }else if(currentPrepRegimenReg ==104567){
+                jq('#current-prep-regimen').html("TDF/FTC(Preferred)");
+            }else if(currentPrepRegimenReg ==168050){
+                jq('#current-prep-regimen').html("CAB-LA");
+            }else if(currentPrepRegimenReg ==168049){
+                jq('#current-prep-regimen').html("Dapivirine Ring");
+            }else{
+                jq('#current-prep-regimen').html("");
+            }
+
+            if (gender == 'F') {
+				jq("#type-of-prep-option input[value=5424]").prop("disabled", true);
+            }
            beforeSubmit.push(function() {
 			   var tca_date = getValue('next-appointment.value');
 			   if (tca_date == ""  &amp;&amp;(getValue('appointment-given.value') == 1065)) {
@@ -91,7 +131,99 @@
 			}
 
 		  }
+		function isCondomsIssued() {
+			var val = jq(this).val();
+			if(val ==1065) {
+				jq("#number-of-condoms-issued").show();
+				jq("#condom-issiued-label").show();
 
+			}else {
+				jq('#number-of-condoms-issued :input').val('');
+				jq("#number-of-condoms-issued").hide();
+				jq("#condom-issiued-label").hide();
+			}
+
+		}
+	  function typeOfPrep(){
+		var val = jq(this).val();
+		 if((val == 165269)  || (val == 5424)) {
+		  	jq('#regimen-options').show();
+			jq('#regimen').show();
+			jq('#months-options').show();
+			jq('#number-of-months').show();
+		 }else{
+		 	jq('#regimen-options').hide();
+			jq('#regimen').hide();
+			jq('#months-options').hide();
+			jq('#number-of-months').hide();
+			clearHiddenSections(jq('#months-option'));
+			clearHiddenSections(jq('#regimen'));
+
+		 }
+		}
+
+		function prepStatus() {
+			var status = jq(this).val();
+			if(status ==1256 || status ==1257||status ==162904) {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').hide();
+				jq('#prescription').hide();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+			    jq('#regimen').hide();
+			}else if(status ==164515){
+			    jq('#reason-for-switching').show();
+                jq('#reason-for-switching-option').show();
+                jq('#date-of-switching').show();
+                jq('#date-of-switching-option').show();
+                jq('#type-of-prep').show();
+                jq('#type-of-prep-option').show();
+
+			}else {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').hide();
+				jq('#prescription').hide();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+			    jq('#regimen').hide();
+
+			}
+		}
+		 function adherenceAssessmentSelected() {
+            var val = jq(this).val();
+            var adherenceOutcome = jq('#adherence-outcome');
+            if(val == 1065) {
+                jq("#adherence-outcome input[type=radio]").prop("disabled", false);
+
+            }else{
+                jq("#adherence-outcome input[type=radio]").prop("disabled", true);
+                clearHiddenSections([adherenceOutcome]);
+            }
+        }
+        function adherenceOutcomeSelected() {
+            var val = jq(this).val();
+            if(val ==159406 || val ==159407) {
+                jq('#fair-bad-reasons').show();
+                jq('#fair-bad-label').show();
+            }else {
+                jq('#fair-bad-reasons').hide();
+                jq('#fair-bad-label').hide();
+                getField('fair-bad.value').prop("selectedIndex", 0);
+                getField('reason-fair-other.value').val("");
+            }
+        }
 		  function fairBadAdherenceSelected() {
 			  var fairBad = jq('#adherence-self-assessment option:selected').val();
 			  if(fairBad ==159406 || fairBad ==159407) {
@@ -102,30 +234,6 @@
 				  jq('#fair-bad-label').hide();
 			  }
 
-		  }
-		  function prepStatus() {
-			  var status = jq('#status option:selected').val();
-			  if(status ==159835) {
-				  jq('#months-options').show();
-				  jq('#months').show();
-				  jq('#prescription-option').show();
-				  jq('#prescription').show();
-				  jq('#regimen-options').show();
-				  jq('#regimen').show()
-			  }else {
-				  jq('#months-options').hide();
-				  jq('#months').hide();
-				  jq('#prescription-option').hide();
-				  jq('#prescription').hide();
-				  jq('#regimen-options').hide();
-				  jq('#regimen').hide()
-			  }
-
-			  if(status ==159836) {
-				  jq('#discontinue-status').show();
-			  }else {
-				  jq('#discontinue-status').hide();
-			  }
 		  }
 		  function appointmenGiven() {
 			  var val = jq(this).val();
@@ -157,6 +265,38 @@
 
 
 	</script>
+	<ifMode mode="EDIT">
+		<script type="text/javascript">
+            jq(function(){
+
+                var adherenceOutcome = getValue('adherence-outcome.value');
+                if(adherenceOutcome ==159406 || adherenceOutcome ==159407) {
+                    jq('#fair-bad-reasons').show();
+                    jq('#fair-bad-label').show();
+                }else {
+                    jq('#fair-bad-reasons').hide();
+                    jq('#fair-bad-label').hide();
+                    getField('fair-bad.value').prop("selectedIndex", 0);
+                    getField('reason-fair-other.value').val("");
+                }
+                var fairReason = jq('#fair-bad option:selected').val();
+                if(fairReason ==5622) {
+                    jq('#reason-fair-other').show();
+                }else {
+                    jq('#reason-fair-other').hide();
+                }
+
+                var adherenceAssessment = getValue('adherence-assessment.value');
+                if(adherenceAssessment == 1065) {
+                    jq("#adherence-outcome input[type=radio]").prop("disabled", false);
+
+                }else{
+                    jq("#adherence-outcome input[type=radio]").prop("disabled", true);
+                    clearHiddenSections([adherenceOutcome]);
+                }
+            });
+		</script>
+	</ifMode>
 	<div class="ke-form-header">
 		<table width="100%">
 			<tr>
@@ -226,68 +366,124 @@
 
 			</table>
 		</fieldset>
-		<fieldset id="adherence-tab">
-			<legend>Adherence Assessment</legend>
-			<table class="simple-table" >
+		<fieldset>
+			<legend>Prep status</legend>
+			<table class="simple-table">
+				<tr>
+					<td> <b>Signs and symptoms <br /> of acute HIV</b> </td>
+					<td> <b>Adherence counselling done</b> </td>
+					<td> <b>Adherence outcome</b> </td>
+					<td width="250" id="fair-bad-label">If fair or poor, what are the reasons?	</td>
+					<td width="250"> <b>Contraindication for PrEP</b> </td>
 
-
-					<tr>
-
-						<td>Adherence self assessment:	</td>
-						<td><obs id="adherence-self-assessment" conceptId="164075" labelText=" " answerConceptIds="159405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						159406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, 1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								  answerLabels="Good,Fair,Poor,N/A(Did not pick PrEP at last)" />
-						</td>
-						<td id="fair-bad-label">If fair or bad, what are the reasons?	</td>
-						<td id="fair-bad-reasons"><obs  id="fair-bad" conceptId="160582"   answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+				</tr>
+				<tr>
+					<td>
+						<obs conceptId="165101" id="hiv-signs"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Yes,No"
+							 style="radio" required="true"/>
+					</td>
+					<td>
+						<obs conceptId="165104" id="adherence-assessment"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Yes,No"
+							 style="radio" required="true" />
+					</td>
+					<td><obs id="adherence-outcome"
+							 conceptId="164075"
+							 style="radio"
+							 answerConceptIds="159405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                        159406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+						                        159407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Good,Fair,Poor"
+							 answerSeparator="&lt;br /&gt;"/>
+					</td>
+					<td id="fair-bad-reasons"><obs  id="fair-bad" conceptId="160582"   answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164997,160583AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						1064AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160584AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
                         1056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
-						 answerLabels="Sick,None,Stigma,Shared with others, No perceived risk,Pill burden, Lost/out of pills
+													answerLabels="Sick,None,Stigma,Shared with others, No perceived risk,Pill burden, Lost/out of pills
 						,Separated from HIV+,Side effects, Forgot,Other-specify" style="dropdown" />
-							<obs id="reason-fair-other" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-						</td>
-					</tr>
-					<tr>
-						<td>Adherence counselling done?</td>
-						<td><obs conceptId="164425" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
-						</td>
-					</tr>
-			</table>
-		</fieldset>
-		<fieldset id="prep-status-tab">
-			<legend>PrEP Status</legend>
-			<table class="simple-table" >
-
-				<tr>
-					<td>PrEP Status:	</td>
-					<td><obs  id ="status" conceptId="161641" labelText=" " answerConceptIds="159836AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						159835AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerLabels="Discontinue,Continue" required="true"/>
+						<br/> <br/>
+						<obs id="reason-fair-other" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 					</td>
-					<td id="prescription">Prescribed PrEP today?</td>
-					<td id="prescription-option"><obs conceptId="1417" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+					<td width="100">
+						<obs conceptId="165106" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None" style="checkbox"/> <br />
+						<obs conceptId="165106" answerConceptId="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Confirmed HIV+" style="checkbox"/> <br />
+						<obs conceptId="165106" answerConceptId="155589AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Renal impairment" style="checkbox"/> <br />
+						<obs conceptId="165106" answerConceptId="127750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Not willing" style="checkbox"/> <br />
+						<obs conceptId="165106" answerConceptId="165105" answerLabel="Less than 35ks and under 15 yrs" style="checkbox"/> <br />
 					</td>
-
-					<td id="regimen">Regimen prescribed</td>
-					<td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
-					</td>
-					<td id="months">Number of months</td>
-					<td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="regimen-months-prescribed"/></td>
 
 				</tr>
-				<tr id="discontinue-status">
-					<td>PrEP discontinue reasons</td>
-					<td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
-							 answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
-							 Not adherent to PrEP,Too many HIV tests,Client request,Other-specify"  style="dropdown"/>
-						<obs id="other-reason" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+			</table>
+		</fieldset>
+		<fieldset>
+			<legend>PrEP Treatment Plan</legend>
+			<table class="simple-table">
+				<tr>
+					<td> <b>Current PrEP Regimen </b> </td>
+					<td> <b>PrEP treatment plan </b> </td>
+					<td id="reason-for-switching"> <b>Reason for Switching? </b> </td>
+					<td id="date-of-switching"> <b>Date of Switch </b> </td>
+					<td id="prescription"> <b>Prescribed PrEP today? </b> </td>
+					<td id="type-of-prep"> <b>Type of PrEP </b> </td>
+					<td id="regimen"> <b>Regimen prescribed </b> </td>
+					<td id="number-of-months"><b>Number of months</b></td>
+					<td> <b>Condoms issued</b> </td>
+					<td id="condom-issiued-label"> <b>Number of condoms issued</b> </td>
+				</tr>
+				<tr>
+					<td>
+						<span id="current-prep-regimen"></span>
 					</td>
+					<td><obs id="treatment-plan"
+							 conceptId="167788"
+							 style="radio"
+							 answerConceptIds="1256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164515,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabels="Start,Continue,Restart,Switch,Discontinue"
+							 answerSeparator="&lt;br /&gt;"/>
+					</td>
+
+					<td id="reason-for-switching-option"><obs
+							conceptId="167788"
+							answerConceptIds="159737,160662,121760,141748,167533"
+							answerLabels="Client Preference,Stock-out,Adverse Drug Reactions,Drug Interactions,Discontinuing Inj. PrEP"
+							answerSeparator="&lt;br /&gt;"/>
+					</td>
+					<td id="date-of-switching-option">
+						<obs conceptId="165144"/>
+					</td>
+					<td width="100" id="prescription-option">
+						<obs conceptId="1417"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Yes,No"
+							 style="radio"/>
+					</td>
+					<td id="type-of-prep-option">
+						<obs
+								conceptId="165109"
+								style="radio"
+								answerConceptIds="165269,168050,168049, 5424"
+								answerLabels="Daily Oral PrEP,CAB-LA,Dapivirine ring,Event Driven"
+								answerSeparator="&lt;br /&gt;"/>
+					</td>
+					<td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+										84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,168050,168049"
+												  answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred),CAB-LA,Dapivirine Ring" />
+					</td>
+					<td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+					<td width="100">
+						<obs conceptId="159777" id="condom-issued"
+							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerLabel="Yes,No"
+							 style="radio"/>
+					</td>
+					<td id="number-of-condoms-issued">
+						<obs conceptId="165055"/>
+					</td>
+
 				</tr>
 			</table>
 		</fieldset>
