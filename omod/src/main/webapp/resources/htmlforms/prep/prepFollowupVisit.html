@@ -78,8 +78,26 @@
             jq("#signs-header").hide();
             jq("#treatment-header").hide();
             jq('#other-sti-symptoms').hide();
-            jq("#number-of-condoms-issued").hide();
-            jq("#condom-issiued-label").hide();
+			jq("#number-of-condoms-issued").hide();
+			jq("#condom-issiued-label").hide();
+			jq("#vmmc-referrals").hide();
+			jq("#referred-header").hide();
+			jq('#months-options').hide();
+			jq('#number-of-months').hide();
+			jq('#prescription-option').hide();
+			jq('#prescription').hide();
+			jq('#regimen-options').hide();
+			jq('#regimen').hide();
+            jq('#fair-bad-reasons').hide();
+            jq('#fair-bad-label').hide();
+            jq('#reason-fair-other').hide();
+            jq('#type-of-prep').hide();
+            jq('#type-of-prep-option').hide();
+            jq('#reason-for-switching').hide();
+            jq('#reason-for-switching-option').hide();
+            jq('#date-of-switching').hide();
+            jq('#date-of-switching-option').hide();
+            jq('#prescription-option :input[type=radio]').change(prescriptionOption);
             jq("#vmmc-referrals").hide();
             jq("#referred-header").hide();
 
@@ -92,7 +110,30 @@
             jq('#fair-bad-reasons').hide();
             jq('#fair-bad-label').hide();
             jq('#reason-fair-other').hide();
+            jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
+            jq('#adherence-outcome :input[type=radio]').change(adherenceOutcomeSelected);
+            jq('#fair-bad').click(showOptionsOther);
+            jq('#type-of-prep-option :input[type=radio]').click(typeOfPrep);
+            var currentPrepRegimen= "<lookup expression='fn.latestObs(164515).getValueCoded()' />";
+            var currentPrepRegimenReg = currentPrepRegimen.replace(/[^\d]/g, '');
 
+            if(currentPrepRegimenReg == 161364){
+                jq('#current-prep-regimen').html("TDF/3TC");
+            }else if(currentPrepRegimenReg ==84795){
+                jq('#current-prep-regimen').html("TDF");
+            }else if(currentPrepRegimenReg ==104567){
+                jq('#current-prep-regimen').html("TDF/FTC(Preferred)");
+            }else if(currentPrepRegimenReg ==168050){
+                jq('#current-prep-regimen').html("CAB-LA");
+            }else if(currentPrepRegimenReg ==168049){
+                jq('#current-prep-regimen').html("Dapivirine Ring");
+            }else{
+                jq('#current-prep-regimen').html("");
+            }
+
+            if (gender == 'F') {
+				jq("#type-of-prep-option input[value=5424]").prop("disabled", true);
+            }
 
             jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
             jq('#vmmc-screened :input[type=radio]').change(onVmmcScreenedSelected);
@@ -111,9 +152,7 @@
             jq('#vmmc-status :input[type=radio]').change(onVmmcStatusSelected);
             jq('#menopause :input[type=checkbox]').click(menopausalStatus);
             jq('#treatment-plan :input[type=radio]').click(prepStatus);
-            jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
-            jq('#adherence-outcome :input[type=radio]').change(adherenceOutcomeSelected);
-            jq('#fair-bad').click(showOptionsOther);
+
 
             creatininelabs();
             hepatitisClabs();
@@ -296,6 +335,121 @@
             }
 
         }
+		function typeOfPrep(){
+		var val = jq(this).val();
+		 if(val == 165269) {
+		  	jq('#regimen-options').show();
+			jq('#regimen').show();
+			jq('#months-options').show();
+			jq('#number-of-months').show();
+		}else if(val == 5424){
+		    jq('#regimen-options').show();
+			jq('#regimen').show();
+			jq('#months-options').hide();
+			jq('#number-of-months').hide();
+			clearHiddenSections(jq('#months-options'));
+			clearHiddenSections(jq('#number-of-months'));
+		 }else{
+		 	jq('#regimen-options').hide();
+			jq('#regimen').hide();
+			jq('#months-options').hide();
+			jq('#number-of-months').hide();
+			clearHiddenSections(jq('#months-option'));
+			clearHiddenSections(jq('#regimen'));
+			clearHiddenSections(jq('#months-option'));
+			clearHiddenSections(jq('#regimen'));
+
+		 }
+		}
+		function prepStatus() {
+			var status = jq(this).val();
+			if(status ==1257||status ==162904) {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').show();
+				jq('#prescription').show();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+			    jq('#regimen').hide();
+			    clearHiddenSections(jq('#number-of-months'));
+
+				clearHiddenSections(jq('#reason-for-switching'));
+                clearHiddenSections(jq('#reason-for-switching-option'));
+                clearHiddenSections(jq('#date-of-switching'));
+                clearHiddenSections(jq('#date-of-switching-option'));
+                clearHiddenSections(jq('#type-of-prep'));
+                clearHiddenSections(jq('#type-of-prep-option'));
+                clearHiddenSections(jq('#months-options'));
+                clearHiddenSections(jq('#regimen-options'));
+			    clearHiddenSections(jq('#regimen'));
+			}else if(status ==164515){
+			    jq('#reason-for-switching').show();
+                jq('#reason-for-switching-option').show();
+                jq('#date-of-switching').show();
+                jq('#date-of-switching-option').show();
+                jq('#prescription-option').show();
+				jq('#prescription').show();
+
+
+			}else {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').hide();
+				jq('#prescription').hide();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+			    jq('#regimen').hide();
+			    clearHiddenSections(jq('#number-of-months'));
+				clearHiddenSections(jq('#prescription-option'));
+				clearHiddenSections(jq('#prescription'));
+				clearHiddenSections(jq('#reason-for-switching'));
+                clearHiddenSections(jq('#reason-for-switching-option'));
+                clearHiddenSections(jq('#date-of-switching'));
+                clearHiddenSections(jq('#date-of-switching-option'));
+                clearHiddenSections(jq('#type-of-prep'));
+                clearHiddenSections(jq('#type-of-prep-option'));
+                clearHiddenSections(jq('#months-options'));
+                clearHiddenSections(jq('#regimen-options'));
+			    clearHiddenSections(jq('#regimen'));
+
+
+			}
+		}
+		function prescriptionOption() {
+			var val = jq(this).val();
+			if(val ==1065) {
+				jq('#type-of-prep').show();
+                jq('#type-of-prep-option').show();
+			} else {
+				jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#number-of-months').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+			    jq('#regimen').hide();
+                clearHiddenSections(jq('#type-of-prep-option'));
+                clearHiddenSections(jq('#type-of-prep'));
+                clearHiddenSections(jq('#number-of-months'));
+                clearHiddenSections(jq('#type-of-prep'));
+                clearHiddenSections(jq('#type-of-prep-option'));
+                clearHiddenSections(jq('#months-options'));
+                clearHiddenSections(jq('#regimen-options'));
+			    clearHiddenSections(jq('#regimen'));
+
+			}
+		}
 
         function hepatitisBlabs() {
 
@@ -567,25 +721,7 @@
                // clearHiddenSections([tcaDate]);
             }
         }
-        function prepStatus() {
 
-            var status = jq(this).val();
-            if( status ==1257||status ==162904) {
-                jq('#months-options').show();
-                jq('#months').show();
-                jq('#prescription-option').show();
-                jq('#prescription').show();
-                jq('#regimen-options').show();
-                jq('#regimen').show()
-            }else {
-                jq('#months-options').hide();
-                jq('#months').hide();
-                jq('#prescription-option').hide();
-                jq('#prescription').hide();
-                jq('#regimen-options').hide();
-                jq('#regimen').hide()
-            }
-        }
 
         function contraindicationsSelected() {
             var val = jq(this).val();
@@ -705,43 +841,43 @@
                     <td id="treatment-header"> <b>Treated</b> </td>
                 </tr>
                 <tr>
-                   <td> <obs id="sti_screened" conceptId="161558" required="true" style="radio" answerConceptIds="1065,1066" /> </td>
+                    <td> <obs id="sti_screened" conceptId="161558" required="true" style="radio" answerConceptIds="1065,1066" /> </td>
                     <td id="sti-signs">
                         <div id="sti-symptoms" style="float: left; padding-right: 50px">
-                        <includeIf velocityTest="$patient.gender == 'F' ">
-                        <obs conceptId="165098" id="sti-genital"
-                             answerConceptId="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Genital Ulcer Disease(GUD)" style="checkbox" />
-                        <br />
-                        <obs conceptId="165098" id="sti-vaginal"
-                             answerConceptId="121809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Vaginitis and/or Vaginal Discharge(VG)" style="checkbox"/>
-                        <br />
-                        <obs conceptId="165098" id="sti-cervical"
-                             answerConceptId="116995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Cervicitis and/or Cervical Discharge(CD)" style="checkbox"/>
-                       <br />
-                        <obs conceptId="165098" id="sti-pelvic"
-                             answerConceptId="130644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Pelvic Inflammatory Disease(PID)" style="checkbox"/>
-                        <br />
-                        </includeIf>
-                        <includeIf velocityTest="$patient.gender == 'M' ">
-                        <obs conceptId="165098" id="sti-urethral"
-                             answerConceptId="123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Urethral Discharge(UD)" style="checkbox"/>
-                        <br />
-                        </includeIf>
-                        <obs conceptId="165098" id="sti-anal"
-                             answerConceptId="148895AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Anal Discharge(AD)" style="checkbox"/>
-                        <br />
-                        <obs conceptId="165098"
-                             answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Other(O)" id="sti-other"
-                             style="checkbox"/>
+                            <includeIf velocityTest="$patient.gender == 'F' ">
+                                <obs conceptId="165098" id="sti-genital"
+                                     answerConceptId="145762AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabel="Genital Ulcer Disease(GUD)" style="checkbox" />
+                                <br />
+                                <obs conceptId="165098" id="sti-vaginal"
+                                     answerConceptId="121809AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabel="Vaginitis and/or Vaginal Discharge(VG)" style="checkbox"/>
+                                <br />
+                                <obs conceptId="165098" id="sti-cervical"
+                                     answerConceptId="116995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabel="Cervicitis and/or Cervical Discharge(CD)" style="checkbox"/>
+                                <br />
+                                <obs conceptId="165098" id="sti-pelvic"
+                                     answerConceptId="130644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabel="Pelvic Inflammatory Disease(PID)" style="checkbox"/>
+                                <br />
+                            </includeIf>
+                            <includeIf velocityTest="$patient.gender == 'M' ">
+                                <obs conceptId="165098" id="sti-urethral"
+                                     answerConceptId="123529AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabel="Urethral Discharge(UD)" style="checkbox"/>
+                                <br />
+                            </includeIf>
+                            <obs conceptId="165098" id="sti-anal"
+                                 answerConceptId="148895AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Anal Discharge(AD)" style="checkbox"/>
+                            <br />
+                            <obs conceptId="165098"
+                                 answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Other(O)" id="sti-other"
+                                 style="checkbox"/>
                             <obs id="other-sti-symptoms" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-                        <br />
+                            <br />
                             <obs conceptId="165098"
                                  answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                  answerLabel="None" id="sti-none"
@@ -752,169 +888,169 @@
 
 
 
-                     </div>
+                        </div>
                     </td>
-                   <td id="sti-treatment-offerd"> <obs id="sti-treated" conceptId="165200" style="radio" answerConceptIds="1065,1066" /> </td>
-                  </tr>
+                    <td id="sti-treatment-offerd"> <obs id="sti-treated" conceptId="165200" style="radio" answerConceptIds="1065,1066" /> </td>
+                </tr>
             </table>
         </fieldset>
         <!--VMMC Screening-->
-    <includeIf velocityTest="$patient.gender == 'M' ">
-        <fieldset>
-            <legend>VMMC Screening</legend>
-            <table class="simple-table">
-                <tr>
-                    <td> <b>Screening done</b> </td>
-                    <td> <b>Is the client circumcised?</b> </td>
-                    <td> <b>Referred</b> </td>
-                </tr>
-                <tr>
-                    <td>
-                        <obs id="vmmc-screened" conceptId="165352" required="true" style="radio" answerConceptIds="1065,1066" />
-                    </td>
-                    <td>
-                        <!-- CIRCUMCISION STATUS-->
-                        <obs conceptId="165099" id="vmmc-status"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No,Unknown"
-                             style="radio"/>
-                    </td>
-                    <td id="vmmc-referrals">
-                        <!-- REFERRED -->
-                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="vmmc-referred"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No"
-                             style="radio"/>
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
-    </includeIf>
+        <includeIf velocityTest="$patient.gender == 'M' ">
+            <fieldset>
+                <legend>VMMC Screening</legend>
+                <table class="simple-table">
+                    <tr>
+                        <td> <b>Screening done</b> </td>
+                        <td> <b>Is the client circumcised?</b> </td>
+                        <td> <b>Referred</b> </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <obs id="vmmc-screened" conceptId="165352" required="true" style="radio" answerConceptIds="1065,1066" />
+                        </td>
+                        <td>
+                            <!-- CIRCUMCISION STATUS-->
+                            <obs conceptId="165099" id="vmmc-status"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No,Unknown"
+                                 style="radio"/>
+                        </td>
+                        <td id="vmmc-referrals">
+                            <!-- REFERRED -->
+                            <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="vmmc-referred"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No"
+                                 style="radio"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </includeIf>
         <!--Fertility intentions-->
-     <includeIf velocityTest="$patient.gender == 'F' ">
-        <fieldset>
-            <legend>Fertility intentions</legend>
-            <table class="simple-table">
-                <tr>
-                    <td> <b>LMP</b> </td>
-                    <td> <b>Recent</b> </td>
-                    <td> <b>Menopausal status</b> </td>
-                    <td> <b>Is the client <br /> pregnant</b> </td>
-                    <td> <b>EDD</b> </td>
-                    <td> <b>Was the pregnancy planned?</b> </td>
-                    <td width="100"> <b>Planning to get pregnant? </b> </td>
-                    <td width="100"> <b>Breastfeeding status</b> </td>
-                    <td> <b>Family planning Status</b> </td>
-                    <td> <b>Family Planning Method</b> </td>
-                </tr>
-                <tr>
-                    <td>
-                        <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" allowFutureDates="false" />
-                    </td>
-                    <td>
-                        <span class="value"><recentObs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
-                    </td>
-                    <td>
-                        <obs conceptId="160596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="134346AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Menopause" style="checkbox" id="menopause" /> <br />
+        <includeIf velocityTest="$patient.gender == 'F' ">
+            <fieldset>
+                <legend>Fertility intentions</legend>
+                <table class="simple-table">
+                    <tr>
+                        <td> <b>LMP</b> </td>
+                        <td> <b>Recent</b> </td>
+                        <td> <b>Menopausal status</b> </td>
+                        <td> <b>Is the client <br /> pregnant</b> </td>
+                        <td> <b>EDD</b> </td>
+                        <td> <b>Was the pregnancy planned?</b> </td>
+                        <td width="100"> <b>Planning to get pregnant? </b> </td>
+                        <td width="100"> <b>Breastfeeding status</b> </td>
+                        <td> <b>Family planning Status</b> </td>
+                        <td> <b>Family Planning Method</b> </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lmp" allowFutureDates="false" />
+                        </td>
+                        <td>
+                            <span class="value"><recentObs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+                        </td>
+                        <td>
+                            <obs conceptId="160596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="134346AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Menopause" style="checkbox" id="menopause" /> <br />
 
-                    </td>
-                    <td>
-                        <obs conceptId="5272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="pregnancy-status"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
-                             style="radio"/>
-                    </td>
-                    <td>
-                        <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " id="edd" allowFutureDates="true" readonly="true" />
-                        <span class="value"><recentObs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
+                        </td>
+                        <td>
+                            <obs conceptId="5272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="pregnancy-status"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
+                                 style="radio"/>
+                        </td>
+                        <td>
+                            <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " id="edd" allowFutureDates="true" readonly="true" />
+                            <span class="value"><recentObs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
 
-                    </td>
-                    <td width="100">
-                        <obs conceptId="1426AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="planned-pregnancy"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
-                             style="radio"/>
-                    </td>
-                    <td>
-                        <obs conceptId="164933" id="pregnancy-wanted"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
-                             style="radio"/>
-                    </td>
-                    <td width="100">
-                        <obs conceptId="5632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="breastfeeding"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
-                             style="radio"/>
-                    </td>
-                    <td>
-                        <obs conceptId="160653" id="family-planning-status"
-                             answerConceptIds="965AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1360AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabels="On Family Planning,Not using Family Planning,Wants Family Planning"  answerSeparator="&lt;br /&gt;"
-                             style="radio" />
-                    </td>
-                    <td id="family-planning-method">
-                       <table>
-                        <tr >
-                        <div style="float: left; padding-left: 50px"  id="fp-method-1" >
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Emergency contraceptive pills" style="checkbox" /> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="780AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oral Contraceptives Pills" style="checkbox"/> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Injectable" style="checkbox"/>  <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1359AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Implant" style="checkbox"/>  <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="136163AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Lactational Amenorhea Method" style="checkbox"/>  <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5275AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Intrauterine Device" style="checkbox"/>  <br />
-                        </div>
-                        <div style="float: right;padding-right: 50px" id="fp-method-2" >
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5278AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Diaphram/Cervical Cap" style="checkbox"/> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Fertility Awareness" style="checkbox"/> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1472AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Tubal Ligation/Female sterilization" style="checkbox"/> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Condoms" style="checkbox"/> <br />
-                            <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1489AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Vasectomy(Partner)" style="checkbox"/> <br />
-                        </div>
-                       </tr>
-                       </table>
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
-        <!--Pregnancy outcome-->
-        <fieldset id="pregnancy-outcome">
-            <legend>Pregnancy outcome</legend>
-            <table class="simple-table">
-                <tr>
-                    <td> <b>Pregnancy ended since last visit</b> </td>
-                    <td> <b>Pregnancy outcome</b> </td>
-                    <td> <b>Outcome date</b> </td>
-                    <td> <b>Birth defects</b> </td>
-                </tr>
-                <tr>
-                    <td>
-                        <obs conceptId="165103" id="ended-pregnancy"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No"
-                             style="radio"/>
-                    </td>
-                    <td>
-                        <obs conceptId="161033AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  id="pregnancy-outcome"
-                             answerConceptIds="1395AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,129218AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159896AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabels="Term live,Preterm Delivery,Still birth,Induced abortion," answerSeparator="&lt;br /&gt;"
-                             style="radio"/>
-                    </td>
-                    <td>
-                        <obs conceptId="1596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="outcome-date" allowFutureDates="false"/>
-                    </td>
-                    <td>
-                        <obs
-                                conceptId="164122AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="defects"
-                                answerConceptIds="155871AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                answerLabels="Yes,No,Unknown"  answerSeparator="&lt;br /&gt;"
-                                style="radio" />
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
-     </includeIf>
+                        </td>
+                        <td width="100">
+                            <obs conceptId="1426AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="planned-pregnancy"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
+                                 style="radio"/>
+                        </td>
+                        <td>
+                            <obs conceptId="164933" id="pregnancy-wanted"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
+                                 style="radio"/>
+                        </td>
+                        <td width="100">
+                            <obs conceptId="5632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="breastfeeding"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No" answerSeparator="&lt;br /&gt;"
+                                 style="radio"/>
+                        </td>
+                        <td>
+                            <obs conceptId="160653" id="family-planning-status"
+                                 answerConceptIds="965AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1360AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabels="On Family Planning,Not using Family Planning,Wants Family Planning"  answerSeparator="&lt;br /&gt;"
+                                 style="radio" />
+                        </td>
+                        <td id="family-planning-method">
+                            <table>
+                                <tr >
+                                    <div style="float: left; padding-left: 50px"  id="fp-method-1" >
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160570AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Emergency contraceptive pills" style="checkbox" /> <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="780AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oral Contraceptives Pills" style="checkbox"/> <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Injectable" style="checkbox"/>  <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1359AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Implant" style="checkbox"/>  <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="136163AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Lactational Amenorhea Method" style="checkbox"/>  <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5275AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel=" Intrauterine Device" style="checkbox"/>  <br />
+                                    </div>
+                                    <div style="float: right;padding-right: 50px" id="fp-method-2" >
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5278AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Diaphram/Cervical Cap" style="checkbox"/> <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Fertility Awareness" style="checkbox"/> <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1472AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Tubal Ligation/Female sterilization" style="checkbox"/> <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Condoms" style="checkbox"/> <br />
+                                        <obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1489AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Vasectomy(Partner)" style="checkbox"/> <br />
+                                    </div>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <!--Pregnancy outcome-->
+            <fieldset id="pregnancy-outcome">
+                <legend>Pregnancy outcome</legend>
+                <table class="simple-table">
+                    <tr>
+                        <td> <b>Pregnancy ended since last visit</b> </td>
+                        <td> <b>Pregnancy outcome</b> </td>
+                        <td> <b>Outcome date</b> </td>
+                        <td> <b>Birth defects</b> </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <obs conceptId="165103" id="ended-pregnancy"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No"
+                                 style="radio"/>
+                        </td>
+                        <td>
+                            <obs conceptId="161033AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  id="pregnancy-outcome"
+                                 answerConceptIds="1395AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,129218AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159896AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabels="Term live,Preterm Delivery,Still birth,Induced abortion," answerSeparator="&lt;br /&gt;"
+                                 style="radio"/>
+                        </td>
+                        <td>
+                            <obs conceptId="1596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="outcome-date" allowFutureDates="false"/>
+                        </td>
+                        <td>
+                            <obs
+                                    conceptId="164122AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="defects"
+                                    answerConceptIds="155871AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                    answerLabels="Yes,No,Unknown"  answerSeparator="&lt;br /&gt;"
+                                    style="radio" />
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </includeIf>
         <!--Chronic Illnesses and Cormobidities-->
         <fieldset>
             <legend>Chronic Illnesses and Cormobidities</legend>
@@ -980,74 +1116,74 @@
                 </table>
             </table>
         </fieldset>
-            <!--Adverse Drug Reactions-->
+        <!--Adverse Drug Reactions-->
         <fieldset>
-                <legend>Adverse Drug Reactions</legend>
-                <table class="simple-table">
-                    <div>
-                        Client has adverse drug reaction(s)? &#160;&#160;&#160;&#160;
-                        <obs id="adverse-reactions" conceptId="121764AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="yes_no"/>
-                        <span style="color:red;"><strong>*</strong></span>
-                    </div>
-                    <table id="tbl-adverse-reactions">
-                        <tr>
-                            <td colspan="2">Record any Adverse Drug Reactions since the last visit<br/>
-                                <table>
-                                    <tr>
-                                        <th>Medicine Causing Reaction</th>
-                                        <th>Reaction</th>
-                                        <th>Severity</th>
-                                        <th>Date of Onset</th>
-                                        <th>Action taken</th>
-                                    </tr>
-                                    <repeat>
-                                        <template>
-                                            <obsgroup groupingConceptId="121760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-                                                <tr>
-                                                    <td><obs class="medicine-causing"
-                                                             conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                             answerConceptIds="70056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162298AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,70878AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,155060AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,103727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,71647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,72822AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162301AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73300AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73667AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,74807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,75523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+            <legend>Adverse Drug Reactions</legend>
+            <table class="simple-table">
+                <div>
+                    Client has adverse drug reaction(s)? &#160;&#160;&#160;&#160;
+                    <obs id="adverse-reactions" conceptId="121764AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="yes_no"/>
+                    <span style="color:red;"><strong>*</strong></span>
+                </div>
+                <table id="tbl-adverse-reactions">
+                    <tr>
+                        <td colspan="2">Record any Adverse Drug Reactions since the last visit<br/>
+                            <table>
+                                <tr>
+                                    <th>Medicine Causing Reaction</th>
+                                    <th>Reaction</th>
+                                    <th>Severity</th>
+                                    <th>Date of Onset</th>
+                                    <th>Action taken</th>
+                                </tr>
+                                <repeat>
+                                    <template>
+                                        <obsgroup groupingConceptId="121760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                                            <tr>
+                                                <td><obs class="medicine-causing"
+                                                         conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                         answerConceptIds="70056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162298AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,70878AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,155060AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,103727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,71647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,72822AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162301AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73300AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73667AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,74807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,75523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
                                                                             75948AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,77164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,77675AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,78280AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,794AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80106AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162306AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81723AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81959AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,82023AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
                                                                                	82559AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,82900AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,83018AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,767AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162307AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84893AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,86663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                             answerLabels="Abicavir,ACE inhibitors,Allopurinol,Aminoglycosides,ARBs (angiotensin II receptor blockers),Aspirin,Atazanavir,Carbamazepine,Cephalosporins,Chloroquine,Codeine,Didanosine,Efavirenz,Erythromycins,Ethambutol,Griseofulvin,Heparins,Hydralazine,Isoniazid,Lopinavir/ritonavir,Morphine,Nevirapine,Nitrofurans,Non-steroidal anti-inflammatory drugs,Penicillamine,Penicillin,Phenolphthaleins,Phenytoin,Procainamide,Pyrazinamide,Quinidine,Rifampin,Statins,Stavudine,Sulfonamides,Tenofovir,Tetracycline,Zidovudine,Other"
-                                                             style="dropdown" id="adverse"
-                                                    />
-                                                    </td>
-                                                    <td><obs class ="adverse-drug-reaction"
-                                                             conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                             answerConceptIds="1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121629AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148888AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148787AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,143264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118773AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139084AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                                                         answerLabels="Abicavir,ACE inhibitors,Allopurinol,Aminoglycosides,ARBs (angiotensin II receptor blockers),Aspirin,Atazanavir,Carbamazepine,Cephalosporins,Chloroquine,Codeine,Didanosine,Efavirenz,Erythromycins,Ethambutol,Griseofulvin,Heparins,Hydralazine,Isoniazid,Lopinavir/ritonavir,Morphine,Nevirapine,Nitrofurans,Non-steroidal anti-inflammatory drugs,Penicillamine,Penicillin,Phenolphthaleins,Phenytoin,Procainamide,Pyrazinamide,Quinidine,Rifampin,Statins,Stavudine,Sulfonamides,Tenofovir,Tetracycline,Zidovudine,Other"
+                                                         style="dropdown" id="adverse"
+                                                />
+                                                </td>
+                                                <td><obs class ="adverse-drug-reaction"
+                                                         conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                         answerConceptIds="1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121629AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148888AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,148787AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,120148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,143264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,118773AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,140039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,139084AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
                                                                             111061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,117399AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121677AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159347AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,121AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                             answerLabels="Unknown,Anaemia,Anaphylaxis,Angioedema,Arrhythmia,Bronchospasm,Cough,Diarrhea,Dystonia,Fever,Flushing,GI upset,Headache,Hepatotoxicity,Hives,Hypertension,Itching,Mental status change,Musculoskeletal pain,Myalgia,Rash,Other"
-                                                             style="dropdown"
-                                                    /></td>
-                                                    <td><obs  class="adverse-drug-severity"
-                                                              conceptId="162760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                              answerConceptIds="1498AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1500AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                              answerLabels="Mild,Moderate,Severe,Life threatening,Not graded" /></td>
-                                                    <td><obs class="adverse-events-onset-date" conceptId="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" labelText=" " /></td>
-                                                    <td>
-                                                        <obs class="action-taken"
-                                                             conceptId="1255AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                             answerConceptIds="1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1259AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,981AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                             answerLabels="CONTINUE REGIMEN,SWITCHED REGIMEN,CHANGED DOSE,SUBSTITUTED DRUG,NONE,STOP,OTHER"
-                                                             style="dropdown"
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            </obsgroup>
-                                        </template>
-                                        <render n="1" concept=" " />
-                                        <render n="2" concept=" " />
-                                        <render n="3" concept=" " />
-                                        <render n="4" concept=" " />
-                                        <render n="5" concept=" " />
-                                    </repeat>
-                              </table>
-                            </td>
-                        </tr>
-                  </table>
+                                                         answerLabels="Unknown,Anaemia,Anaphylaxis,Angioedema,Arrhythmia,Bronchospasm,Cough,Diarrhea,Dystonia,Fever,Flushing,GI upset,Headache,Hepatotoxicity,Hives,Hypertension,Itching,Mental status change,Musculoskeletal pain,Myalgia,Rash,Other"
+                                                         style="dropdown"
+                                                /></td>
+                                                <td><obs  class="adverse-drug-severity"
+                                                          conceptId="162760AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                          answerConceptIds="1498AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1500AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                          answerLabels="Mild,Moderate,Severe,Life threatening,Not graded" /></td>
+                                                <td><obs class="adverse-events-onset-date" conceptId="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="false" labelText=" " /></td>
+                                                <td>
+                                                    <obs class="action-taken"
+                                                         conceptId="1255AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                         answerConceptIds="1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1259AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,981AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1258AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                         answerLabels="CONTINUE REGIMEN,SWITCHED REGIMEN,CHANGED DOSE,SUBSTITUTED DRUG,NONE,STOP,OTHER"
+                                                         style="dropdown"
+                                                    />
+                                                </td>
+                                            </tr>
+                                        </obsgroup>
+                                    </template>
+                                    <render n="1" concept=" " />
+                                    <render n="2" concept=" " />
+                                    <render n="3" concept=" " />
+                                    <render n="4" concept=" " />
+                                    <render n="5" concept=" " />
+                                </repeat>
+                            </table>
+                        </td>
+                    </tr>
                 </table>
-            </fieldset>
+            </table>
+        </fieldset>
 
         <!--Known allergies -->
         <fieldset>
@@ -1123,20 +1259,20 @@
                     <tr id="hepBnegative">
                         <td>If negative, vaccine series initiated</td>
                         <td>
-                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisb-vaccine-initiated"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No"
-                             style="radio"/>
+                            <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisb-vaccine-initiated"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No"
+                                 style="radio"/>
                         </td>
                     </tr>
                     <tr id="hepBpostive">
                         <td>If positive, treatment offered</td>
                         <td>
-                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisb-treatment-offered"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                            <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisb-treatment-offered"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
                               1788AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No, Referred"
-                             style="radio"/>
+                                 answerLabel="Yes,No, Referred"
+                                 style="radio"/>
                         </td>
                     </tr>
                 </table>
@@ -1157,20 +1293,20 @@
                     <tr id="hepCnegative">
                         <td>If negative, vaccine series initiated</td>
                         <td>
-                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisc-vaccine-initiated"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No"
-                             style="radio"/>
+                            <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisc-vaccine-initiated"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No"
+                                 style="radio"/>
                         </td>
                     </tr>
                     <tr id="hepCpositive">
                         <td>If positive, treatment offered</td>
                         <td>
-                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisc-treatment-offered"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                            <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="hepatitisc-treatment-offered"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
                              1788AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No,Referred"
-                             style="radio"/>
+                                 answerLabel="Yes,No,Referred"
+                                 style="radio"/>
                         </td>
                     </tr>
                 </table>
@@ -1181,10 +1317,10 @@
                     <tr>
                         <td>Serum Creatinine done?</td>
                         <td>
-                        <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="serum-creatinine"
-                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                             answerLabel="Yes,No"
-                             style="radio"/>
+                            <obs conceptId="1272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="serum-creatinine"
+                                 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                 answerLabel="Yes,No"
+                                 style="radio"/>
                         </td>
                     </tr>
                     <tr>
@@ -1210,24 +1346,20 @@
                     <td> <b>Adherence outcome</b> </td>
                     <td width="250" id="fair-bad-label">If fair or poor, what are the reasons?	</td>
                     <td width="250"> <b>Contraindication for PrEP</b> </td>
-                    <td> <b>PrEP treatment plan </b> </td>
-                    <td> <b>Condoms issued</b> </td>
-                    <td id="condom-issiued-label"> <b>Number of condoms issued</b> </td>
+
                 </tr>
                 <tr>
                     <td>
-                        <!-- SIGNS OF ACUTE HIV-->
                         <obs conceptId="165101" id="hiv-signs"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Yes,No"
                              style="radio" required="true"/>
                     </td>
                     <td>
-                        <!-- ADHERENCE COUNSELLING DONE -->
                         <obs conceptId="165104" id="adherence-assessment"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Yes,No"
-                             style="radio" required="true"/>
+                             style="radio" required="true" />
                     </td>
                     <td><obs id="adherence-outcome"
                              conceptId="164075"
@@ -1248,61 +1380,85 @@
                         <obs id="reason-fair-other" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
                     </td>
                     <td width="100">
-                        <!-- CONTRAINDICATIONS FOR PrEP -->
-
                         <obs conceptId="165106" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None" style="checkbox"/> <br />
                         <obs conceptId="165106" answerConceptId="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Confirmed HIV+" style="checkbox"/> <br />
                         <obs conceptId="165106" answerConceptId="155589AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Renal impairment" style="checkbox"/> <br />
                         <obs conceptId="165106" answerConceptId="127750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Not willing" style="checkbox"/> <br />
-                        <obs conceptId="165106" answerConceptId="165105" answerLabel="Less than 35ks and under 15 yrs" style="checkbox"/> <br />
-
+                        <obs conceptId="165106" answerConceptId="165105" answerLabel="Less than 30ks and under 15 yrs" style="checkbox"/> <br />
                     </td>
+
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset>
+            <legend>PrEP Treatment Plan</legend>
+            <table class="simple-table">
+                <tr>
+                    <td> <b>Current PrEP Regimen </b> </td>
+                    <td> <b>PrEP treatment plan </b> </td>
+                    <td id="reason-for-switching"> <b>Reason for Switching? </b> </td>
+                    <td id="date-of-switching"> <b>Date of Switch </b> </td>
+                    <td id="prescription"> <b>Prescribed PrEP today? </b> </td>
+                    <td id="type-of-prep"> <b>Type of PrEP </b> </td>
+                    <td id="regimen"> <b>Regimen prescribed </b> </td>
+                    <td id="number-of-months"><b>Number of months</b></td>
+                    <td> <b>Condoms issued</b> </td>
+                    <td id="condom-issiued-label"> <b>Number of condoms issued</b> </td>
+                </tr>
+                <tr>
                     <td>
-                        <table>
-                            <tr>
-
-                            <td>
-                                <!-- PrEP TREATMENT PLAN -->
-                                <obs conceptId="165109" id="treatment-plan"
-                                     answerConceptIds="1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                     answerLabels="Continue,Restart,Discontinue"   answerSeparator="&lt;br /&gt;"
-                                     style="radio" required="true" />
-                            </td>
-
-                                <td id="prescription">Prescribed PrEP today?</td>
-                                <td id="prescription-option"><obs conceptId="1417" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-                                        1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
-                                </td>
-
-                                <td id="regimen">Regimen prescribed</td>
-                                <td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						                84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                                              answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
-                                </td>
-                                <td id="months">Number of months</td>
-                                <td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="regimen-months-prescribed"/></td>
-
-                            </tr>
-                        </table>
-
-
+                        <span id="current-prep-regimen"></span>
                     </td>
+                    <td><obs id="treatment-plan"
+                             conceptId="167788"
+                             style="radio"
+                             answerConceptIds="1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164515,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Continue,Restart,Switch,Discontinue"
+                             answerSeparator="&lt;br /&gt;"/>
+                    </td>
+
+                    <td id="reason-for-switching-option"><obs
+                            conceptId="167788"
+                            answerConceptIds="159737,160662,121760,141748,167533"
+                            answerLabels="Client Preference,Stock-out,Adverse Drug Reactions,Drug Interactions,Discontinuing Injection PrEP"
+                            answerSeparator="&lt;br /&gt;"/>
+                    </td>
+                    <td id="date-of-switching-option">
+                        <obs conceptId="165144"/>
+                    </td>
+                    <td width="100" id="prescription-option">
+                        <obs conceptId="1417"
+                             answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabel="Yes,No"
+                             style="radio"/>
+                    </td>
+                    <td id="type-of-prep-option">
+                        <obs
+                                conceptId="165109"
+                                style="radio"
+                                answerConceptIds="165269,168050,168049, 5424"
+                                answerLabels="Daily Oral PrEP,CAB-LA,Dapivirine ring,Event Driven"
+                                answerSeparator="&lt;br /&gt;"/>
+                    </td>
+                    <td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+										84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,168050,168049"
+                                                  answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred),CAB-LA,Dapivirine Ring" />
+                    </td>
+                    <td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
                     <td width="100">
-                        <!-- CONDOMS ISSUED -->
                         <obs conceptId="159777" id="condom-issued"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Yes,No"
                              style="radio"/>
                     </td>
                     <td id="number-of-condoms-issued">
-                        <!-- NUMBER OF CONDOMS ISSUED -->
-                        <obs conceptId="165055" />
+                        <obs conceptId="165055"/>
                     </td>
 
                 </tr>
             </table>
         </fieldset>
-         <!--Appointments-->
+        <!--Appointments-->
         <fieldset>
             <legend>Next appointment</legend>
             <table class="simple-table">
