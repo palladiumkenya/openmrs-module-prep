@@ -1,0 +1,240 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public License,
+ * v. 2.0. If a copy of the MPL was not distributed with this file, You can
+ * obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+ * the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+ * <p>
+ * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+ * graphic logo is a trademark of OpenMRS Inc.
+ */
+package org.openmrs.module.prep.calculation.library.prep;
+
+import org.joda.time.DateTime;
+import org.joda.time.Months;
+import org.openmrs.Order;
+import org.openmrs.Obs;
+import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.api.OrderService;
+import org.openmrs.api.PatientService;
+import org.openmrs.api.context.Context;
+import org.openmrs.calculation.patient.PatientCalculationContext;
+import org.openmrs.calculation.result.CalculationResult;
+import org.openmrs.calculation.result.CalculationResultMap;
+import org.openmrs.module.kenyacore.calculation.*;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.PendingSerumCreatinineUECsResultCalculation;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
+import org.openmrs.module.prep.metadata.PrepMetadata;
+import org.openmrs.module.prep.util.EmrUtils;
+import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Form;
+import org.openmrs.Order;
+import org.openmrs.OrderType;
+import org.openmrs.Patient;
+import org.openmrs.Program;
+
+import java.util.*;
+
+import static org.joda.time.Months.monthsBetween;
+
+/*
+ *HIV Rapid Test, Before initiating PrEP as per the National HTS algorithm. At Month 1, Month 3, thereafter every 3months
+ * Creatine Test (UECs),Test within 1-3 months of PrEP Initiation. Age > 50years – Screen every 6-12months
+ *Hepatitis B Surface Antigen (HBsAg),Test once within 3 months of initiating PrEP. If negative, offer/refer for immunization.
+ *Hepatitis C Virus Serology, Test once within 3months of PrEP initiation. Every 12 months for persons at high risk of Hepatitis C infection
+ * */
+public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+	
+	StringBuilder labMonitoringMessage = new StringBuilder();
+	
+	PatientService patientService = Context.getPatientService();
+	
+	final int MIN_AGE = 50;
+	
+	public static final Locale LOCALE = Locale.ENGLISH;
+	
+	@Override
+	public String getFlagMessage() {
+		return labMonitoringMessage.toString();
+	}
+	
+	@Override
+	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> map,
+	        PatientCalculationContext patientCalculationContext) {
+		CalculationResultMap ret = new CalculationResultMap();
+		String TEST_ORDER_TYPE_UUID = "52a447d3-a64a-11e3-9aeb-50e549534c5e";
+		
+		CalculationResultMap creatinine = Calculations.lastObs(
+		    Dictionary.getConcept(Dictionary.SERUM_CREATININE_UMOL_PER_L), cohort, patientCalculationContext);
+		
+		Set<Integer> alive = Filters.alive(cohort, patientCalculationContext);
+		Program prepProgram = MetadataUtils.existing(Program.class, PrepMetadata._Program.PREP);
+		Set<Integer> inPrepProgram = Filters.inProgram(prepProgram, alive, patientCalculationContext);
+		Set<Integer> pendingSerumCreatinineTestResults = CalculationUtils.patientsThatPass(calculate(
+		    new PendingSerumCreatinineUECsResultCalculation(), cohort, patientCalculationContext));
+		
+		OrderService orderService = Context.getOrderService();
+		
+		for (Integer ptId : cohort) {
+			Patient patient = patientService.getPatient(ptId);
+			boolean needsPrEPMonitoringLab = false;
+			
+			Date hepBOrderDate = null;
+			Date hepBResultDate = null;
+			Date hepCResultDate = null;
+			String hepBRes = null;
+			Date hepCOrderDate = null;
+			String hepCRes = null;
+			
+			if (inPrepProgram.contains(ptId)) {
+				
+				int patientAge = patient.getAge();
+				
+				Date latestHIVTestDate = null;
+				Date latestHTSOrderDate = null;
+				Date latestHTSObsDate = null;
+				Concept latestHTSResults = null;
+				Date currentDate = patientCalculationContext.getNow();
+				
+				Encounter latestPrEPEnrEncounter = EmrUtils.lastEncounter(patient, Context.getEncounterService()
+				        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_ENROLLMENT), Context.getFormService()
+				        .getFormByUuid(PrepMetadata._Form.PREP_ENROLLMENT_FORM));
+				Date latestPrEPEnrDate = latestPrEPEnrEncounter.getEncounterDatetime();
+				
+				CalculationResultMap latestHTSObsMap = Calculations.lastObs(
+				    Dictionary.getConcept(Dictionary.RAPID_HIV_CONFIRMATORY_TEST), cohort, patientCalculationContext);
+				
+				Obs latestHTSObs = EmrCalculationUtils.obsResultForPatient(latestHTSObsMap, ptId);
+				if (latestHTSObs != null) {
+					latestHTSResults = latestHTSObs.getValueCoded();
+					latestHTSObsDate = latestHTSObs.getObsDatetime();
+				}
+				if (latestHTSObsDate != null && latestHTSOrderDate != null) {
+					if (latestHTSObsDate.after(latestHTSOrderDate)) {
+						latestHIVTestDate = latestHTSObsDate;
+					} else {
+						latestHIVTestDate = latestHTSOrderDate;
+					}
+				} else if (latestHTSObsDate == null && latestHTSOrderDate != null) {
+					latestHIVTestDate = latestHTSOrderDate;
+				}
+				
+				int monthsSinceLastHIVTest = Months
+				        .monthsBetween(new DateTime(latestHIVTestDate), new DateTime(currentDate)).getMonths();
+				int monthsSincePrEPInitiation = Months.monthsBetween(new DateTime(latestPrEPEnrDate),
+				    new DateTime(currentDate)).getMonths();
+				
+				Concept hepatitisBResult = Dictionary.getConcept(Dictionary.HEPATITITS_B);
+				CalculationResultMap currentHepatitisBResult = Calculations.lastObs(hepatitisBResult, cohort,
+				    patientCalculationContext);
+				
+				Concept hepatitisCResult = Dictionary.getConcept(Dictionary.HEPATITITS_C);
+				CalculationResultMap currentHepatitisCResult = Calculations.lastObs(hepatitisCResult, cohort,
+				    patientCalculationContext);
+				
+				Date latestHTSEncDate = null;
+				Concept latestHTSTestResults = null;
+				
+				CalculationResult lastSerumCreatinine = creatinine.get(ptId);
+				OrderType patientLabOrders = orderService.getOrderTypeByUuid(TEST_ORDER_TYPE_UUID);
+				Date latestSerumCreatinineOrderDate = null;
+				Order latestHTSTestOrderResults;
+				
+				if (patientLabOrders != null) {
+					//Get active lab orders
+					List<Order> latestSerumCreatinineLabTestOrders = orderService.getOrderHistoryByConcept(patient,
+					    Dictionary.getConcept(Dictionary.SERUM_CREATININE_UMOL_PER_L));
+					
+					List<Order> latestHTSLabTestOrders = orderService.getOrderHistoryByConcept(patient,
+					    Dictionary.getConcept(Dictionary.RAPID_HIV_CONFIRMATORY_TEST));
+					
+					if (latestSerumCreatinineLabTestOrders.size() > 0) {
+						Order latestSerumCreatinineOrder = latestSerumCreatinineLabTestOrders.get(0);
+						latestSerumCreatinineOrderDate = latestSerumCreatinineOrder != null ? latestSerumCreatinineOrder
+						        .getDateActivated() : null;
+					}
+					if (latestHTSLabTestOrders.size() > 0) {
+						Order latestHTSOrder = latestHTSLabTestOrders.get(0);
+						latestHTSOrderDate = latestHTSOrder != null ? latestHTSOrder.getDateActivated() : null;
+						//latestHTSTestOrderResults = latestHTSOrder != null ? latestHTSOrder. : null;
+					}
+				}
+				Obs serumCreatinineObs = lastSerumCreatinine != null ? EmrCalculationUtils.obsResultForPatient(creatinine,
+				    ptId) : null;
+				Date lastCrAgResultDate = serumCreatinineObs != null ? serumCreatinineObs.getObsDatetime() : null;
+				
+				int monthsSincePrEPEnrol = Months.monthsBetween(new DateTime(latestPrEPEnrDate), new DateTime(currentDate))
+				        .getMonths();
+				int monthsSinceLastCreatinineLabOrder = Months.monthsBetween(new DateTime(latestSerumCreatinineOrderDate),
+				    new DateTime(currentDate)).getMonths();
+				
+				//Months.monthsBetween(new DateTime(latestHIVTestDate), DateTime(currentDate)).getMonths();
+				Obs hepatitisBResultObs = EmrCalculationUtils.obsResultForPatient(currentHepatitisBResult, ptId);
+				if (hepatitisBResultObs != null) {
+					hepBResultDate = hepatitisBResultObs.getObsDatetime();
+					hepBRes = hepatitisBResultObs.getValueCoded().getName(LOCALE).getName();
+					hepBOrderDate = hepatitisBResultObs.getOrder().getDateActivated();
+					
+				}
+				
+				Obs hepatitisCResultObs = EmrCalculationUtils.obsResultForPatient(currentHepatitisCResult, ptId);
+				if (hepatitisCResultObs != null) {
+					hepCResultDate = hepatitisCResultObs.getObsDatetime();
+					hepCRes = hepatitisCResultObs.getValueCoded().getName(LOCALE).getName();
+					hepCOrderDate = hepatitisCResultObs.getOrder().getDateActivated();
+					
+				}
+				
+				int monthsSinceHepCOrderDate = Months.monthsBetween(new DateTime(hepCOrderDate), new DateTime(currentDate))
+				        .getMonths();
+				
+				System.out.println("pendingCrAgTestResults.contains(ptId): "
+				        + pendingSerumCreatinineTestResults.contains(ptId));
+				System.out.println("serumCreatinineObs: " + serumCreatinineObs);
+				System.out.println("lastCrAgResultDate: " + lastCrAgResultDate);
+				System.out.println("latestPrEPEnrDate: " + latestPrEPEnrDate);
+				System.out.println("monthsSincePrEPEnrol: " + monthsSincePrEPEnrol);
+				System.out.println("patientAge: " + patientAge);
+				System.out.println("monthsSinceLastCreatinineLabOrder: " + monthsSinceLastCreatinineLabOrder);
+				
+				if (!pendingSerumCreatinineTestResults.contains(ptId)
+				        && (((serumCreatinineObs == null || lastCrAgResultDate.before(latestPrEPEnrDate)) && monthsSincePrEPEnrol > 0) || (patientAge > MIN_AGE && monthsSinceLastCreatinineLabOrder >= 6))) {
+					needsPrEPMonitoringLab = true;
+					labMonitoringMessage.append("Due for Creatine Test (UECs)");
+				}
+				
+				if (((latestHTSObs == null && latestHTSOrderDate == null)
+				        || (((monthsSinceLastHIVTest < 3 && monthsSincePrEPInitiation < 3) || (monthsSinceLastHIVTest >= 3 && monthsSincePrEPInitiation >= 3))) || (monthsSincePrEPInitiation > 3 && monthsSinceLastHIVTest % 3 == 0))) {
+					needsPrEPMonitoringLab = true;
+					if (labMonitoringMessage.length() == 0) {
+						labMonitoringMessage.append("Due for HIV Rapid Test");
+					} else {
+						labMonitoringMessage.append(", ").append("HIV Rapid Test");
+					}
+				}
+				
+				if (hepBOrderDate == null && monthsSincePrEPInitiation >= 1) {
+					needsPrEPMonitoringLab = true;
+					if (labMonitoringMessage.length() == 0) {
+						labMonitoringMessage.append("Due for Hepatitis B Surface Antigen (HBsAg)");
+					} else {
+						labMonitoringMessage.append(", ").append("Hepatitis B Surface Antigen (HBsAg)");
+					}
+				}
+				if ((hepCOrderDate == null && monthsSincePrEPInitiation >= 1)
+				        || (monthsSincePrEPInitiation > 3 && monthsSinceHepCOrderDate % 12 == 0)) {
+					needsPrEPMonitoringLab = true;
+					if (labMonitoringMessage.length() == 0) {
+						labMonitoringMessage.append("Due for Hepatitis C Virus Serology");
+					} else {
+						labMonitoringMessage.append(", ").append("Hepatitis C Virus Serology");
+					}
+				}
+			}
+			ret.put(ptId, new BooleanResult(needsPrEPMonitoringLab, this));
+		}
+		return ret;
+	}
+	
+}
