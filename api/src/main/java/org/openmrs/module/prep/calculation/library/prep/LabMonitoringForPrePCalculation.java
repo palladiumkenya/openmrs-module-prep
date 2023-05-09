@@ -22,6 +22,8 @@ import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.module.kenyacore.calculation.*;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.PendingSerumCreatinineUECsResultCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.PendingHepatitisCResultCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.PendingHepatitisBResultCalculation;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.util.EmrUtils;
@@ -33,6 +35,7 @@ import org.openmrs.Order;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.Program;
+import org.openmrs.CareSetting;
 
 import java.util.*;
 
@@ -61,7 +64,6 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> map,
 	        PatientCalculationContext patientCalculationContext) {
 		CalculationResultMap ret = new CalculationResultMap();
-		String TEST_ORDER_TYPE_UUID = "52a447d3-a64a-11e3-9aeb-50e549534c5e";
 		
 		CalculationResultMap creatinine = Calculations.lastObs(
 		    Dictionary.getConcept(Dictionary.SERUM_CREATININE_UMOL_PER_L), cohort, patientCalculationContext);
@@ -72,11 +74,18 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 		Set<Integer> pendingSerumCreatinineTestResults = CalculationUtils.patientsThatPass(calculate(
 		    new PendingSerumCreatinineUECsResultCalculation(), cohort, patientCalculationContext));
 		
+		Set<Integer> pendingHepatitisBResult = CalculationUtils.patientsThatPass(calculate(
+		    new PendingHepatitisBResultCalculation(), cohort, patientCalculationContext));
+		
+		Set<Integer> pendingHepatitisCResult = CalculationUtils.patientsThatPass(calculate(
+		    new PendingHepatitisCResultCalculation(), cohort, patientCalculationContext));
+		
 		OrderService orderService = Context.getOrderService();
 		
 		for (Integer ptId : cohort) {
 			Patient patient = patientService.getPatient(ptId);
 			boolean needsPrEPMonitoringLab = false;
+			OrderType labType = orderService.getOrderTypeByUuid(OrderType.TEST_ORDER_TYPE_UUID);
 			
 			if (inPrepProgram.contains(ptId)) {
 				
@@ -90,27 +99,34 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 				Date latestPrEPEnrDate = latestPrEPEnrEncounter.getEncounterDatetime();
 				
 				CalculationResult lastSerumCreatinine = creatinine.get(ptId);
-				OrderType patientLabOrders = orderService.getOrderTypeByUuid(TEST_ORDER_TYPE_UUID);
+				CareSetting careset = orderService.getCareSetting(1);
+				List<Order> patientLabOrders = orderService.getOrders(patient, careset, labType, false);
+				
 				Date latestSerumCreatinineOrderDate = null;
 				Date hepBOrderDate = null;
 				Date hepCOrderDate = null;
 				Date latestHTSOrderDate = null;
 				Date latestHIVTestDate = null;
 				Date latestHTSObsDate = null;
+				List<Order> latestSerumCreatinineLabTestOrders = new ArrayList<Order>();
+				List<Order> latestHTSLabTestOrders = new ArrayList<Order>();
+				List<Order> latestHepBLabTestOrders = new ArrayList<Order>();
+				List<Order> latestHepCLabTestOrders = new ArrayList<Order>();
 				
-				if (patientLabOrders != null) {
+				if (patientLabOrders.size() > 0) {
 					//Get active lab orders
-					List<Order> latestSerumCreatinineLabTestOrders = orderService.getOrderHistoryByConcept(patient,
-					    Dictionary.getConcept(Dictionary.SERUM_CREATININE_UMOL_PER_L));
-					
-					List<Order> latestHTSLabTestOrders = orderService.getOrderHistoryByConcept(patient,
-					    Dictionary.getConcept(Dictionary.RAPID_HIV_CONFIRMATORY_TEST));
-					
-					List<Order> latestHepBLabTestOrders = orderService.getOrderHistoryByConcept(patient,
-					    Dictionary.getConcept(Dictionary.HEPATITITS_B));
-					
-					List<Order> latestHepCLabTestOrders = orderService.getOrderHistoryByConcept(patient,
-					    Dictionary.getConcept(Dictionary.HEPATITITS_C));
+					for (Order contextOrder : patientLabOrders) {
+						if (contextOrder.getConcept().equals(Dictionary.getConcept(Dictionary.SERUM_CREATININE_UMOL_PER_L))) {
+							latestSerumCreatinineLabTestOrders.add(contextOrder);
+						} else if (contextOrder.getConcept().equals(
+						    Dictionary.getConcept(Dictionary.RAPID_HIV_CONFIRMATORY_TEST))) {
+							latestHTSLabTestOrders.add(contextOrder);
+						} else if (contextOrder.getConcept().equals(Dictionary.getConcept(Dictionary.HEPATITITS_B))) {
+							latestHepBLabTestOrders.add(contextOrder);
+						} else if (contextOrder.getConcept().equals(Dictionary.getConcept(Dictionary.HEPATITITS_C))) {
+							latestHepCLabTestOrders.add(contextOrder);
+						}
+					}
 					
 					if (latestSerumCreatinineLabTestOrders.size() > 0) {
 						Order latestSerumCreatinineOrder = latestSerumCreatinineLabTestOrders.get(0);
@@ -170,7 +186,9 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 					labMonitoringMessage.append("Due for Creatine Test (UECs)");
 				}
 				
-				if (((latestHTSObs == null && latestHTSOrderDate == null) || (((monthsSinceLastHIVTest < 3 && monthsSincePrEPInitiation < 3) || (monthsSinceLastHIVTest >= 3 && monthsSincePrEPInitiation >= 3))) /*|| (monthsSincePrEPInitiation > 3 && monthsSinceLastHIVTest >= 3)*/)) {
+				if (((latestHTSObs == null && latestHTSOrderDate == null)
+				        || (monthsSinceLastHIVTest >= 1 && monthsSincePrEPInitiation >= 1 && monthsSincePrEPInitiation < 3)
+				        || (monthsSinceLastHIVTest >= 2 && monthsSincePrEPInitiation == 3) || (monthsSinceLastHIVTest >= 3 && monthsSincePrEPInitiation > 3))) {
 					needsPrEPMonitoringLab = true;
 					if (labMonitoringMessage.length() == 0) {
 						labMonitoringMessage.append("Due for HIV Rapid Test");
@@ -179,7 +197,7 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 					}
 				}
 				
-				if (hepBOrderDate == null && monthsSincePrEPInitiation >= 1) {
+				if (!pendingHepatitisBResult.contains(ptId) && hepBOrderDate == null && monthsSincePrEPInitiation >= 1) {
 					needsPrEPMonitoringLab = true;
 					if (labMonitoringMessage.length() == 0) {
 						labMonitoringMessage.append("Due for Hepatitis B Surface Antigen (HBsAg)");
@@ -188,7 +206,7 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 					}
 				}
 				
-				if ((hepCOrderDate == null && monthsSincePrEPInitiation >= 1)
+				if (!pendingHepatitisCResult.contains(ptId) && (hepCOrderDate == null && monthsSincePrEPInitiation >= 1)
 				        || (monthsSincePrEPInitiation > 3 && monthsSinceHepCOrderDate >= 12)) {
 					needsPrEPMonitoringLab = true;
 					if (labMonitoringMessage.length() == 0) {
@@ -202,5 +220,4 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 		}
 		return ret;
 	}
-	
 }
