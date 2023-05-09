@@ -22,6 +22,8 @@ import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.module.kenyacore.calculation.*;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.PendingSerumCreatinineUECsResultCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.PendingHepatitisCResultCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.PendingHepatitisBResultCalculation;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.prep.metadata.PrepMetadata;
 import org.openmrs.module.prep.util.EmrUtils;
@@ -72,6 +74,12 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 		Set<Integer> pendingSerumCreatinineTestResults = CalculationUtils.patientsThatPass(calculate(
 		    new PendingSerumCreatinineUECsResultCalculation(), cohort, patientCalculationContext));
 		
+		Set<Integer> pendingHepatitisBResult = CalculationUtils.patientsThatPass(calculate(
+		    new PendingHepatitisBResultCalculation(), cohort, patientCalculationContext));
+		
+		Set<Integer> pendingHepatitisCResult = CalculationUtils.patientsThatPass(calculate(
+		    new PendingHepatitisCResultCalculation(), cohort, patientCalculationContext));
+		
 		OrderService orderService = Context.getOrderService();
 		
 		for (Integer ptId : cohort) {
@@ -119,7 +127,7 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 							latestHepCLabTestOrders.add(contextOrder);
 						}
 					}
-
+					
 					if (latestSerumCreatinineLabTestOrders.size() > 0) {
 						Order latestSerumCreatinineOrder = latestSerumCreatinineLabTestOrders.get(0);
 						latestSerumCreatinineOrderDate = latestSerumCreatinineOrder != null ? latestSerumCreatinineOrder
@@ -177,7 +185,7 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 					needsPrEPMonitoringLab = true;
 					labMonitoringMessage.append("Due for Creatine Test (UECs)");
 				}
-
+				
 				if (((latestHTSObs == null && latestHTSOrderDate == null)
 				        || (monthsSinceLastHIVTest >= 1 && monthsSincePrEPInitiation >= 1 && monthsSincePrEPInitiation < 3)
 				        || (monthsSinceLastHIVTest >= 2 && monthsSincePrEPInitiation == 3) || (monthsSinceLastHIVTest >= 3 && monthsSincePrEPInitiation > 3))) {
@@ -189,7 +197,7 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 					}
 				}
 				
-				if (hepBOrderDate == null && monthsSincePrEPInitiation >= 1) {
+				if (!pendingHepatitisBResult.contains(ptId) && hepBOrderDate == null && monthsSincePrEPInitiation >= 1) {
 					needsPrEPMonitoringLab = true;
 					if (labMonitoringMessage.length() == 0) {
 						labMonitoringMessage.append("Due for Hepatitis B Surface Antigen (HBsAg)");
@@ -198,7 +206,7 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 					}
 				}
 				
-				if ((hepCOrderDate == null && monthsSincePrEPInitiation >= 1)
+				if (!pendingHepatitisCResult.contains(ptId) && (hepCOrderDate == null && monthsSincePrEPInitiation >= 1)
 				        || (monthsSincePrEPInitiation > 3 && monthsSinceHepCOrderDate >= 12)) {
 					needsPrEPMonitoringLab = true;
 					if (labMonitoringMessage.length() == 0) {
