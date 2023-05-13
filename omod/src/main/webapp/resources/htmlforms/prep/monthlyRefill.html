@@ -85,6 +85,7 @@
             jq('#type-of-prep-option :input[type=radio]').click(typeOfPrep);
             var currentPrepRegimen= "<lookup expression='fn.latestObs(164515).getValueCoded()' />";
             var currentPrepRegimenReg = currentPrepRegimen.replace(/[^\d]/g, '');
+            jq('#discontinue-status').hide();
 
             if(currentPrepRegimenReg == 161364){
                 jq('#current-prep-regimen').html("TDF/3TC");
@@ -196,9 +197,10 @@
 
 			}
 		}
+
 		function prepStatus() {
 			var status = jq(this).val();
-			if(status ==1257||status ==162904) {
+			if(status ==159835||status ==162904) {
 				jq('#number-of-months').hide();
 				jq('#prescription-option').show();
 				jq('#prescription').show();
@@ -223,6 +225,7 @@
                 clearHiddenSections(jq('#months-options'));
                 clearHiddenSections(jq('#regimen-options'));
 			    clearHiddenSections(jq('#regimen'));
+			    jq('#discontinue-status').hide();
 			}else if(status ==164515){
 			    jq('#reason-for-switching').show();
                 jq('#reason-for-switching-option').show();
@@ -230,6 +233,7 @@
                 jq('#date-of-switching-option').show();
                 jq('#prescription-option').show();
 				jq('#prescription').show();
+				jq('#discontinue-status').hide();
 
 
 			}else {
@@ -244,6 +248,7 @@
                 jq('#type-of-prep-option').hide();
                 jq('#months-options').hide();
                 jq('#regimen-options').hide();
+                jq('#discontinue-status').show();
 			    jq('#regimen').hide();
 			    clearHiddenSections(jq('#number-of-months'));
 				clearHiddenSections(jq('#prescription-option'));
@@ -260,6 +265,7 @@
 
 
 			}
+
 		}
 		 function adherenceAssessmentSelected() {
             var val = jq(this).val();
@@ -434,7 +440,6 @@
 					<td> <b>Adherence counselling done</b> </td>
 					<td> <b>Adherence outcome</b> </td>
 					<td width="250" id="fair-bad-label">If fair or poor, what are the reasons?	</td>
-					<td width="250"> <b>Contraindication for PrEP</b> </td>
 
 				</tr>
 				<tr>
@@ -445,7 +450,7 @@
 							 style="radio" required="true"/>
 					</td>
 					<td>
-						<obs conceptId="165104" id="adherence-assessment"
+						<obs conceptId="164425" id="adherence-assessment"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							 answerLabel="Yes,No"
 							 style="radio" required="true" />
@@ -455,8 +460,8 @@
 							 style="radio"
 							 answerConceptIds="159405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 						                        159406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
-						                        159407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="Good,Fair,Poor"
+						                        159407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067"
+							 answerLabels="Good,Fair,Poor,N/A(Did not pick PrEP at last"
 							 answerSeparator="&lt;br /&gt;"/>
 					</td>
 					<td id="fair-bad-reasons"><obs  id="fair-bad" conceptId="160582"   answerConceptIds="163293AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
@@ -468,13 +473,7 @@
 						<br/> <br/>
 						<obs id="reason-fair-other" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 					</td>
-					<td width="100">
-						<obs conceptId="165106" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None" style="checkbox"/> <br />
-						<obs conceptId="165106" answerConceptId="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Confirmed HIV+" style="checkbox"/> <br />
-						<obs conceptId="165106" answerConceptId="155589AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Renal impairment" style="checkbox"/> <br />
-						<obs conceptId="165106" answerConceptId="127750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Not willing" style="checkbox"/> <br />
-						<obs conceptId="165106" answerConceptId="165105" answerLabel="Less than 30ks and under 15 yrs" style="checkbox"/> <br />
-					</td>
+
 
 				</tr>
 			</table>
@@ -499,9 +498,9 @@
 						<span id="current-prep-regimen"></span>
 					</td>
 					<td><obs id="treatment-plan"
-							 conceptId="167788"
+							 conceptId="161641"
 							 style="radio"
-							 answerConceptIds="1257AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164515,1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerConceptIds="159835AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162904AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164515,159836AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							 answerLabels="Continue,Restart,Switch,Discontinue"
 							 answerSeparator="&lt;br /&gt;"/>
 					</td>
@@ -523,7 +522,7 @@
 					</td>
 					<td id="type-of-prep-option">
 						<obs
-								conceptId="165109"
+								conceptId="166866"
 								style="radio"
 								answerConceptIds="165269,168050,168049, 5424"
 								answerLabels="Daily Oral PrEP,CAB-LA,Dapivirine ring,Event Driven"
@@ -544,6 +543,14 @@
 						<obs conceptId="165055"/>
 					</td>
 
+				</tr>
+				<tr id="discontinue-status">
+					<td>PrEP discontinue reasons</td>
+					<td><obs id="discontinue" conceptId="161555" labelText=" "   answerConceptIds="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,113338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1302AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159598AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162696AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622"
+							 answerLabels="HIV test is positive,Renal dysfunction,Viral suppression of HIV+,
+							  Not adherent to PrEP,Too many HIV tests,Client request,Other-specify"  style="dropdown"/>
+						<obs id="other-reason" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+					</td>
 				</tr>
 			</table>
 		</fieldset>
