@@ -183,7 +183,7 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 				if (!pendingSerumCreatinineTestResults.contains(ptId)
 				        && (((serumCreatinineObs == null || lastCrAgResultDate.before(latestPrEPEnrDate)) && monthsSincePrEPInitiation > 0) || (patientAge > MIN_AGE && monthsSinceLastCreatinineLabOrder >= 6))) {
 					needsPrEPMonitoringLab = true;
-					labMonitoringMessage.append("Due for Creatine Test (UECs)");
+					labMonitoringMessage.append("Due for Creatine Test");
 				}
 				
 				if (((latestHTSObs == null && latestHTSOrderDate == null)
@@ -200,9 +200,9 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 				if (!pendingHepatitisBResult.contains(ptId) && hepBOrderDate == null && monthsSincePrEPInitiation >= 1) {
 					needsPrEPMonitoringLab = true;
 					if (labMonitoringMessage.length() == 0) {
-						labMonitoringMessage.append("Due for Hepatitis B Surface Antigen (HBsAg)");
+						labMonitoringMessage.append("Due for HepB Test");
 					} else {
-						labMonitoringMessage.append(", ").append("Hepatitis B Surface Antigen (HBsAg)");
+						labMonitoringMessage.append(", ").append("HepB Test");
 					}
 				}
 				
@@ -210,9 +210,9 @@ public class LabMonitoringForPrePCalculation extends AbstractPatientCalculation 
 				        || (monthsSincePrEPInitiation > 3 && monthsSinceHepCOrderDate >= 12)) {
 					needsPrEPMonitoringLab = true;
 					if (labMonitoringMessage.length() == 0) {
-						labMonitoringMessage.append("Due for Hepatitis C Virus Serology");
+						labMonitoringMessage.append("Due for HepC Test");
 					} else {
-						labMonitoringMessage.append(", ").append("Hepatitis C Virus Serology");
+						labMonitoringMessage.append(", ").append("HepC Test");
 					}
 				}
 			}
