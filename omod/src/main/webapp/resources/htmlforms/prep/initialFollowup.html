@@ -111,6 +111,7 @@
 			jq('#tca-given :input[type=radio]').change(tcaGivenSelected);
 			jq('#hiv-signs :input[type=radio]').change(hivSignsSelected);
 			jq('#contraindications :input[type=radio]').change(contraindicationsSelected);
+			jq('#prep-status :input[type=checkbox]').change(prepStatusSelected);
 			jq('#family-planning-status :input[type=radio]').click(notOnFamilyPlanning);
 			jq('#sti_screened :input[type=radio]').click(isStiScreened);
 			jq('#sti-symptoms :input[type=checkbox]').click(isStiScreenedSymptoms);
@@ -652,6 +653,21 @@
 				jq("#treatment-plan input[value=1260]").prop("checked", false);
 			}
 		}
+
+        function prepStatusSelected() {
+            var val = jq(this).val();
+            var prepStatusChecked = jq("#prep-status input:checkbox:checked");
+            if(val == 1107 &amp;&amp; prepStatusChecked.length ==1){
+                jq("#prep-status input[type=checkbox]").prop("disabled",true);
+                jq(this).prop("disabled",false);
+            }else {
+                jq("#prep-status input[type=checkbox]").prop("disabled",false);
+                jq("#prep-status input[value=1107]").prop("disabled",true);
+            }
+            if(prepStatusChecked.length ==0){
+                jq("#prep-status input[value=1107]").prop("disabled",false);
+            }
+        }
 
 
 		function prepStatus() {
@@ -1285,7 +1301,7 @@
 					<td width="250"> <b>Contraindication for PrEP</b> </td>
 
 				</tr>
-				<tr>
+				<tr id="prep-status">
 					<td>
 						<obs conceptId="165101" id="hiv-signs"
 							 answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
