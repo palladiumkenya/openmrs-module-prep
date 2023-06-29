@@ -143,7 +143,9 @@
             if (gender == 'F') {
 				jq("#type-of-prep-option input[value=5424]").prop("disabled", true);
             }
-
+            if (gender == 'M') {
+                jq("#type-of-prep-option input[value=168049]").prop("disabled", true);
+            }
 
 			creatininelabs();
 			hepatitisClabs();
@@ -1378,7 +1380,7 @@
 						<obs
 								conceptId="166866"
 								style="radio"
-								answerConceptIds="165269,168050,168049, 5424"
+								answerConceptIds="165269,168050,168049,5424"
 								answerLabels="Daily Oral PrEP,CAB-LA,Dapivirine ring,Event Driven"
 								answerSeparator="&lt;br /&gt;"/>
 					</td>
