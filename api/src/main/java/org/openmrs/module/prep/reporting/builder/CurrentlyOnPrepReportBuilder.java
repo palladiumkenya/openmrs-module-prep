@@ -99,6 +99,15 @@ public class CurrentlyOnPrepReportBuilder extends AbstractHybridReportBuilder {
 		DataDefinition identifierCCCDef = new ConvertedPatientDataDefinition("identifier",
 		        new PatientIdentifierDataDefinition(cccNumber.getName(), cccNumber), identifierFormatter);
 		
+		CurrentOnPrepVisitMonthDataDefinition prepVisitMonthDataDefinition = new CurrentOnPrepVisitMonthDataDefinition();
+		prepVisitMonthDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		PrEPVisitDateDataDefinition prepVisitDateDataDefinition = new PrEPVisitDateDataDefinition();
+		prepVisitDateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		NextAppointmentDateDataDefinition prepTCADateDataDefinition = new NextAppointmentDateDataDefinition();
+		prepTCADateDataDefinition.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		DataConverter formatter = new ObjectFormatter("{familyName}, {givenName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), formatter);
 		dsd.addColumn("id", new PersonIdDataDefinition(), "");
@@ -110,9 +119,9 @@ public class CurrentlyOnPrepReportBuilder extends AbstractHybridReportBuilder {
 		dsd.addColumn("Population type", new PrepPopulatonTypeDataDefinition(), "");
 		dsd.addColumn("Patient type", new PrepPatientTypeDataDefinition(), "");
 		dsd.addColumn("Enrollment date", new PrepEnrollmentDateDataDefinition(), "");
-		dsd.addColumn("Visit date", new PrEPVisitDateDataDefinition(), "");
-		dsd.addColumn("Visit month", new CurrentOnPrepVisitMonthDataDefinition(), "");
-		dsd.addColumn("Next appointment date", new NextAppointmentDateDataDefinition(), "");
+		dsd.addColumn("Visit date", prepVisitDateDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Visit month", prepVisitMonthDataDefinition, "endDate=${endDate}");
+		dsd.addColumn("Next appointment date", prepTCADateDataDefinition, "endDate=${endDate}");
 		//Turned HIV Positive while on PrEP
 		dsd.addColumn("Linked to Care", new LinkedToCareDataDefinition(), "");
 		dsd.addColumn("CCC Number", identifierCCCDef, "");
