@@ -21,6 +21,7 @@ import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -36,15 +37,23 @@ public class CurrentOnPrepVisitMonthDataEvaluator implements PersonDataEvaluator
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select  v.patient_id as patient_id,timestampdiff(MONTH,e.visit_date,v.visit_date) as visit_month  from kenyaemr_etl.etl_prep_followup v\n"
-		        + "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=v.patient_id\n"
-		        + "where v.form='prep-consultation' group by patient_id\n"
-		        + "UNION\n"
-		        + "select  r.patient_id as patient_id,timestampdiff(MONTH,e.visit_date,r.visit_date) as visit_month from kenyaemr_etl.etl_prep_monthly_refill r\n"
-		        + "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=r.patient_id\n" + "group by patient_id;\n";
+		String qry = "select e.patient_id,\n" + "       timestampdiff(MONTH, max(e.visit_date),\n"
+		        + "                     greatest(f.latest_followup_date, r.latest_refill_date)) as visit_month\n"
+		        + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "         left join (select f.patient_id, max(date(f.visit_date)) as latest_followup_date\n"
+		        + "                    from kenyaemr_etl.etl_prep_followup f\n"
+		        + "                    where date(f.visit_date) <= date(:endDate)\n"
+		        + "                    group by f.patient_id) f on e.patient_id = f.patient_id\n"
+		        + "         left join (select r.patient_id, max(date(r.visit_date)) as latest_refill_date\n"
+		        + "                    from kenyaemr_etl.etl_prep_monthly_refill r\n"
+		        + "                    where date(r.visit_date) <= date(:endDate)\n"
+		        + "                    group by r.patient_id) r on e.patient_id = r.patient_id\n"
+		        + "where date(e.visit_date) <= date(:endDate)\n" + "group by e.patient_id;\n";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;
