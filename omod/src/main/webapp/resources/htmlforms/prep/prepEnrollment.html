@@ -91,9 +91,16 @@
             var pgender = "<lookup expression="patient.gender" />";
             var pAge = parseInt('<lookup expression="patient.age"/>');
             jq('#key-populations').hide();
+            jq('#type-of-prep').hide();
+            jq('#regimen-options').hide();
+			jq('#regimen').hide();
+			jq('#art-group').hide();
+			jq('#date_last_used').hide();
+			jq('#prep-last-date').hide();
             jq('#priority-populations').hide();
             jq('input[type=radio].key-population').prop("checked", false);
             jq('#upnError').hide();
+            jq('#type-of-prep-option').hide();
             jq("#prep-id input[type=text]").blur(checkForExistingPatientIdentifiers);
             jq('#population_type :input[type=radio]').change(populationTypeSelected);
 
@@ -112,6 +119,7 @@
             jq('#transfer-in-status input').change(onTransferStatusChange);
             jq('#art-history :input').hide();
             jq('#art-status input').change(onArtStatusChange);
+            jq('#type-of-prep-option :input[type=radio]').click(typeOfPrep);
             jq('#generate-prep-id').click(onUpnGenerateClick);
             jq('#transit-patient').hide();
 
@@ -186,10 +194,15 @@
             if (pgender == 'M') {
                 jq('#pregnant :input').prop('disabled', true);
                 jq('#breastfeeding :input').prop('disabled', true);
+                jq("#type-of-prep-option input[value=168049]").prop("disabled", true);
+            }
+            if (pgender == 'F') {
+                jq("#type-of-prep-option input[value=5424]").prop("disabled", true);
             }
             if (pgender == 'F' &amp;&amp; pAge &lt; 10) {
                 jq('#pregnant :input').prop('disabled', true);
                 jq('#breastfeeding :input').prop('disabled', true);
+
             }
             if (pAge &lt; 2 || getValue('pregnant.value') == 1065) {
                 jq('.muac').show();
@@ -402,10 +415,45 @@
         function onArtStatusChange() {
             if (getValue('art-status.value') == 'false') {
                 jq('#art-history :input').hide();
+                 jq('#type-of-prep-option').hide();
+                 jq('#type-of-prep').hide();
+                 jq('#regimen-options').hide();
+                 jq('#date_last_used').hide();
+                 jq('#art-group').hide();
+
             } else {
                 jq('#art-history :input').show();
+                 jq('#type-of-prep-option').show();
+                 jq('#type-of-prep').show();
+                 jq('#regimen-options').show();
+                 jq('#date_last_used').show();
+                 jq('#art-group').show();
             }
         }
+        function typeOfPrep(){
+		    var val = jq(this).val();
+                 if(val == 165269) {
+                    jq('#regimen-options').show();
+                    jq('#regimen').show();
+                    jq('#date_last_used').show();
+			        jq('#prep-last-date').show();
+
+                } else if(val == 5424){
+                    jq('#regimen-options').show();
+                    jq('#regimen').show();
+                    jq('#date_last_used').show();
+			        jq('#prep-last-date').show();
+
+                 }else{
+                    jq('#regimen-options').hide();
+                    jq('#regimen').hide();
+                    jq('#date_last_used').hide();
+			        jq('#prep-last-date').hide();
+                    clearHiddenSections(jq('#regimen'));
+                    clearHiddenSections(jq('#prep-last-date'));
+
+                 }
+		}
 
         function onUpnGenerateClick() {
             kenyaui.openConfirmDialog({
@@ -497,46 +545,46 @@
 					<td> Population type </td>
 					<td>
 						<obs conceptId="164930"
-								 answerConceptIds="164928,6096,164929,138643"
-								 answerLabels="General Population,Discordant Couple,Key Population,Priority Population" id="population_type"
-								 style="radio" />
+							 answerConceptIds="164928,6096,164929,138643"
+							 answerLabels="General Population,Discordant Couple,Key Population,Priority Population" id="population_type"
+							 style="radio" />
 					</td>
 					<td id="key-populations">
 						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="People in prison and other closed settings" style="checkbox"  id="prisoner"/><br/>
+							 answerLabel="People in prison and other closed settings" style="checkbox"  id="prisoner"/><br/>
 						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165100"
-								 answerLabel="Transgender" style="checkbox"  id="transgender"/><br/>
+							 answerLabel="Transgender" style="checkbox"  id="transgender"/><br/>
 						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="PWID" style="checkbox"  id="pwid"/><br/>
+							 answerLabel="PWID" style="checkbox"  id="pwid"/><br/>
 						<includeIf velocityTest="$patient.gender == 'M'">
 							<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160578AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-									 answerLabel="MSM" style="checkbox" id="men-with-men"/><br/>
+								 answerLabel="MSM" style="checkbox" id="men-with-men"/><br/>
 						</includeIf>
 						<includeIf velocityTest="$patient.gender == 'M'">
 							<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165084"
-									 answerLabel="MSW" style="checkbox" id="male-sex-worker" /><br/>
+								 answerLabel="MSW" style="checkbox" id="male-sex-worker" /><br/>
 						</includeIf>
 						<includeIf velocityTest="$patient.gender == 'F'">
 							<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160579AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-									 answerLabel="FSW" style="checkbox" id="female-sex-worker" /><br/>
+								 answerLabel="FSW" style="checkbox" id="female-sex-worker" /><br/>
 						</includeIf>
 
 					</td>
 					<td id="priority-populations">
 						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Fisher folk" style="checkbox" /><br/>
+							 answerLabel="Fisher folk" style="checkbox" /><br/>
 						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162198AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Truck driver" style="checkbox" /><br/>
+							 answerLabel="Truck driver" style="checkbox" /><br/>
 						<includeIf velocityTest="$patient.gender == 'F'">
 							<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160549AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-									 answerLabel="Adolescent and young girls" style="checkbox" id="adyg" /><br/>
+								 answerLabel="Adolescent and young girls" style="checkbox" id="adyg" /><br/>
 						</includeIf>
 						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Prisoner" style="checkbox" /><br/>
+							 answerLabel="Prisoner" style="checkbox" /><br/>
 						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabel="Not applicable" style="checkbox" id="other" /><br/>
+							 answerLabel="Not applicable" style="checkbox" id="other" /><br/>
 						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="165192"
-								 answerLabel="Military and other uniformed services" style="checkbox" id="dodOnly" /><br/>
+							 answerLabel="Military and other uniformed services" style="checkbox" id="dodOnly" /><br/>
 					</td>
 
 				</tr>
@@ -544,13 +592,13 @@
 					<td>Referred from:</td>
 					<td colspan="3">
 						<obs id="entry-point" style="radio" answerSeparator=" "
-								 conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerConceptIds="159938AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160539AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+							 conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							 answerConceptIds="159938AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160539AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 							 159937AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 							 160542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162050AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160551AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 							 163488AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159927AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164945,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-								 answerLabels="HBTC,VCT Site,MCH,IPD-Adult,TB Clinic,OPD,CCC,Self Referral,Community,Outreach,Peer,Other(eg STI)"
-								 required="true"
+							 answerLabels="HBTC,VCT Site,MCH,IPD-Adult,TB Clinic,OPD,CCC,Self Referral,Community,Outreach,Peer,Other(eg STI)"
+							 required="true"
 						/>
 					<td><obsgroup groupingConceptId="161358AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
 						<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
@@ -615,22 +663,29 @@
 					<td>
 						<obs id="art-status" conceptId="160533AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="yes_no" />
 					</td>
-					<td>
-						&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-					</td>
-					<td>
+
+					<td id="art-group">
 						<table id="art-history" border="0">
 							<tr>
-								<th>Regimen</th>
-								<th>Date Last Used</th>
+								<td id="type-of-prep"> <b>Type of PrEP </b> </td>
+								<td id="regimen"> <b>Regimen prescribed </b> </td>
+								<td id="date_last_used"><b>Date Last Used</b></td>
 							</tr>
 							<obsgroup groupingConceptId="160741AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
 								<tr>
-									<td><obs conceptId="1088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-													 answerConceptIds="104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-													 answerLabels="TDF/FTC,TDF,TDF/3TC" />
+									<td id="type-of-prep-option">
+										<obs
+												conceptId="166866"
+												style="radio"
+												answerConceptIds="165269,168050,168049,5424"
+												answerLabels="Daily Oral PrEP,CAB-LA,Dapivirine ring,Event Driven"
+												answerSeparator="&lt;br /&gt;"/>
 									</td>
-									<td> <obs conceptId="162881AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  id="prep-last-date" allowFutureDates="false" />	</td>
+									<td id="regimen-options"><obs conceptId="1088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+																  answerConceptIds="104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+																  answerLabels="TDF/FTC,TDF,TDF/3TC" />
+									</td>
+									<td id="prep-last-date"> <obs conceptId="162881AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"   allowFutureDates="false" />	</td>
 								</tr>
 
 							</obsgroup>
@@ -648,7 +703,7 @@
 						<td>In school :
 							&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 							<obs conceptId="5629AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-									 style="yes_no" required = "true"/>
+								 style="yes_no" required = "true"/>
 						</td>
 					</tr>
 				</includeIf>
