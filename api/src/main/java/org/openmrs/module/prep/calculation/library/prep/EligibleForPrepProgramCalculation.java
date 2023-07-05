@@ -128,7 +128,7 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 						
 					} else {
 						
-						if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
+						if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null && htsInitialValidPeriod != null) {
 							if (eligible
 							        && patient.getAge() >= prepAgeCriteria
 							        && weightCurrentObs.getValueNumeric().intValue() >= prepWeightCriteria
