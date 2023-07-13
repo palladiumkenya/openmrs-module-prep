@@ -190,8 +190,10 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
-		EmrReportingUtils.addRow(cohortDsd, "HV05", "Total Current on PrEP",
-		    ReportUtils.map(moh731BIndicators.currentOnPrEP(), indParams), sexDisaggregation, Arrays.asList("01", "02"));
+		EmrReportingUtils
+		        .addRow(cohortDsd, "HV05", "Total Current on PrEP",
+		            ReportUtils.map(moh731BIndicators.currentOnPrEPTotal(), indParams), sexDisaggregation,
+		            Arrays.asList("01", "02"));
 		
 		//6.0 Number tested HIV+ while on PrEP
 		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-General Population",
