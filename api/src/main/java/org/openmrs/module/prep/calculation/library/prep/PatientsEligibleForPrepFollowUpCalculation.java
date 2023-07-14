@@ -135,7 +135,8 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				
 				//	check there is follow up form
 				List<Encounter> numOfFolloupEncounters = encounterService.getEncounters(Context.getPatientService()
-				        .getPatient(ptId), null, null, null, null, Arrays.asList(Context.getEncounterService()
+				        .getPatient(ptId), null, null, null, Collections.singleton(Context.getFormService().getFormByUuid(
+				    PrepMetadata._Form.PREP_CONSULTATION_FORM)), Arrays.asList(Context.getEncounterService()
 				        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_CONSULTATION)), null, null, null, false);
 				
 				List<Encounter> prepInitialEncounter = encounterService
