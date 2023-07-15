@@ -53,20 +53,7 @@ public class ETLMoh731BCohortLibrary {
 		
 		return cd;
 	}
-	
-	/*	public CohortDefinition eligibleForPrEPGP() {
-			CompositionCohortDefinition cd = new CompositionCohortDefinition();
-			CalculationCohortDefinition calc = new CalculationCohortDefinition(new EligibleForPrepProgramCalculation());
-			calc.setName("eligibleForPrEP");
-			calc.addParameter(new Parameter("endDate", "End Date", Date.class));
-			cd.addParameter(new Parameter("endDate", "End date", Date.class));
-			cd.addSearch("generalPopulation", ReportUtils.map(generalPopulation(), "endDate=${endDate}"));
-			cd.addSearch("eligibleForPrEP", ReportUtils.map(calc, "endDate=${endDate}"));
-			cd.setCompositionString("generalPopulation AND eligibleForPrEP");
-			return cd;
-			
-		}*/
-	
+
 	/**
 	 * MSM clients in their lastest PrEP enrollment
 	 * 
@@ -818,9 +805,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("newlyOnPrEPGP", ReportUtils.map(newlyOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPGP", ReportUtils.map(refillOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("generalPopulation", ReportUtils.map(generalPopulation(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(generalPopulation AND continuingOnPrEP AND currentOnPrEP) OR newlyOnPrEPGP OR restartOnPrEPGP OR refillOnPrEPGP");
+		cd.setCompositionString("(generalPopulation AND continuingOnPrEP) OR newlyOnPrEPGP OR restartOnPrEPGP OR refillOnPrEPGP");
 		return cd;
 	}
 	
@@ -838,9 +824,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("newlyOnPrEPMSM", ReportUtils.map(newlyOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPMSM", ReportUtils.map(refillOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("msm", ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(msm AND continuingOnPrEP AND currentOnPrEP) OR newlyOnPrEPMSM OR restartOnPrEPMSM OR refillOnPrEPMSM");
+		cd.setCompositionString("(msm AND continuingOnPrEP) OR newlyOnPrEPMSM OR restartOnPrEPMSM OR refillOnPrEPMSM");
 		return cd;
 	}
 	
@@ -858,9 +843,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("newlyOnPrEPFSW", ReportUtils.map(newlyOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPFSW", ReportUtils.map(refillOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("fsw", ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(fsw AND continuingOnPrEP AND currentOnPrEP) OR newlyOnPrEPFSW OR restartOnPrEPFSW OR refillOnPrEPFSW");
+		cd.setCompositionString("(fsw AND continuingOnPrEP) OR newlyOnPrEPFSW OR restartOnPrEPFSW OR refillOnPrEPFSW");
 		return cd;
 	}
 	
@@ -878,9 +862,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("newlyOnPrEPPWID", ReportUtils.map(newlyOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPPWID", ReportUtils.map(refillOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("pwid", ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(pwid AND continuingOnPrEP AND currentOnPrEP) OR newlyOnPrEPPWID OR restartOnPrEPPWID OR refillOnPrEPPWID");
+		cd.setCompositionString("(pwid AND continuingOnPrEP) OR newlyOnPrEPPWID OR restartOnPrEPPWID OR refillOnPrEPPWID");
 		return cd;
 	}
 	
@@ -901,9 +884,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("refillOnPrEPDiscordant",
 		    ReportUtils.map(refillOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("discordantCouple", ReportUtils.map(discordantCouple(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(discordantCouple AND continuingOnPrEP AND currentOnPrEP) OR newlyOnPrEPDiscordant OR restartOnPreEPDiscordant OR refillOnPrEPDiscordant");
+		cd.setCompositionString("(discordantCouple AND continuingOnPrEP) OR newlyOnPrEPDiscordant OR restartOnPreEPDiscordant OR refillOnPrEPDiscordant");
 		return cd;
 	}
 	
