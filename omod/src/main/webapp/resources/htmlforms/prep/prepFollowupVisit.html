@@ -78,45 +78,35 @@
             jq("#signs-header").hide();
             jq("#treatment-header").hide();
             jq('#other-sti-symptoms').hide();
+
+
+
+
+            jq('#months-options').hide();
 			jq("#number-of-condoms-issued").hide();
+			jq("#number-of-condoms-issued-obs").hide();
 			jq("#condom-issiued-label").hide();
-			jq("#vmmc-referrals").hide();
-			jq("#referred-header").hide();
-			jq('#months-options').hide();
 			jq('#number-of-months').hide();
 			jq('#prescription-option').hide();
+			jq('#prescription-option-obs').hide();
 			jq('#prescription').hide();
 			jq('#regimen-options').hide();
+			jq('#regimen-options-obs').hide();
 			jq('#regimen').hide();
-            jq('#fair-bad-reasons').hide();
-            jq('#fair-bad-label').hide();
-            jq('#reason-fair-other').hide();
             jq('#type-of-prep').hide();
             jq('#type-of-prep-option').hide();
+            jq('#type-of-prep-option-obs').hide();
             jq('#reason-for-switching').hide();
             jq('#reason-for-switching-option').hide();
             jq('#date-of-switching').hide();
             jq('#date-of-switching-option').hide();
-            jq('#prescription-option :input[type=radio]').change(prescriptionOption);
-            jq("#vmmc-referrals").hide();
-            jq("#referred-header").hide();
+            jq('#condom-issued :input[type=radio]').click(isCondomsIssued);
+			jq('#treatment-plan :input[type=radio]').click(prepStatus);
+			jq('#prescription-option-obs :input[type=radio]').change(prescriptionOption);
+            jq('#type-of-prep-option-obs :input[type=radio]').click(typeOfPrep);
 
-            jq('#months-options').hide();
-            jq('#months').hide();
-            jq('#prescription-option').hide();
-            jq('#prescription').hide();
-            jq('#regimen-options').hide();
-            jq('#regimen').hide();
-            jq('#fair-bad-reasons').hide();
-            jq('#fair-bad-label').hide();
-            jq('#reason-fair-other').hide();
-            jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
-            jq('#adherence-outcome :input[type=radio]').change(adherenceOutcomeSelected);
-            jq('#fair-bad').click(showOptionsOther);
-            jq('#type-of-prep-option :input[type=radio]').click(typeOfPrep);
             var currentPrepRegimen= "<lookup expression='fn.latestObs(164515).getValueCoded()' />";
             var currentPrepRegimenReg = currentPrepRegimen.replace(/[^\d]/g, '');
-
             if(currentPrepRegimenReg == 161364){
                 jq('#current-prep-regimen').html("TDF/3TC");
             }else if(currentPrepRegimenReg ==84795){
@@ -133,6 +123,25 @@
             if (gender == 'M') {
                 jq("#type-of-prep-option input[value=168049]").prop("disabled", true);
             }
+            jq('#treatment-plan :input[type=radio]').click(prepStatus);
+
+
+
+			jq("#vmmc-referrals").hide();
+			jq("#referred-header").hide();
+            jq('#fair-bad-reasons').hide();
+            jq('#fair-bad-label').hide();
+            jq('#reason-fair-other').hide();
+            jq("#vmmc-referrals").hide();
+            jq("#referred-header").hide();
+            jq('#fair-bad-reasons').hide();
+            jq('#fair-bad-label').hide();
+            jq('#reason-fair-other').hide();
+            jq('#adherence-assessment :input[type=radio]').change(adherenceAssessmentSelected);
+            jq('#adherence-outcome :input[type=radio]').change(adherenceOutcomeSelected);
+            jq('#fair-bad').click(showOptionsOther);
+
+
 
             jq('#sti_screened :input[type=radio]').change(onStiScreenedSelected);
             jq('#vmmc-screened :input[type=radio]').change(onVmmcScreenedSelected);
@@ -148,10 +157,160 @@
             jq('#family-planning-status :input[type=radio]').click(notOnFamilyPlanning);
             jq('#sti_screened :input[type=radio]').click(isStiScreened);
             jq('#sti-symptoms :input[type=checkbox]').click(isStiScreenedSymptoms);
-            jq('#condom-issued :input[type=radio]').click(isCondomsIssued);
             jq('#vmmc-status :input[type=radio]').change(onVmmcStatusSelected);
             jq('#menopause :input[type=checkbox]').click(menopausalStatus);
-            jq('#treatment-plan :input[type=radio]').click(prepStatus);
+
+
+	function isCondomsIssued() {
+			var val = jq(this).val();
+			if(val ==1065) {
+				jq("#number-of-condoms-issued").show();
+				jq("#number-of-condoms-issued-obs").show();
+				jq("#condom-issiued-label").show();
+
+			}else {
+
+				jq("#number-of-condoms-issued").hide();
+				jq("#number-of-condoms-issued-obs").hide();
+				jq("#condom-issiued-label").hide();
+			}
+
+		}
+
+	function typeOfPrep(){
+		var val = jq(this).val();
+		 if(val == 165269) {
+		  	jq('#regimen-options').show();
+		  	jq('#regimen-options-obs').show();
+			jq('#regimen').show();
+			jq('#months-options').show();
+			jq('#number-of-months').show();
+		}else if(val == 5424){
+		    jq('#regimen-options').show();
+		    jq('#regimen-options-obs').show();
+			jq('#regimen').show();
+			jq('#months-options').hide();
+			jq('#number-of-months').hide();
+			clearHiddenSections(jq('#months-options'));
+			clearHiddenSections(jq('#number-of-months'));
+		 }else{
+		 	jq('#regimen-options').hide();
+		 	jq('#regimen-options-obs').hide();
+			jq('#regimen').hide();
+			jq('#months-options').hide();
+			jq('#number-of-months').hide();
+			clearHiddenSections(jq('#months-option'));
+			clearHiddenSections(jq('#regimen'));
+			clearHiddenSections(jq('#regimen-option-obs'));
+			clearHiddenSections(jq('#months-option'));
+			clearHiddenSections(jq('#regimen'));
+
+		 }
+		}
+		function prescriptionOption() {
+			var val = jq(this).val();
+			if(val ==1065) {
+				jq('#type-of-prep').show();
+                jq('#type-of-prep-option').show();
+                jq('#type-of-prep-option-obs').show();
+			} else {
+				jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#number-of-months').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#type-of-prep-option-obs').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+                jq('#regimen-options-obs').hide();
+			    jq('#regimen').hide();
+                clearHiddenSections(jq('#type-of-prep-option-obs'));
+                clearHiddenSections(jq('#number-of-months'));
+                clearHiddenSections(jq('#months-options'));
+                clearHiddenSections(jq('#regimen-options'));
+                clearHiddenSections(jq('#regimen-options-obs'));
+			    clearHiddenSections(jq('#regimen'));
+
+			}
+		}
+
+		function prepStatus() {
+			var status = jq(this).val();
+			if(status ==1257||status ==162904) {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').show();
+				jq('#prescription-option-obs').show();
+				jq('#prescription').show();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#date-of-switching-option-obs').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#type-of-prep-option-obs').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+                jq('#regimen-options-obs').hide();
+			    jq('#regimen').hide();
+			    clearHiddenSections(jq('#number-of-months'));
+				clearHiddenSections(jq('#prescription-option-obs'));
+				clearHiddenSections(jq('#prescription'));
+				clearHiddenSections(jq('#reason-for-switching'));
+                clearHiddenSections(jq('#reason-for-switching-option'));
+                clearHiddenSections(jq('#date-of-switching'));
+                clearHiddenSections(jq('#date-of-switching-option-obs'));
+                clearHiddenSections(jq('#type-of-prep'));
+                clearHiddenSections(jq('#type-of-prep-option-obs'));
+                clearHiddenSections(jq('#months-options'));
+                clearHiddenSections(jq('#regimen-options-obs'));
+			    clearHiddenSections(jq('#regimen'));
+
+			}else if(status ==164515){
+			    jq('#reason-for-switching').show();
+                jq('#reason-for-switching-option').show();
+                jq('#date-of-switching').show();
+                jq('#date-of-switching-option').show();
+                jq('#date-of-switching-option-obs').show();
+                jq('#prescription-option').show();
+                jq('#prescription-option-obs').show();
+				jq('#prescription').show();
+
+
+
+			}else {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').hide();
+				jq('#prescription-option-obs').hide();
+				jq('#prescription').hide();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#date-of-switching-option-obs').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#type-of-prep-option-obs').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+                jq('#regimen-options-obs').hide();
+			    jq('#regimen').hide();
+			    clearHiddenSections(jq('#number-of-months'));
+				clearHiddenSections(jq('#prescription-option-obs'));
+				clearHiddenSections(jq('#prescription'));
+				clearHiddenSections(jq('#reason-for-switching'));
+                clearHiddenSections(jq('#reason-for-switching-option'));
+                clearHiddenSections(jq('#date-of-switching'));
+                clearHiddenSections(jq('#date-of-switching-option-obs'));
+                clearHiddenSections(jq('#type-of-prep'));
+                clearHiddenSections(jq('#type-of-prep-option-obs'));
+                clearHiddenSections(jq('#months-options'));
+                clearHiddenSections(jq('#regimen-options-obs'));
+			    clearHiddenSections(jq('#regimen'));
+
+
+			}
+
+		}
 
 
             creatininelabs();
@@ -335,145 +494,8 @@
             }
 
         }
-		function typeOfPrep(){
-		var val = jq(this).val();
-		 if(val == 165269) {
-		  	jq('#regimen-options').show();
-			jq('#regimen').show();
-			jq('#months-options').show();
-			jq('#number-of-months').show();
-		}else if(val == 5424){
-		    jq('#regimen-options').show();
-			jq('#regimen').show();
-			jq('#months-options').hide();
-			jq('#number-of-months').hide();
-			clearHiddenSections(jq('#months-options'));
-			clearHiddenSections(jq('#number-of-months'));
-		 }else{
-		 	jq('#regimen-options').hide();
-			jq('#regimen').hide();
-			jq('#months-options').hide();
-			jq('#number-of-months').hide();
-			clearHiddenSections(jq('#months-option'));
-			clearHiddenSections(jq('#regimen'));
-			clearHiddenSections(jq('#months-option'));
-			clearHiddenSections(jq('#regimen'));
-
-		 }
-		}
-		function prepStatus() {
-			var status = jq(this).val();
-			if(status ==1257) {
-				jq('#number-of-months').hide();
-				jq('#prescription-option').show();
-				jq('#prescription').show();
-				jq('#reason-for-switching').hide();
-                jq('#reason-for-switching-option').hide();
-                jq('#date-of-switching').hide();
-                jq('#date-of-switching-option').hide();
-                jq('#type-of-prep').hide();
-                jq('#type-of-prep-option').hide();
-                jq('#months-options').hide();
-                jq('#regimen-options').hide();
-			    jq('#regimen').hide();
-			    clearHiddenSections(jq('#number-of-months'));
-
-				clearHiddenSections(jq('#reason-for-switching'));
-                clearHiddenSections(jq('#reason-for-switching-option'));
-                clearHiddenSections(jq('#date-of-switching'));
-                clearHiddenSections(jq('#date-of-switching-option'));
-                clearHiddenSections(jq('#type-of-prep'));
-                clearHiddenSections(jq('#type-of-prep-option'));
-                clearHiddenSections(jq('#months-options'));
-                clearHiddenSections(jq('#regimen-options'));
-			    clearHiddenSections(jq('#regimen'));
-			}else if(status ==162904) {
-				jq('#number-of-months').hide();
-				jq('#prescription-option').show();
-				jq('#prescription').show();
-				jq('#reason-for-switching').hide();
-                jq('#reason-for-switching-option').hide();
-                jq('#date-of-switching').hide();
-                jq('#date-of-switching-option').hide();
-                jq('#type-of-prep').hide();
-                jq('#type-of-prep-option').hide();
-                jq('#months-options').hide();
-                jq('#regimen-options').hide();
-			    jq('#regimen').hide();
-			    clearHiddenSections(jq('#number-of-months'));
-
-				clearHiddenSections(jq('#reason-for-switching'));
-                clearHiddenSections(jq('#reason-for-switching-option'));
-                clearHiddenSections(jq('#date-of-switching'));
-                clearHiddenSections(jq('#date-of-switching-option'));
-                clearHiddenSections(jq('#type-of-prep'));
-                clearHiddenSections(jq('#type-of-prep-option'));
-                clearHiddenSections(jq('#months-options'));
-                clearHiddenSections(jq('#regimen-options'));
-			    clearHiddenSections(jq('#regimen'));
-			}else if(status ==164515){
-			    jq('#reason-for-switching').show();
-                jq('#reason-for-switching-option').show();
-                jq('#date-of-switching').show();
-                jq('#date-of-switching-option').show();
-                jq('#prescription-option').show();
-				jq('#prescription').show();
 
 
-			}else {
-				jq('#number-of-months').hide();
-				jq('#prescription-option').hide();
-				jq('#prescription').hide();
-				jq('#reason-for-switching').hide();
-                jq('#reason-for-switching-option').hide();
-                jq('#date-of-switching').hide();
-                jq('#date-of-switching-option').hide();
-                jq('#type-of-prep').hide();
-                jq('#type-of-prep-option').hide();
-                jq('#months-options').hide();
-                jq('#regimen-options').hide();
-			    jq('#regimen').hide();
-			    clearHiddenSections(jq('#number-of-months'));
-				clearHiddenSections(jq('#prescription-option'));
-				clearHiddenSections(jq('#prescription'));
-				clearHiddenSections(jq('#reason-for-switching'));
-                clearHiddenSections(jq('#reason-for-switching-option'));
-                clearHiddenSections(jq('#date-of-switching'));
-                clearHiddenSections(jq('#date-of-switching-option'));
-                clearHiddenSections(jq('#type-of-prep'));
-                clearHiddenSections(jq('#type-of-prep-option'));
-                clearHiddenSections(jq('#months-options'));
-                clearHiddenSections(jq('#regimen-options'));
-			    clearHiddenSections(jq('#regimen'));
-
-
-			}
-		}
-		function prescriptionOption() {
-			var val = jq(this).val();
-			if(val ==1065) {
-				jq('#type-of-prep').show();
-                jq('#type-of-prep-option').show();
-			} else {
-				jq('#type-of-prep').hide();
-                jq('#type-of-prep-option').hide();
-                jq('#number-of-months').hide();
-                jq('#type-of-prep').hide();
-                jq('#type-of-prep-option').hide();
-                jq('#months-options').hide();
-                jq('#regimen-options').hide();
-			    jq('#regimen').hide();
-                clearHiddenSections(jq('#type-of-prep-option'));
-                clearHiddenSections(jq('#type-of-prep'));
-                clearHiddenSections(jq('#number-of-months'));
-                clearHiddenSections(jq('#type-of-prep'));
-                clearHiddenSections(jq('#type-of-prep-option'));
-                clearHiddenSections(jq('#months-options'));
-                clearHiddenSections(jq('#regimen-options'));
-			    clearHiddenSections(jq('#regimen'));
-
-			}
-		}
 
         function hepatitisBlabs() {
 
@@ -539,19 +561,7 @@
             }
 
         }
-        function isCondomsIssued() {
-            var val = jq(this).val();
-            if(val ==1065) {
-                jq("#number-of-condoms-issued").show();
-                jq("#condom-issiued-label").show();
 
-            }else {
-                jq("#number-of-condoms-issued").hide();
-                jq("#condom-issiued-label").hide();
-                jq('#number-of-condoms-issued :input').val('');
-            }
-
-        }
         function isStiScreenedSymptoms() {
             if(getValue('sti-none.value') == 1107) {
                 jq("#sti-treatment-offerd").hide();
@@ -851,6 +861,108 @@
                 }else{
                     jq("#adherence-outcome input[type=radio]").prop("disabled", true);
                     }
+
+			if(getValue('condom-issued.value') ==1065) {
+				jq("#number-of-condoms-issued").show();
+				jq("#number-of-condoms-issued-obs").show();
+				jq("#condom-issiued-label").show();
+
+			}else {
+
+				jq("#number-of-condoms-issued").hide();
+				jq("#number-of-condoms-issued-obs").hide();
+				jq("#condom-issiued-label").hide();
+			}
+
+
+            if(getValue('treatment-plan.value') ==1257||getValue('treatment-plan.value') ==162904) {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').show();
+				jq('#prescription-option-obs').show();
+				jq('#prescription').show();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#type-of-prep-option-obs').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+                jq('#regimen-options-obs').hide();
+			    jq('#regimen').hide();
+			}else if(getValue('treatment-plan.value') ==164515){
+			    jq('#reason-for-switching').show();
+                jq('#reason-for-switching-option').show();
+                jq('#date-of-switching').show();
+                jq('#date-of-switching-option').show();
+                jq('#date-of-switching-option-obs').show();
+                jq('#prescription-option').show();
+                jq('#prescription-option-obs').show();
+				jq('#prescription').show();
+			}else {
+				jq('#number-of-months').hide();
+				jq('#prescription-option').hide();
+				jq('#prescription-option-obs').hide();
+				jq('#prescription').hide();
+				jq('#reason-for-switching').hide();
+                jq('#reason-for-switching-option').hide();
+                jq('#date-of-switching').hide();
+                jq('#date-of-switching-option').hide();
+                jq('#date-of-switching-option-obs').hide();
+                jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#type-of-prep-option-obs').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+                jq('#regimen-options-obs').hide();
+			    jq('#regimen').hide();
+			}
+
+
+			if(getValue('prescription-option-obs.value') ==1065) {
+				jq('#type-of-prep').show();
+                jq('#type-of-prep-option').show();
+                jq('#type-of-prep-option-obs').show();
+			} else {
+				jq('#type-of-prep').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#number-of-months').hide();
+                jq('#type-of-prep-option').hide();
+                jq('#type-of-prep-option-obs').hide();
+                jq('#months-options').hide();
+                jq('#regimen-options').hide();
+                jq('#regimen-options-obs').hide();
+			    jq('#regimen').hide();
+
+
+			}
+
+                 if(getValue('type-of-prep-option-obs.value') == 165269) {
+                    jq('#regimen-options').show();
+                    jq('#regimen-options-obs').show();
+                    jq('#regimen').show();
+                    jq('#months-options').show();
+                    jq('#number-of-months').show();
+                }else if(getValue('type-of-prep-option-obs.value') == 5424){
+                    jq('#regimen-options').show();
+                    jq('#regimen-options-obs').show();
+                    jq('#regimen').show();
+                    jq('#months-options').hide();
+                    jq('#number-of-months').hide();
+                 }else{
+                    jq('#regimen-options').hide();
+                    jq('#regimen-options-obs').hide();
+                    jq('#regimen').hide();
+                    jq('#months-options').hide();
+                    jq('#number-of-months').hide();
+
+                 }
+
+
+
+
+
 
             });
         </script>
@@ -1430,6 +1542,8 @@
                 </tr>
             </table>
         </fieldset>
+
+
         <fieldset>
             <legend>PrEP Treatment Plan</legend>
             <table class="simple-table">
@@ -1458,33 +1572,36 @@
                     </td>
 
                     <td id="reason-for-switching-option"><obs
+                            id="reason-for-switching-option-obs"
                             conceptId="167788"
                             answerConceptIds="159737,160662,121760,141748,167533"
                             answerLabels="Client Preference,Stock-out,Adverse Drug Reactions,Drug Interactions,Discontinuing Injection PrEP"
                             answerSeparator="&lt;br /&gt;"/>
                     </td>
                     <td id="date-of-switching-option">
-                        <obs conceptId="165144"/>
+                        <obs id="date-of-switching-option-obs" conceptId="165144"/>
                     </td>
                     <td width="100" id="prescription-option">
-                        <obs conceptId="1417"
+                        <obs id="prescription-option-obs"
+                             conceptId="1417"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                              answerLabel="Yes,No"
                              style="radio"/>
                     </td>
                     <td id="type-of-prep-option">
                         <obs
+                                id="type-of-prep-option-obs"
                                 conceptId="166866"
                                 style="radio"
                                 answerConceptIds="165269,168050,168049,5424"
                                 answerLabels="Daily Oral PrEP,CAB-LA,Dapivirine ring,Event Driven"
                                 answerSeparator="&lt;br /&gt;"/>
                     </td>
-                    <td id="regimen-options"><obs conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
+                    <td id="regimen-options"><obs id="regimen-options-obs" conceptId="164515" labelText=" " answerConceptIds="161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,
 										84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                                   answerLabels="TDF/3TC,TDF,TDF/FTC(Preferred)" />
                     </td>
-                    <td id="months-options"><obs conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+                    <td id="months-options"><obs id="months-options-obs" conceptId="164433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
                     <td width="100">
                         <obs conceptId="159777" id="condom-issued"
                              answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -1492,12 +1609,13 @@
                              style="radio"/>
                     </td>
                     <td id="number-of-condoms-issued">
-                        <obs conceptId="165055"/>
+                        <obs id="number-of-condoms-issued-obs" conceptId="165055"/>
                     </td>
 
                 </tr>
             </table>
         </fieldset>
+
         <!--Appointments-->
         <fieldset>
             <legend>Next appointment</legend>

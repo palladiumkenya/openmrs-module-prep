@@ -93,14 +93,17 @@
             jq('#key-populations').hide();
             jq('#type-of-prep').hide();
             jq('#regimen-options').hide();
+            jq('#regimen-options-obs').hide();
 			jq('#regimen').hide();
 			jq('#art-group').hide();
 			jq('#date_last_used').hide();
 			jq('#prep-last-date').hide();
+			jq('#prep-last-date-obs').hide();
             jq('#priority-populations').hide();
             jq('input[type=radio].key-population').prop("checked", false);
             jq('#upnError').hide();
             jq('#type-of-prep-option').hide();
+            jq('#type-of-prep-option-obs').hide();
             jq("#prep-id input[type=text]").blur(checkForExistingPatientIdentifiers);
             jq('#population_type :input[type=radio]').change(populationTypeSelected);
 
@@ -119,7 +122,7 @@
             jq('#transfer-in-status input').change(onTransferStatusChange);
             jq('#art-history :input').hide();
             jq('#art-status input').change(onArtStatusChange);
-            jq('#type-of-prep-option :input[type=radio]').click(typeOfPrep);
+            jq('#type-of-prep-option-obs :input[type=radio]').click(typeOfPrep);
             jq('#generate-prep-id').click(onUpnGenerateClick);
             jq('#transit-patient').hide();
 
@@ -194,10 +197,10 @@
             if (pgender == 'M') {
                 jq('#pregnant :input').prop('disabled', true);
                 jq('#breastfeeding :input').prop('disabled', true);
-                jq("#type-of-prep-option input[value=168049]").prop("disabled", true);
+                jq("#type-of-prep-option-obs input[value=168049]").prop("disabled", true);
             }
             if (pgender == 'F') {
-                jq("#type-of-prep-option input[value=5424]").prop("disabled", true);
+                jq("#type-of-prep-option-obs input[value=5424]").prop("disabled", true);
             }
             if (pgender == 'F' &amp;&amp; pAge &lt; 10) {
                 jq('#pregnant :input').prop('disabled', true);
@@ -416,16 +419,20 @@
             if (getValue('art-status.value') == 'false') {
                 jq('#art-history :input').hide();
                  jq('#type-of-prep-option').hide();
+                 jq('#type-of-prep-option-obs').hide();
                  jq('#type-of-prep').hide();
                  jq('#regimen-options').hide();
+                 jq('#regimen-options-obs').hide();
                  jq('#date_last_used').hide();
                  jq('#art-group').hide();
 
             } else {
                 jq('#art-history :input').show();
                  jq('#type-of-prep-option').show();
+                 jq('#type-of-prep-option-obs').show();
                  jq('#type-of-prep').show();
                  jq('#regimen-options').show();
+                 jq('#regimen-options-obs').show();
                  jq('#date_last_used').show();
                  jq('#art-group').show();
             }
@@ -434,23 +441,29 @@
 		    var val = jq(this).val();
                  if(val == 165269) {
                     jq('#regimen-options').show();
+                    jq('#regimen-options-obs').show();
                     jq('#regimen').show();
                     jq('#date_last_used').show();
 			        jq('#prep-last-date').show();
+			        jq('#prep-last-date-obs').show();
 
                 } else if(val == 5424){
                     jq('#regimen-options').show();
+                    jq('#regimen-options-obs').show();
                     jq('#regimen').show();
                     jq('#date_last_used').show();
 			        jq('#prep-last-date').show();
+			        jq('#prep-last-date-obs').show();
 
                  }else{
                     jq('#regimen-options').hide();
+                    jq('#regimen-options-obs').hide();
                     jq('#regimen').hide();
                     jq('#date_last_used').hide();
 			        jq('#prep-last-date').hide();
+			        jq('#prep-last-date-obs').hide();
                     clearHiddenSections(jq('#regimen'));
-                    clearHiddenSections(jq('#prep-last-date'));
+                    clearHiddenSections(jq('#prep-last-date-obs'));
 
                  }
 		}
@@ -518,6 +531,55 @@
                             } else if(popTypeSelected == 138643 ) {
                             	jq("#priority-populations").show();
                             }
+
+                            if (getValue('art-status.value') == 'false') {
+								jq('#art-history :input').hide();
+								 jq('#type-of-prep-option').hide();
+								 jq('#type-of-prep-option-obs').hide();
+								 jq('#type-of-prep').hide();
+								 jq('#regimen-options').hide();
+								 jq('#regimen-options-obs').hide();
+								 jq('#date_last_used').hide();
+								 jq('#art-group').hide();
+
+							} else {
+								jq('#art-history :input').show();
+								 jq('#type-of-prep-option').show();
+								 jq('#type-of-prep-option-obs').show();
+								 jq('#type-of-prep').show();
+								 jq('#regimen-options').show();
+								 jq('#regimen-options-obs').show();
+								 jq('#date_last_used').show();
+								 jq('#art-group').show();
+							}
+
+
+								 if(getValue('type-of-prep-option-obs.value') == 165269) {
+									jq('#regimen-options').show();
+									jq('#regimen-options-obs').show();
+									jq('#regimen').show();
+									jq('#date_last_used').show();
+									jq('#prep-last-date').show();
+									jq('#prep-last-date-obs').show();
+
+								} else if(getValue('type-of-prep-option-obs.value') == 5424){
+									jq('#regimen-options').show();
+									jq('#regimen-options-obs').show();
+									jq('#regimen').show();
+									jq('#date_last_used').show();
+									jq('#prep-last-date').show();
+									jq('#prep-last-date-obs').show();
+
+								 }else{
+									jq('#regimen-options').hide();
+									jq('#regimen-options-obs').hide();
+									jq('#regimen').hide();
+									jq('#date_last_used').hide();
+									jq('#prep-last-date').hide();
+									jq('#prep-last-date-obs').hide();
+								 }
+
+
                         });
 					</script>
 				</ifMode>
@@ -675,17 +737,18 @@
 								<tr>
 									<td id="type-of-prep-option">
 										<obs
+												id="type-of-prep-option-obs"
 												conceptId="166866"
 												style="radio"
 												answerConceptIds="165269,168050,168049,5424"
 												answerLabels="Daily Oral PrEP,CAB-LA,Dapivirine ring,Event Driven"
 												answerSeparator="&lt;br /&gt;"/>
 									</td>
-									<td id="regimen-options"><obs conceptId="1088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+									<td id="regimen-options"><obs id="regimen-options-obs" conceptId="1088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 																  answerConceptIds="104567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 																  answerLabels="TDF/FTC,TDF,TDF/3TC" />
 									</td>
-									<td id="prep-last-date"> <obs conceptId="162881AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"   allowFutureDates="false" />	</td>
+									<td id="prep-last-date"> <obs id="prep-last-date-obs" conceptId="162881AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"   allowFutureDates="false" />	</td>
 								</tr>
 
 							</obsgroup>
