@@ -69,6 +69,10 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 	List<ColumnParameters> ageAndSexDisaggregation = Arrays.asList(m_15_to_19, f_15_to_19, m_20_to_24, f_20_to_24,
 	    m_25_to_30, f_25_to_30, m_30_and_above, f_30_and_above);
 	
+	List<ColumnParameters> femaleAgeDisaggregation = Arrays.asList(f_15_to_19, f_20_to_24, f_25_to_30, f_30_and_above);
+	
+	List<ColumnParameters> maleAgeDisaggregation = Arrays.asList(m_15_to_19, m_20_to_24, m_25_to_30, m_30_and_above);
+	
 	List<ColumnParameters> sexDisaggregation = Arrays.asList(allFemales, allMales);
 	
 	@Override
@@ -102,11 +106,11 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731BIndicators.eligibleForPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-MSM",
-		    ReportUtils.map(moh731BIndicators.eligibleForPrEPMSM(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		    ReportUtils.map(moh731BIndicators.eligibleForPrEPMSM(), indParams), maleAgeDisaggregation,
+		    Arrays.asList("001", "002", "003", "004"));
 		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-FSW",
-		    ReportUtils.map(moh731BIndicators.eligibleForPrEPFSW(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		    ReportUtils.map(moh731BIndicators.eligibleForPrEPFSW(), indParams), femaleAgeDisaggregation,
+		    Arrays.asList("005", "006", "007", "008"));
 		EmrReportingUtils.addRow(cohortDsd, "HV01", "Eligible for PrEP-PWID",
 		    ReportUtils.map(moh731BIndicators.eligibleForPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
@@ -121,11 +125,11 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731BIndicators.newlyOnPrePGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HV02", "Initiated on PrEP-MSM",
-		    ReportUtils.map(moh731BIndicators.newOnPrEPMSM(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		    ReportUtils.map(moh731BIndicators.newOnPrEPMSM(), indParams), maleAgeDisaggregation,
+		    Arrays.asList("001", "002", "003", "004"));
 		EmrReportingUtils.addRow(cohortDsd, "HV02", "Initiated on PrEP-FSW",
-		    ReportUtils.map(moh731BIndicators.newOnPrEPFSW(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		    ReportUtils.map(moh731BIndicators.newOnPrEPFSW(), indParams), femaleAgeDisaggregation,
+		    Arrays.asList("005", "006", "007", "008"));
 		EmrReportingUtils.addRow(cohortDsd, "HV02", "Initiated on PrEP-PWID",
 		    ReportUtils.map(moh731BIndicators.newOnPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
@@ -140,11 +144,11 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731BIndicators.refillOnPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HV03", "PrEP refill-MSM",
-		    ReportUtils.map(moh731BIndicators.refillingPrEPMSM(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		    ReportUtils.map(moh731BIndicators.refillingPrEPMSM(), indParams), maleAgeDisaggregation,
+		    Arrays.asList("001", "002", "003", "004"));
 		EmrReportingUtils.addRow(cohortDsd, "HV03", "PrEP refill-FSW",
-		    ReportUtils.map(moh731BIndicators.refillingPrEPFSW(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		    ReportUtils.map(moh731BIndicators.refillingPrEPFSW(), indParams), femaleAgeDisaggregation,
+		    Arrays.asList("005", "006", "007", "008"));
 		EmrReportingUtils.addRow(cohortDsd, "HV03", "PrEP refill-PWID",
 		    ReportUtils.map(moh731BIndicators.refillingPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
@@ -159,11 +163,11 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731BIndicators.restartingPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HV04", "Restarting PrEP-MSM",
-		    ReportUtils.map(moh731BIndicators.restartingPrEPMSM(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		    ReportUtils.map(moh731BIndicators.restartingPrEPMSM(), indParams), maleAgeDisaggregation,
+		    Arrays.asList("001", "002", "003", "004"));
 		EmrReportingUtils.addRow(cohortDsd, "HV04", "Restarting PrEP-FSW",
-		    ReportUtils.map(moh731BIndicators.restartingPrEPFSW(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		    ReportUtils.map(moh731BIndicators.restartingPrEPFSW(), indParams), femaleAgeDisaggregation,
+		    Arrays.asList("005", "006", "007", "008"));
 		EmrReportingUtils.addRow(cohortDsd, "HV04", "Restarting PrEP-PWID",
 		    ReportUtils.map(moh731BIndicators.restartingPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
@@ -179,30 +183,32 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-MSM",
-		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPMSM(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPMSM(), indParams), maleAgeDisaggregation,
+		    Arrays.asList("001", "002", "003", "004"));
 		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-FSW",
-		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPFSW(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPFSW(), indParams), femaleAgeDisaggregation,
+		    Arrays.asList("005", "006", "007", "008"));
 		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-PWID",
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
 		EmrReportingUtils.addRow(cohortDsd, "HV05", "Current on PrEP-Discordant Couple",
 		    ReportUtils.map(moh731BIndicators.currentlyOnPrEPDiscordant(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("33", "34", "35", "36", "37", "38", "39", "40"));
-		EmrReportingUtils.addRow(cohortDsd, "HV05", "Total Current on PrEP",
-		    ReportUtils.map(moh731BIndicators.currentOnPrEP(), indParams), sexDisaggregation, Arrays.asList("01", "02"));
+		EmrReportingUtils
+		        .addRow(cohortDsd, "HV05", "Total Current on PrEP",
+		            ReportUtils.map(moh731BIndicators.currentOnPrEPTotal(), indParams), sexDisaggregation,
+		            Arrays.asList("01", "02"));
 		
 		//6.0 Number tested HIV+ while on PrEP
 		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-General Population",
 		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-MSM",
-		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPMSM(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPMSM(), indParams), maleAgeDisaggregation,
+		    Arrays.asList("001", "002", "003", "004"));
 		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-FSW",
-		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPFSW(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPFSW(), indParams), femaleAgeDisaggregation,
+		    Arrays.asList("005", "006", "007", "008"));
 		EmrReportingUtils.addRow(cohortDsd, "HV06", "Sero-converted-PWID",
 		    ReportUtils.map(moh731BIndicators.seroconvertedOnPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
@@ -218,11 +224,11 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HV07", "Diagnosed with STI-MSM",
-		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIMSM(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIMSM(), indParams), maleAgeDisaggregation,
+		    Arrays.asList("001", "002", "003", "004"));
 		EmrReportingUtils.addRow(cohortDsd, "HV07", "Diagnosed with STI-FSW",
-		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIFSW(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIFSW(), indParams), femaleAgeDisaggregation,
+		    Arrays.asList("005", "006", "007", "008"));
 		EmrReportingUtils.addRow(cohortDsd, "HV07", "Diagnosed with STI-PWID",
 		    ReportUtils.map(moh731BIndicators.diagnosedWithSTIPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));
@@ -237,11 +243,11 @@ public class ETLMOH731BReportBuilder extends AbstractReportBuilder {
 		    ReportUtils.map(moh731BIndicators.discontinuedPrEPGP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08"));
 		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discontinued from PrEP-MSM",
-		    ReportUtils.map(moh731BIndicators.discontinuedPrEPMSM(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("09", "10", "11", "12", "13", "14", "15", "16"));
+		    ReportUtils.map(moh731BIndicators.discontinuedPrEPMSM(), indParams), maleAgeDisaggregation,
+		    Arrays.asList("001", "002", "003", "004"));
 		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discontinued from PrEP-FSW",
-		    ReportUtils.map(moh731BIndicators.discontinuedPrEPFSW(), indParams), ageAndSexDisaggregation,
-		    Arrays.asList("17", "18", "19", "20", "21", "22", "23", "24"));
+		    ReportUtils.map(moh731BIndicators.discontinuedPrEPFSW(), indParams), femaleAgeDisaggregation,
+		    Arrays.asList("005", "006", "007", "008"));
 		EmrReportingUtils.addRow(cohortDsd, "HV08", "Discontinued from PrEP-PWID",
 		    ReportUtils.map(moh731BIndicators.discontinuedPrEPPWID(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("25", "26", "27", "28", "29", "30", "31", "32"));

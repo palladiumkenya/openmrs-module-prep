@@ -322,6 +322,11 @@ public class ETLMoh731BIndicatorLibrary {
 		    map(moh731BCohorts.currentOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
+	public CohortIndicator currentOnPrEPTotal() {
+		return cohortIndicator("All Individuals Current on PrEP",
+		    map(moh731BCohorts.currentOnPrEPTotal(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
 	// 6.Number Positive while on PrEP
 	/**
 	 * Number GP Positive while on PrEP HV06
