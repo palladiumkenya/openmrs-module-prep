@@ -27,8 +27,9 @@ import java.util.Set;
 
 /**
  * Calculates whether a patient is currently enrolled in PrEP program
+ * Retired flag
  */
-public class OnPREPProgramCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class OnPREPProgramCalculation extends AbstractPatientCalculation  {
 	
 	protected static final Log log = LogFactory.getLog(OnPREPProgramCalculation.class);
 	
@@ -53,9 +54,9 @@ public class OnPREPProgramCalculation extends AbstractPatientCalculation impleme
 		return ret;
 	}
 	
-	@Override
-	public String getFlagMessage() {
-		return "On PrEP";
-	}
+//	@Override
+//	public String getFlagMessage() {
+//		return "On PrEP";
+//	}
 	
 }
