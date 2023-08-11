@@ -1623,6 +1623,9 @@
                 <tr>
                     <td> <b>Client given next appointment</b> </td>
                     <td> <b>Appointment Date</b> </td>
+                    <td>
+                        <b>Willing to receive reminders/notifications about the appointments? </b>
+                    </td>
                     <td> <b>Reason for failure <br /> to give appointment </b> </td>
                     <td> <b>Clinical Notes</b> </td>
                 </tr>
@@ -1636,6 +1639,12 @@
                     <td>
                         <!-- Appointment date -->
                         <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="tca-date" allowFutureDates="true"/>
+                    </td>
+                    <td><obs
+                        conceptId="166607AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        answerLabels="Yes,No"
+                        style="radio" required="true"/>
                     </td>
                     <td>
                         <!-- Reason for not giving appointment date -->
