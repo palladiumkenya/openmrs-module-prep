@@ -10,6 +10,8 @@
 package org.openmrs.module.prep.fragment.controller.program;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.openmrs.Concept;
+import org.openmrs.Form;
 import org.openmrs.Obs;
 import org.openmrs.Encounter;
 import org.openmrs.Patient;
@@ -17,6 +19,8 @@ import org.openmrs.Program;
 import org.openmrs.Visit;
 import org.openmrs.PatientProgram;
 import org.openmrs.api.AdministrationService;
+import org.openmrs.api.ConceptService;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
@@ -24,6 +28,8 @@ import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.module.kenyacore.form.FormManager;
 import org.openmrs.module.kenyacore.program.ProgramManager;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
+import org.openmrs.module.kenyaemr.metadata.MchMetadata;
+import org.openmrs.module.kenyaemr.util.HtsConstants;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.prep.calculation.library.prep.EmrCalculationUtils;
@@ -41,6 +47,7 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.page.PageRequest;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -63,12 +70,14 @@ public class PrepEligibilitySummaryFragmentController {
 		String htsResults = null;
 		String willingnessToTakePrep = null;
 		Long htsInitialValidPeriod = null;
+		Long htsMnchValidPeriod = null;
 		Double creatinine = null;
 		String creatinineNoResult = "";
 		Date appointment = null;
 		Date visistDate = null;
 		int missAppointmentBySevenDays = 0;
 		ProgramWorkflowService service = Context.getProgramWorkflowService();
+		ConceptService cs = Context.getConceptService();
 		
 		CalculationResult weightResults = EmrCalculationUtils.evaluateForPatient(LastWeightCalculation.class, null, patient);
 		if (weightResults != null && weightResults.getValue() != null) {
@@ -139,6 +148,30 @@ public class PrepEligibilitySummaryFragmentController {
 				}
 			}
 		}
+		//  Check new Tested HIV- clients in MCH module
+		Form antenatalVisitForm = MetadataUtils.existing(Form.class, MchMetadata._Form.MCHMS_ANTENATAL_VISIT);
+		Form matVisitForm = MetadataUtils.existing(Form.class, MchMetadata._Form.MCHMS_DELIVERY);
+		Form pncVisitForm = MetadataUtils.existing(Form.class, MchMetadata._Form.MCHMS_POSTNATAL_VISIT);
+		Concept htsFinalTestQuestion = cs.getConcept(HtsConstants.HTS_FINAL_TEST_CONCEPT_ID);
+		Concept htsNegativeResult = cs.getConcept(HtsConstants.HTS_NEGATIVE_RESULT_CONCEPT_ID);
+		
+		List<Encounter> mnchHtsEncounters = Context.getEncounterService().getEncounters(patient, null, null, null,
+		    Arrays.asList(antenatalVisitForm, matVisitForm, pncVisitForm), null, null, null, null, false);
+		
+		Encounter lastMnchEncounterBeforPrepInitiation = null;
+		if (mnchHtsEncounters.size() > 0) {
+			// in case there are more than one, we pick the last one
+			lastMnchEncounterBeforPrepInitiation = mnchHtsEncounters.get(mnchHtsEncounters.size() - 1);
+			boolean patientHasNegativeMnchResult = lastMnchEncounterBeforPrepInitiation != null ? org.openmrs.module.kenyaemr.util.EmrUtils
+			        .encounterThatPassCodedAnswer(lastMnchEncounterBeforPrepInitiation, htsFinalTestQuestion,
+			            htsNegativeResult) : false;
+			if (patientHasNegativeMnchResult) {
+				Date encounterDate = lastMnchEncounterBeforPrepInitiation.getEncounterDatetime();
+				long difference = currentDate.getTime() - encounterDate.getTime();
+				htsMnchValidPeriod = difference / (24 * 60 * 60 * 1000);
+			}
+		}
+		
 		Program prepProgram = MetadataUtils.existing(Program.class, PrepMetadata._Program.PREP);
 		List<PatientProgram> prePprograms = service.getPatientPrograms(patient, prepProgram, null, null, null, null, true);
 		
@@ -164,6 +197,7 @@ public class PrepEligibilitySummaryFragmentController {
 		model.addAttribute("prepWeightCriteria", prepWeightCriteria);
 		model.addAttribute("prepAgeCriteria", prepAgeCriteria);
 		model.addAttribute("htsInitialValidPeriod", htsInitialValidPeriod);
+		model.addAttribute("htsMnchValidPeriod", htsMnchValidPeriod);
 		model.addAttribute("prepHtsInitialCriteria", prepHtsInitialCriteria);
 		model.addAttribute("prepCreatinineCriteria", prepCreatinineCriteria);
 		

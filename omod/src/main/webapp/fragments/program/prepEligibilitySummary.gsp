@@ -53,7 +53,7 @@
 					<%}%>
 				</td>
 				<td width="5%" valign="top" style="padding-left: 5px">
-					<% if (htsResult == status && htsInitialValidPeriod <= prepHtsInitialCriteria) { %>
+					<% if (htsResult == status && (htsInitialValidPeriod <= prepHtsInitialCriteria || htsMnchValidPeriod <= prepHtsInitialCriteria) ) { %>
 					<div><span class="label success"></span></div>
 					<% } else { %>
 					<div><span class="label danger"></span></div>
