@@ -221,6 +221,11 @@ public class ETLMoh731BIndicatorLibrary {
 		    map(moh731BCohorts.restartOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
+	public CohortIndicator newRefillRestartOnPrEP() {
+		return cohortIndicator("On PrEP",
+		    map(moh731BCohorts.newRefillRestartOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
 	/**
 	 * Number MSM Restart on PrEP covers indicators HV04
 	 * 
@@ -259,6 +264,11 @@ public class ETLMoh731BIndicatorLibrary {
 	public CohortIndicator restartingPrEPDiscordant() {
 		return cohortIndicator("Discordant Individuals Restart on PrEP",
 		    map(moh731BCohorts.restartOnPreEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
+	}
+	
+	public CohortIndicator restartingPrEP() {
+		return cohortIndicator("Individuals Restart PrEP",
+		    map(moh731BCohorts.restartingPrEP(), "startDate=${startDate},endDate=${endDate}"));
 	}
 	
 	/**

@@ -20,6 +20,7 @@ import org.openmrs.module.reporting.evaluation.querybuilder.SqlQueryBuilder;
 import org.openmrs.module.reporting.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,11 +36,17 @@ public class PrEPHTSPopulationTypeDataEvaluator implements PersonDataEvaluator {
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "select e.patient_id,t.population_type from kenyaemr_etl.etl_prep_enrolment e left outer join kenyaemr_etl.etl_hts_test t\n"
-		        + "on e.patient_id = t.patient_id group by e.patient_id;";
+		String qry = "select e.patient_id,\n" + "       case mid(max(concat(e.visit_date, e.population_type)), 11)\n"
+		        + "           when 6096 then 'Discordant Couple'\n" + "           when 164928 then 'General Population'\n"
+		        + "           when 138643 then 'Priority Population'\n"
+		        + "           when 164929 then 'Key Population' end as population_type\n"
+		        + "from kenyaemr_etl.etl_prep_enrolment e where date(e.visit_date) <= date(:endDate)\n"
+		        + "group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
+		Date endDate = (Date) context.getParameterValue("endDate");
+		queryBuilder.addParameter("endDate", endDate);
 		Map<Integer, Object> data = evaluationService.evaluateToMap(queryBuilder, Integer.class, Object.class, context);
 		c.setData(data);
 		return c;

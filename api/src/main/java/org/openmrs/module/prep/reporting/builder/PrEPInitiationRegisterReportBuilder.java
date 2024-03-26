@@ -124,6 +124,9 @@ public class PrEPInitiationRegisterReportBuilder extends AbstractHybridReportBui
 		DataDefinition identifierDef = new ConvertedPatientDataDefinition("identifier", new PatientIdentifierDataDefinition(
 		        upn.getName(), upn), identifierFormatter);
 		
+		PrEPHTSPopulationTypeDataDefinition populationType = new PrEPHTSPopulationTypeDataDefinition();
+		populationType.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
 		DataConverter nameFormatter = new ObjectFormatter("{familyName}, {givenName} {middleName}");
 		DataDefinition nameDef = new ConvertedPersonDataDefinition("name", new PreferredNameDataDefinition(), nameFormatter);
 		dsd.addColumn("id", new PersonIdDataDefinition(), "");
@@ -134,7 +137,7 @@ public class PrEPInitiationRegisterReportBuilder extends AbstractHybridReportBui
 		dsd.addColumn("Sex", new GenderDataDefinition(), "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Age", new AgeDataDefinition(), "");
-		dsd.addColumn("Population Type", new PrEPHTSPopulationTypeDataDefinition(), "");
+		dsd.addColumn("Population Type", populationType, "endDate=${endDate}");
 		dsd.addColumn("Assessed", new AssessedDataDefinition(), "");
 		dsd.addColumn("Eligible", new EligibleDataDefinition(), "");
 		dsd.addColumn("PrEP Initiation Date", new InitiationDateDataDefinition(), "");
@@ -178,10 +181,10 @@ public class PrEPInitiationRegisterReportBuilder extends AbstractHybridReportBui
 		    ReportUtils.map(moh731BIndicators.continuingOnPrEP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "numberRestartingPrEP", "Number restarting (Restart) PrEP",
-		    ReportUtils.map(moh731BIndicators.restartingPrEPTotal(), indParams), ageAndSexDisaggregation,
+		    ReportUtils.map(moh731BIndicators.restartingPrEP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
-		EmrReportingUtils.addRow(cohortDsd, "numberCurrentOnPrEP", "Number current on PrEP(New+Refill+Restart)",
-		    ReportUtils.map(moh731BIndicators.currentOnPrEP(), indParams), ageAndSexDisaggregation,
+		EmrReportingUtils.addRow(cohortDsd, "newRefillRestartOnPrEP", "Number current on PrEP(New+Refill+Restart)",
+		    ReportUtils.map(moh731BIndicators.newRefillRestartOnPrEP(), indParams), ageAndSexDisaggregation,
 		    Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
 		EmrReportingUtils.addRow(cohortDsd, "numberRetestedPositiveOnPrEP", "Number retested HIV Positive while on PrEP",
 		    ReportUtils.map(moh731BIndicators.retestedPositiveOnPrEP(), indParams), ageAndSexDisaggregation,
