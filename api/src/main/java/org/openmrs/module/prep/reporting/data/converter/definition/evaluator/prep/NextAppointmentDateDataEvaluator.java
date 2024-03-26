@@ -37,20 +37,21 @@ public class NextAppointmentDateDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select e.patient_id,\n"
-		        + "       greatest(f.next_clinical_appointment, r.next_refill_appointment) as visit_date\n"
-		        + "from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "         left join (select f.patient_id,\n"
-		        + "                           mid(max(concat(date(f.visit_date), date(f.appointment_date))),\n"
-		        + "                               11) as next_clinical_appointment\n"
-		        + "                    from kenyaemr_etl.etl_prep_followup f\n"
-		        + "                    where date(f.visit_date) <= date(:endDate)\n"
-		        + "                    group by f.patient_id) f on e.patient_id = f.patient_id\n"
-		        + "         left join (select r.patient_id,\n"
-		        + "                           mid(max(concat(date(r.visit_date), date(next_appointment))), 11) as next_refill_appointment\n"
-		        + "                    from kenyaemr_etl.etl_prep_monthly_refill r\n"
-		        + "                    where date(r.visit_date) <= date(:endDate)\n"
-		        + "                    group by r.patient_id) r on e.patient_id = r.patient_id\n"
-		        + "where date(e.visit_date) <= date(:endDate)\n" + "group by e.patient_id;";
+		        + "       if(greatest(coalesce(f.next_clinical_appointment,'0000-00-00'), coalesce(r.next_refill_appointment,'0000-00-00')) != '0000-00-00',\n"
+		        + "          greatest(coalesce(f.next_clinical_appointment,'0000-00-00'), coalesce(r.next_refill_appointment,'0000-00-00')), null) as appointment_date\n"
+		        + "       from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "                left join (select f.patient_id,\n"
+		        + "                                  mid(max(concat(date(f.visit_date), date(f.appointment_date))),\n"
+		        + "                                      11) as next_clinical_appointment\n"
+		        + "                           from kenyaemr_etl.etl_prep_followup f\n"
+		        + "                           where date(f.visit_date) <= date(:endDate)\n"
+		        + "                           group by f.patient_id) f on e.patient_id = f.patient_id\n"
+		        + "                left join (select r.patient_id,\n"
+		        + "                                  mid(max(concat(date(r.visit_date), date(next_appointment))), 11) as next_refill_appointment\n"
+		        + "                           from kenyaemr_etl.etl_prep_monthly_refill r\n"
+		        + "                           where date(r.visit_date) <= date(:endDate)\n"
+		        + "                           group by r.patient_id) r on e.patient_id = r.patient_id\n"
+		        + "       where date(e.visit_date) <= date(:endDate)group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
