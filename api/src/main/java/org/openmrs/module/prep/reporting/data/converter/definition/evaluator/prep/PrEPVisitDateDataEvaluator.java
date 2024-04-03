@@ -37,7 +37,8 @@ public class PrEPVisitDateDataEvaluator implements PersonDataEvaluator {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
 		String qry = "select e.patient_id,\n"
-		        + "       greatest(f.latest_followup_date, r.latest_refill_date) as visit_date\n"
+		        + "          if(greatest(coalesce(f.latest_followup_date,'0000-00-00'), coalesce(r.latest_refill_date,'0000-00-00')) != '0000-00-00',\n"
+		        + "             greatest(coalesce(f.latest_followup_date,'0000-00-00'), coalesce(r.latest_refill_date,'0000-00-00')), null) as visit_date\n"
 		        + "from kenyaemr_etl.etl_prep_enrolment e\n"
 		        + "         left join (select f.patient_id, max(date(f.visit_date)) as latest_followup_date\n"
 		        + "                    from kenyaemr_etl.etl_prep_followup f\n"
@@ -47,7 +48,7 @@ public class PrEPVisitDateDataEvaluator implements PersonDataEvaluator {
 		        + "                    from kenyaemr_etl.etl_prep_monthly_refill r\n"
 		        + "                    where date(r.visit_date) <= date(:endDate)\n"
 		        + "                    group by r.patient_id) r on e.patient_id = r.patient_id\n"
-		        + "where date(e.visit_date) <= date(:endDate)\n" + "group by e.patient_id;";
+		        + "where date(e.visit_date) <= date(:endDate)group by e.patient_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
