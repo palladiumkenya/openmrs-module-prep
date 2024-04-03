@@ -52,10 +52,10 @@ public class PrEPInitiationRegisterCohortDefinitionEvaluator implements CohortDe
 		
 		context = ObjectUtil.nvl(context, new EvaluationContext());
 		
-		String qry = "select v.patient_id from kenyaemr_etl.etl_prep_followup v\n"
-		        + " inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id=v.patient_id and e.voided =0\n"
-		        + " where v.form='prep-initial' and v.visit_date between date(:startDate) and date(:endDate)\n"
-		        + "   group by v.patient_id;";
+		String qry = "select e.patient_id\n" + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "         inner join kenyaemr_etl.etl_prep_followup v on e.patient_id = v.patient_id and e.voided = 0\n"
+		        + "where v.form = 'prep-initial' and date(e.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "  and v.visit_date between date(:startDate) and date(:endDate);";
 		
 		SqlQueryBuilder builder = new SqlQueryBuilder();
 		builder.append(qry);

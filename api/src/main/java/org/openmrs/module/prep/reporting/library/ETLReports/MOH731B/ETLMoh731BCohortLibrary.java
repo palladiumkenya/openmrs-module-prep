@@ -49,11 +49,11 @@ public class ETLMoh731BCohortLibrary {
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
-		cd.setDescription("GP eligible for PrEP");
+		cd.setDescription("GP enrolled in PrEP");
 		
 		return cd;
 	}
-
+	
 	/**
 	 * MSM clients in their lastest PrEP enrollment
 	 * 
@@ -382,9 +382,10 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition newlyOnPrEPGP() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "    where e.patient_type = 'New Patient' and e.population_type = 164928\n"
-		        + "      and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		String sqlQuery = "select e.patient_id\n" + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "inner join kenyaemr_etl.etl_prep_followup v on e.patient_id = v.patient_id and e.voided = 0\n"
+		        + "where e.patient_type = 'New Patient'\n" + "  and e.population_type = 164928\n"
+		        + "  and date(e.visit_date) between date(:startDate) and date(:endDate);";
 		cd.setName("newlyOnPreEPGP");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -401,9 +402,10 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition newlyOnPrEPMSM() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "where e.patient_type = 'New Patient' and e.population_type = 164929 and e.kp_type = 160578\n"
-		        + "  and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		String sqlQuery = "select e.patient_id\n" + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "         inner join kenyaemr_etl.etl_prep_followup v on e.patient_id = v.patient_id and e.voided = 0\n"
+		        + "where e.patient_type = 'New Patient'\n" + "  and e.population_type = 164929\n"
+		        + "  and e.kp_type = 160578\n" + "  and date(e.visit_date) between date(:startDate) and date(:endDate);\n";
 		cd.setName("newlyOnPreEPMSM");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -420,9 +422,10 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition newlyOnPrEPFSW() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "where e.patient_type = 'New Patient' and e.population_type = 164929 and e.kp_type = 160579\n"
-		        + "  and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		String sqlQuery = "select e.patient_id\n" + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "         inner join kenyaemr_etl.etl_prep_followup v on e.patient_id = v.patient_id and e.voided = 0\n"
+		        + "where e.patient_type = 'New Patient'\n" + "  and e.population_type = 164929\n"
+		        + "  and e.kp_type = 160579\n" + "  and date(e.visit_date) between date(:startDate) and date(:endDate);\n";
 		cd.setName("newlyOnPreEPFSW");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -439,9 +442,10 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition newlyOnPrEPPWID() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "where e.patient_type = 'New Patient' and e.population_type = 164929 and e.kp_type = 105\n"
-		        + "  and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		String sqlQuery = "select e.patient_id\n" + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "         inner join kenyaemr_etl.etl_prep_followup v on e.patient_id = v.patient_id and e.voided = 0\n"
+		        + "where e.patient_type = 'New Patient'\n" + "  and e.population_type = 164929\n"
+		        + "  and e.kp_type = 105\n" + "  and date(e.visit_date) between date(:startDate) and date(:endDate);\n";
 		cd.setName("newlyOnPreEPPWID");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -458,9 +462,10 @@ public class ETLMoh731BCohortLibrary {
 	 */
 	public CohortDefinition newlyOnPrEPDiscordant() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "where e.patient_type = 'New Patient' and e.population_type = 6096\n"
-		        + "  and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		String sqlQuery = "select e.patient_id\n" + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "         inner join kenyaemr_etl.etl_prep_followup v on e.patient_id = v.patient_id and e.voided = 0\n"
+		        + "where e.patient_type = 'New Patient'\n" + "  and e.population_type = 6096\n"
+		        + "  and date(e.visit_date) between date(:startDate) and date(:endDate);\n";
 		cd.setName("newlyOnPreEPDiscordant");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -485,7 +490,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("newlyOnPrEPFSW", ReportUtils.map(newlyOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("newlyOnPrEPMSM", ReportUtils.map(newlyOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("newlyOnPrEPGP", ReportUtils.map(newlyOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("newlyOnPrEPDiscordant OR newlyOnPrEPPWID OR newlyOnPrEPFSW OR newlyOnPrEPMSM OR newlyOnPrEPGP");
+		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("currentOnPrEP AND (newlyOnPrEPDiscordant OR newlyOnPrEPPWID OR newlyOnPrEPFSW OR newlyOnPrEPMSM OR newlyOnPrEPGP)");
 		return cd;
 	}
 	
@@ -694,6 +700,18 @@ public class ETLMoh731BCohortLibrary {
 		return cd;
 	}
 	
+	/** initiatedOnPrEP,continuingOnPrEP,restartingPrEP,currentOnPrEP **/
+	public CohortDefinition newRefillRestartOnPrEP() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		cd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		cd.addSearch("initiatedOnPrEP", ReportUtils.map(initiatedOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.addSearch("restartingPrEP", ReportUtils.map(restartingPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("initiatedOnPrEP OR continuingOnPrEP OR restartingPrEP");
+		return cd;
+	}
+	
 	/**
 	 * General population restating PrEP
 	 * 
@@ -804,9 +822,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("restartOnPrEPGP", ReportUtils.map(restartOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("newlyOnPrEPGP", ReportUtils.map(newlyOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPGP", ReportUtils.map(refillOnPrEPGP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("generalPopulation", ReportUtils.map(generalPopulation(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(generalPopulation AND continuingOnPrEP) OR newlyOnPrEPGP OR restartOnPrEPGP OR refillOnPrEPGP");
+		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("(currentOnPrEP AND newlyOnPrEPGP) OR restartOnPrEPGP OR refillOnPrEPGP");
 		return cd;
 	}
 	
@@ -823,9 +840,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("restartOnPrEPMSM", ReportUtils.map(restartOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("newlyOnPrEPMSM", ReportUtils.map(newlyOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPMSM", ReportUtils.map(refillOnPrEPMSM(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("msm", ReportUtils.map(msm(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(msm AND continuingOnPrEP) OR newlyOnPrEPMSM OR restartOnPrEPMSM OR refillOnPrEPMSM");
+		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("(currentOnPrEP AND newlyOnPrEPMSM) OR restartOnPrEPMSM OR refillOnPrEPMSM");
 		return cd;
 	}
 	
@@ -842,9 +858,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("restartOnPrEPFSW", ReportUtils.map(restartOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("newlyOnPrEPFSW", ReportUtils.map(newlyOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPFSW", ReportUtils.map(refillOnPrEPFSW(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("fsw", ReportUtils.map(fsw(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(fsw AND continuingOnPrEP) OR newlyOnPrEPFSW OR restartOnPrEPFSW OR refillOnPrEPFSW");
+		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("(currentOnPrEP AND newlyOnPrEPFSW) OR restartOnPrEPFSW OR refillOnPrEPFSW");
 		return cd;
 	}
 	
@@ -861,9 +876,8 @@ public class ETLMoh731BCohortLibrary {
 		cd.addSearch("restartOnPrEPPWID", ReportUtils.map(restartOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("newlyOnPrEPPWID", ReportUtils.map(newlyOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPPWID", ReportUtils.map(refillOnPrEPPWID(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("pwid", ReportUtils.map(pwid(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(pwid AND continuingOnPrEP) OR newlyOnPrEPPWID OR restartOnPrEPPWID OR refillOnPrEPPWID");
+		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("(currentOnPrEP AND newlyOnPrEPPWID) OR restartOnPrEPPWID OR refillOnPrEPPWID");
 		return cd;
 	}
 	
@@ -883,9 +897,8 @@ public class ETLMoh731BCohortLibrary {
 		    ReportUtils.map(newlyOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
 		cd.addSearch("refillOnPrEPDiscordant",
 		    ReportUtils.map(refillOnPrEPDiscordant(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("continuingOnPrEP", ReportUtils.map(continuingOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
-		cd.addSearch("discordantCouple", ReportUtils.map(discordantCouple(), "startDate=${startDate},endDate=${endDate}"));
-		cd.setCompositionString("(discordantCouple AND continuingOnPrEP) OR newlyOnPrEPDiscordant OR restartOnPreEPDiscordant OR refillOnPrEPDiscordant");
+		cd.addSearch("currentOnPrEP", ReportUtils.map(currentOnPrEP(), "startDate=${startDate},endDate=${endDate}"));
+		cd.setCompositionString("(currentOnPrEP AND newlyOnPrEPDiscordant) OR restartOnPreEPDiscordant OR refillOnPrEPDiscordant");
 		return cd;
 	}
 	
@@ -1412,8 +1425,10 @@ public class ETLMoh731BCohortLibrary {
 	
 	public CohortDefinition initiatedOnPrEP() {
 		SqlCohortDefinition cd = new SqlCohortDefinition();
-		String sqlQuery = "select e.patient_id from kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "where e.patient_type  ='New Patient' and date(e.visit_date) between date(:startDate) and date(:endDate);";
+		String sqlQuery = "select e.patient_id\n" + "from kenyaemr_etl.etl_prep_enrolment e\n"
+		        + "         inner join kenyaemr_etl.etl_prep_followup v on e.patient_id = v.patient_id and e.voided = 0\n"
+		        + "where v.form = 'prep-initial' and date(e.visit_date) between date(:startDate) and date(:endDate)\n"
+		        + "  and v.visit_date between date(:startDate) and date(:endDate);";
 		cd.setName("initiatedOnPrEP");
 		cd.setQuery(sqlQuery);
 		cd.addParameter(new Parameter("startDate", "Start Date", Date.class));
