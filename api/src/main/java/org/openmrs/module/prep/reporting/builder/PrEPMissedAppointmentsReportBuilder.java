@@ -75,8 +75,7 @@ public class PrEPMissedAppointmentsReportBuilder extends AbstractHybridReportBui
 		definition.setWhich(TimeQualifier.LAST);
 		definition.setTypes(encounterTypes);
 		dsd.addColumn("Last Visit Date", definition, "", new EncounterDatetimeConverter());
-		dsd.addColumn("Last PrEP Appointment date", new NextAppointmentDateDataDefinition(), "", new DateConverter(
-		        DATE_FORMAT));
+		dsd.addColumn("Last PrEP Appointment date", new NextAppointmentDateDataDefinition(), "");
 		dsd.addColumn("Population type", new PrepPopulatonTypeDataDefinition(), "");
 		dsd.addColumn("Number of days late", new NumberOfDaysLateDataDefinition(), "");
 		dsd.addColumn("Program", new CalculationDataDefinition("Program", new PatientProgramEnrollmentCalculation()), "",
