@@ -11,8 +11,8 @@ jobs:
     - name: executing remote connection
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
+        host: ${{ secrets.CICD_HOST }}
+        username: ${{ secrets.CICD_USERNAME }}
         key: ${{ secrets.CICD_SECRET }}
         port: ${{ secrets.PORT }}
         command_timeout: 200m
@@ -20,11 +20,11 @@ jobs:
            cd /apps/github-workflows/kenyaemr-modules
            sudo rm -rf openmrs-module-prep
            sudo mkdir openmrs-module-prep
-           sudo chown -R cicd2:cicd2 openmrs-module-prep
+           sudo chown -R cicd:cicd openmrs-module-prep
            git config --global --add safe.directory /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
            cd /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
            git clone https://github.com/palladiumkenya/openmrs-module-prep.git .
-           sudo chown -R cicd2:cicd2 /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
+           sudo chown -R cicd:cicd /apps/github-workflows/kenyaemr-modules/openmrs-module-prep
            git status
            mvn clean install -DskipTests
            sudo rm -rf /var/lib/OpenMRS/modules/prep-*.omod
