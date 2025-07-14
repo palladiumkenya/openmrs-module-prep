@@ -159,6 +159,7 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 							        && ((creatinineCurrentObs != null && creatinineCurrentObs.getValueNumeric().intValue() >= creatinineCriteria) || createnine
 							                .equalsIgnoreCase("No result"))) {
 								enrollPatientOnPrep = true;
+								
 							}
 						}
 						
@@ -180,8 +181,29 @@ public class EligibleForPrepProgramCalculation extends AbstractPatientCalculatio
 					}
 					
 				}
+			} else {
+				
+				// For RDE let's use the most recent filled behavior risk assessment form date to be sure it is past visit. When creating a visit in the past we must provide start and stop date
+				Date pastVisitStopDate = null;
+				if (willingForPrepCurrentObs != null) {
+					pastVisitStopDate = willingForPrepCurrentObs.getEncounter().getVisit().getStopDatetime();
+					
+				}
+				if (pastVisitStopDate != null) {
+					if (weightCurrentObs != null && testResultsCurrentObs != null && willingForPrepCurrentObs != null) {
+						if (eligible
+						        && patient.getAge() >= prepAgeCriteria
+						        && weightCurrentObs.getValueNumeric().intValue() >= prepWeightCriteria
+						        && testResultsCurrentObs.getValueCoded().getConceptId().equals(664)
+						        && willingForPrepCurrentObs.getValueCoded().getConceptId().equals(1065)
+						        && ((creatinineCurrentObs != null && creatinineCurrentObs.getValueNumeric().intValue() >= creatinineCriteria) || createnine
+						                .equalsIgnoreCase("No result"))) {
+							enrollPatientOnPrep = true;
+						}
+					}
+				}
+				
 			}
-			
 			ret.put(ptId, new BooleanResult(enrollPatientOnPrep, this, context));
 			
 		}
