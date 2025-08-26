@@ -97,13 +97,13 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 					}
 				}
 				
-				Date visistDate = null;
+				Date visitDate = null;
 				
 				List<Visit> activeVisit = visitService.getActiveVisitsByPatient(patient);
 				
 				if (activeVisit.size() > 0) {
 					for (Visit v : activeVisit) {
-						visistDate = v.getStartDatetime();
+						visitDate = v.getStartDatetime();
 						
 					}
 				}
@@ -150,11 +150,11 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				                PrepMetadata._EncounterType.PREP_INITIAL_FOLLOWUP)), null, null, null, false);
 				
 				if (firstMonthlyEncounter != null
-				        && visistDate != null
+				        && visitDate != null
 				        && numOfFolloupEncounters.size() < 2
 				        && lastMonthlyRefillEncounter != null
 				        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
-				            DATE_FORMAT.format(visistDate))) {
+				            DATE_FORMAT.format(visitDate))) {
 					showFollowUpForm = true;
 				}
 				
@@ -166,11 +166,11 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				        .getPatient(ptId), null, null, null, null, Arrays.asList(Context.getEncounterService()
 				        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_MONTHLY_REFILL)), null, null, null, false);
 				
-				if (nextAppointmentObs != null && visistDate != null && lastMonthlyRefillEncounter != null) {
+				if (nextAppointmentObs != null && visitDate != null && lastMonthlyRefillEncounter != null) {
 					Date missAppointmentBySevenDays = DateUtils.addDays(nextAppointmentObs.getValueDate(), 7);
-					if (visistDate.after(missAppointmentBySevenDays)
+					if (visitDate.after(missAppointmentBySevenDays)
 					        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
-					            DATE_FORMAT.format(visistDate))) {
+					            DATE_FORMAT.format(visitDate))) {
 						showFollowUpForm = true;
 					}
 				}
@@ -180,9 +180,9 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				        && diffInMonthsBtwnFollowUpEnc != 3
 				        && diffInMonthsBtwnMonthlyRefillEnc == 1
 				        && lastMonthlyRefillEncounter != null
-				        && visistDate != null
+				        && visitDate != null
 				        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
-				            DATE_FORMAT.format(visistDate))) {
+				            DATE_FORMAT.format(visitDate))) {
 					showFollowUpForm = true;
 				}
 				
@@ -194,9 +194,9 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				}
 				if (diffInMonthBtwnLastFollowupEncAndLastRefil == 2
 				        && lastMonthlyRefillEncounter != null
-				        && visistDate != null
+				        && visitDate != null
 				        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
-				            DATE_FORMAT.format(visistDate))) {
+				            DATE_FORMAT.format(visitDate))) {
 					showFollowUpForm = true;
 				}
 				
@@ -204,18 +204,18 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				        && monthlyRefillEncounters.size() % 2 != 0
 				        && diffInMonthsBtwnMonthlyRefillEnc != 1
 				        && lastMonthlyRefillEncounter != null
-				        && visistDate != null
+				        && visitDate != null
 				        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
-				            DATE_FORMAT.format(visistDate))) {
+				            DATE_FORMAT.format(visitDate))) {
 					showFollowUpForm = true;
 				}
 				
 				if (enrollmentEncounters.size() > 0
 				        && numOfFolloupEncounters.size() == 0
 				        && prepInitialEncounter.size() > 0
-				        && visistDate != null
+				        && visitDate != null
 				        && !DATE_FORMAT.format(prepInitialEncounter.get(0).getEncounterDatetime()).equalsIgnoreCase(
-				            DATE_FORMAT.format(visistDate))) {
+				            DATE_FORMAT.format(visitDate))) {
 					showFollowUpForm = true;
 				}
 			}

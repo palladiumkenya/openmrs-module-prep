@@ -74,7 +74,7 @@ public class PrepEligibilitySummaryFragmentController {
 		Double creatinine = null;
 		String creatinineNoResult = "";
 		Date appointment = null;
-		Date visistDate = null;
+		Date visitDate = null;
 		int missAppointmentBySevenDays = 0;
 		ProgramWorkflowService service = Context.getProgramWorkflowService();
 		ConceptService cs = Context.getConceptService();
@@ -141,7 +141,7 @@ public class PrepEligibilitySummaryFragmentController {
 		List<Visit> activeVisit = visitService.getActiveVisitsByPatient(patient);
 		if (activeVisit.size() > 0) {
 			for (Visit v : activeVisit) {
-				visistDate = v.getStartDatetime();
+				visitDate = v.getStartDatetime();
 				if (!DATE_FORMAT.format(v.getStartDatetime()).equalsIgnoreCase(DATE_FORMAT.format(currentDate))) {
 					htsInitialValidPeriod = validPeriod;
 					
@@ -177,10 +177,10 @@ public class PrepEligibilitySummaryFragmentController {
 		
 		CalculationResult nextAppointmentObs = EmrCalculationUtils.evaluateForPatient(NextAppointmentCalculation.class,
 		    null, patient);
-		if (nextAppointmentObs != null && nextAppointmentObs.getValue() != null && visistDate != null
+		if (nextAppointmentObs != null && nextAppointmentObs.getValue() != null && visitDate != null
 		        && prePprograms.size() > 0) {
 			appointment = ((Obs) nextAppointmentObs.getValue()).getValueDate();
-			if (visistDate.before(DateUtils.addDays(appointment, 7))) {
+			if (visitDate.before(DateUtils.addDays(appointment, 7))) {
 				missAppointmentBySevenDays = 0;
 			} else {
 				missAppointmentBySevenDays = 1;
