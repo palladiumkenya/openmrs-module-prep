@@ -216,11 +216,10 @@ public class PatientsEligibleForPrepMonthlyRefillCalculation extends AbstractPat
 				showMonthlyRefillForm = true;
 			}
 			// show monthly refill form for RDE
-			if (enrollmentEncounters.size() > 0 && prepInitialEncounter.size() > 0 && activeVisit.size() == 0) {
+			if (enrollmentEncounters.size() > 0 && activeVisit.size() == 0) {
 				showMonthlyRefillForm = true;
 				
 			}
-			
 			
 			ret.put(ptId, new BooleanResult(showMonthlyRefillForm, this));
 		}
