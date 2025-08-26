@@ -134,7 +134,7 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_MONTHLY_REFILL));
 				
 				//	check there is follow up form
-				List<Encounter> numOfFolloupEncounters = encounterService.getEncounters(Context.getPatientService()
+				List<Encounter> numOfFollowupEncounters = encounterService.getEncounters(Context.getPatientService()
 				        .getPatient(ptId), null, null, null, Collections.singleton(Context.getFormService().getFormByUuid(
 				    PrepMetadata._Form.PREP_CONSULTATION_FORM)), Arrays.asList(Context.getEncounterService()
 				        .getEncounterTypeByUuid(PrepMetadata._EncounterType.PREP_CONSULTATION)), null, null, null, false);
@@ -151,7 +151,7 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				
 				if (firstMonthlyEncounter != null
 				        && visitDate != null
-				        && numOfFolloupEncounters.size() < 2
+				        && numOfFollowupEncounters.size() < 2
 				        && lastMonthlyRefillEncounter != null
 				        && !DATE_FORMAT.format(lastMonthlyRefillEncounter.getEncounterDatetime()).equalsIgnoreCase(
 				            DATE_FORMAT.format(visitDate))) {
@@ -211,12 +211,17 @@ public class PatientsEligibleForPrepFollowUpCalculation extends AbstractPatientC
 				}
 				
 				if (enrollmentEncounters.size() > 0
-				        && numOfFolloupEncounters.size() == 0
+				        && numOfFollowupEncounters.size() == 0
 				        && prepInitialEncounter.size() > 0
 				        && visitDate != null
 				        && !DATE_FORMAT.format(prepInitialEncounter.get(0).getEncounterDatetime()).equalsIgnoreCase(
 				            DATE_FORMAT.format(visitDate))) {
 					showFollowUpForm = true;
+				}
+				// show follow up form for RDE
+				if (enrollmentEncounters.size() > 0 && prepInitialEncounter.size() > 0 && activeVisit.size() == 0) {
+					showFollowUpForm = true;
+					
 				}
 			}
 			
