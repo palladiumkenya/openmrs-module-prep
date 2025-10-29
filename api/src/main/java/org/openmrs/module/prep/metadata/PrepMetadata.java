@@ -91,6 +91,8 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		public static final String PREP_MONTHLY_REFILL_FORM = "291c03c8-a216-11e9-a2a3-2a2ae2dbcce4";
 		
 		public static final String PREP_INITIAL_FOLLOWUP_FORM = "1bfb09fc-56d7-4108-bd59-b2765fd312b8";
+
+		public static final String PREP_ENROLLMENT_FORM = "d63eb2ee-d5e8-4ea4-b5ea-ea3670af03ac";
 		
 	}
 	
@@ -170,6 +172,7 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(form("PrEP Monthly Refill Form", null, _EncounterType.PREP_MONTHLY_REFILL, "1",
 		    _Form.PREP_MONTHLY_REFILL_FORM));
 		install(form("PrEP Initial Form", null, _EncounterType.PREP_INITIAL_FOLLOWUP, "1", _Form.PREP_INITIAL_FOLLOWUP_FORM));
+		install(form("PrEP Enrollment Form", "PrEP Enrollment followup form after the initial has been filled", _EncounterType.PREP_ENROLLMENT, "1", _Form.PREP_ENROLLMENT_FORM));
 		
 		//Installing identifiers
 		
