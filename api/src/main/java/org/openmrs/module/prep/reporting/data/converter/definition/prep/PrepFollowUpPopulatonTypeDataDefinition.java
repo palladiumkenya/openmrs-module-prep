@@ -10,6 +10,7 @@
 package org.openmrs.module.prep.reporting.data.converter.definition.prep;
 
 import org.openmrs.module.reporting.data.BaseDataDefinition;
+import org.openmrs.module.reporting.data.encounter.definition.EncounterDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PersonDataDefinition;
 import org.openmrs.module.reporting.definition.configuration.ConfigurationPropertyCachingStrategy;
 import org.openmrs.module.reporting.evaluation.caching.Caching;
@@ -18,7 +19,7 @@ import org.openmrs.module.reporting.evaluation.caching.Caching;
  * Population type Data Definition
  */
 @Caching(strategy = ConfigurationPropertyCachingStrategy.class)
-public class PrepFollowUpPopulatonTypeDataDefinition extends BaseDataDefinition implements PersonDataDefinition {
+public class PrepFollowUpPopulatonTypeDataDefinition extends BaseDataDefinition implements EncounterDataDefinition {
 	
 	public static final long serialVersionUID = 1L;
 	
