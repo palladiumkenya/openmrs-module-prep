@@ -37,12 +37,44 @@ public class PrepFollowupPopulationTypeDataEvaluator implements PersonDataEvalua
 	        throws EvaluationException {
 		EvaluatedPersonData c = new EvaluatedPersonData(definition, context);
 		
-		String qry = "SELECT f.encounter_id,\n" + "       mid(max(concat(e.visit_date, case e.population_type\n"
-		        + "                                      when 164928 then 'General Population'\n"
-		        + "                                      when 164929 then 'Key Population'end)), 11) as population_type\n"
-		        + "FROM kenyaemr_etl.etl_prep_enrolment e\n"
-		        + "inner join kenyaemr_etl.etl_prep_followup f on f.patient_id = e.patient_id\n"
-		        + "where date(f.visit_date) between date(:startDate) and date(:endDate)\n" + "group by f.encounter_id;";
+		String qry = "select v.encounter_id,\n" +
+                "coalesce(mid(max(concat(e.visit_date, (case e.kp_type\n" +
+                "          when 105 then 'People who inject drugs'\n" +
+                "          when 160666 then 'People who use drugs'\n" +
+                "          when 159674 then 'Fisher folk'\n" +
+                "          when 162198 then 'Truck driver'\n" +
+                "          when 162277 then 'People in prison'\n" +
+                "          when 160578 then 'Men who has sex with men'\n" +
+                "          when 165084 then 'Male sex worker'\n" +
+                "          when 160579 then 'Female sex Worker' end), null)), 11),\n" +
+                "mid(max(concat(e.visit_date, (case e.population_type\n" +
+                "          when 164928 then 'General Population'\n" +
+                "          when 6096 then 'Discordant Couple'\n" +
+                "          when 164929 then 'Key Population' end), '')), 11)) as population_type\n" +
+                "from kenyaemr_etl.etl_prep_followup v\n" +
+                "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id = v.patient_id\n" +
+                "where v.form = 'prep-consultation'\n" +
+                "and v.visit_date between date(:startDate) and date(:endDate)\n" +
+                "group by encounter_id\n" +
+                "UNION\n" +
+                "select r.encounter_id,\n" +
+                "coalesce(mid(max(concat(e.visit_date, (case e.kp_type\n" +
+                "          when 105 then 'People who inject drugs'\n" +
+                "          when 160666 then 'People who use drugs'\n" +
+                "          when 159674 then 'Fisher folk'\n" +
+                "          when 162198 then 'Truck driver'\n" +
+                "          when 162277 then 'People in prison'\n" +
+                "          when 160578 then 'Men who has sex with men'\n" +
+                "          when 165084 then 'Male sex worker'\n" +
+                "          when 160579 then 'Female sex Worker' end), null)), 11),\n" +
+                "mid(max(concat(e.visit_date, (case e.population_type\n" +
+                "          when 164928 then 'General Population'\n" +
+                "          when 6096 then 'Discordant Couple'\n" +
+                "          when 164929 then 'Key Population' end), '')), 11)) as population_type\n" +
+                "from kenyaemr_etl.etl_prep_monthly_refill r\n" +
+                "inner join kenyaemr_etl.etl_prep_enrolment e on e.patient_id = r.patient_id\n" +
+                "where r.visit_date between date(:startDate) and date(:endDate)\n" +
+                "group by encounter_id;";
 		
 		SqlQueryBuilder queryBuilder = new SqlQueryBuilder();
 		queryBuilder.append(qry);
