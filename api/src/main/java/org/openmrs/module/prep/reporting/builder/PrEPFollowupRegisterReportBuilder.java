@@ -77,6 +77,10 @@ public class PrEPFollowupRegisterReportBuilder extends AbstractReportBuilder {
 		dsd.addSortCriteria("DOBAndAge", SortCriteria.SortDirection.DESC);
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		
+		PrepFollowUpPopulatonTypeDataDefinition populatonType = new PrepFollowUpPopulatonTypeDataDefinition();
+		populatonType.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		populatonType.addParameter(new Parameter("endDate", "End Date", Date.class));
 		String paramMapping = "startDate=${startDate},endDate=${endDate}";
 		
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
@@ -105,7 +109,7 @@ public class PrEPFollowupRegisterReportBuilder extends AbstractReportBuilder {
 		dsd.addColumn("Sex", new GenderDataDefinition(), "");
 		dsd.addColumn("DOB", new BirthdateDataDefinition(), "", new BirthdateConverter(DATE_FORMAT));
 		dsd.addColumn("Age", new AgeDataDefinition(), "");
-		dsd.addColumn("Population Type", new PrEPHTSPopulationTypeDataDefinition(), "");
+		dsd.addColumn("Population Type", populatonType, paramMapping);
 		dsd.addColumn("Visit month", new PrEPVisitMonthDataDefinition(), "");
 		dsd.addColumn("Visit Date", new EncounterDatetimeDataDefinition(), "", new DateConverter(DATE_FORMAT));
 		dsd.addColumn("HTS Done", new FollowupHTSDoneDataDefinition(), "");
