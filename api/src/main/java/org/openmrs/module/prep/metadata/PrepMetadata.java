@@ -10,6 +10,8 @@
 package org.openmrs.module.prep.metadata;
 
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.api.AdministrationService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,8 @@ import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.*;
  */
 @Component
 public class PrepMetadata extends AbstractMetadataBundle {
+	
+	public static final String GP_ENABLE_FORMS = "kenyaemr.enable.forms";
 	
 	public static final class _EncounterType {
 		
@@ -116,9 +120,10 @@ public class PrepMetadata extends AbstractMetadataBundle {
 	 */
 	@Override
 	public void install() {
+		
 		///////////////////////////// PREP services ////////////////////////////////
 		
-		//Installing encounters
+		// Installing encounters
 		install(encounterType("PrEP Enrollment", "Enrollment of client onto PrEP program", _EncounterType.PREP_ENROLLMENT));
 		install(encounterType("PrEP Consultation", "Collection of client data during PREP visit",
 		    _EncounterType.PREP_CONSULTATION));
@@ -144,41 +149,47 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(encounterType("PrEP Monthly refill", "Handles PrEP Monthly refill", _EncounterType.PREP_MONTHLY_REFILL));
 		install(encounterType("PrEP Initial", "Handles PrEP Initial encounter", _EncounterType.PREP_INITIAL_FOLLOWUP));
 		
-		//Installing forms
-		install(form("PrEP Behavior Risk Assessment in the last six months ", "PrEP Behavior Risk Assessment Form",
-		    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT, "1.0", _Form.PREP_BEHAVIOR_RISK_ASSESSMENT_FORM));
-		install(form("PrEP INITIATION ", "PrEP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
-		    _Form.PREP_ENROLLMENT_FORM));
-		install(form("PrEP Client Discontinuation", "PrEP discontinuation form", _EncounterType.PREP_DISCONTINUATION, "1.0",
-		    _Form.PREP_DISCONTINUATION_FORM));
-		install(form("PrEP Follow Up", "PrEP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
-		    _Form.PREP_CONSULTATION_FORM));
-		install(form("PrEP Progress Notes", "PrEP Progress Notes", _EncounterType.PREP_CONSULTATION, "1.0",
-		    _Form.PREP_PROGRESS_NOTE_FORM));
-		install(form("PrEP STI Screening", null, _EncounterType.PREP_STI_SCREENING, "1", _Form.PREP_STI_SCREENING_FORM));
-		install(form("PrEP VMMC Screening", null, _EncounterType.PREP_VMMC_SCREENING, "1", _Form.PREP_VMMC_SCREENING_FORM));
-		install(form("Fertility Intention Screening", null, _EncounterType.PREP_FERTILITY_INTENTIONS_SCREENING, "1",
-		    _Form.PREP_FERTILITY_INTENTIONS_SCREENING_FORM));
-		install(form("Allergies Screening", null, _EncounterType.PREP_ALLERGIES_SCREENING, "1",
-		    _Form.PREP_ALLERGIES_SCREENING_FORM));
-		install(form("Chronic Illness", null, _EncounterType.PREP_CHRONIC_ILLNESS, "1", _Form.PREP_CHRONIC_ILLNESS_FORM));
-		install(form("Adverse Drug Reactions", null, _EncounterType.PREP_DRUG_REACTIONS, "1", _Form.PREP_DRUG_REACTIONS_FORM));
-		install(form("PrEP Status", null, _EncounterType.PREP_STATUS, "1", _Form.PREP_STATUS_FORM));
-		install(form("Pregnancy Outcomes", null, _EncounterType.PREP_PREGNANCY_OUTCOMES, "1",
-		    _Form.PREP_PREGNANCY_OUTCOMES_FORM));
-		install(form("Appointment Creation", null, _EncounterType.PREP_APPOINTMENT, "1", _Form.PREP_APPOINTMENT_FORM));
-		install(form("PrEP Monthly Refill Form", null, _EncounterType.PREP_MONTHLY_REFILL, "1",
-		    _Form.PREP_MONTHLY_REFILL_FORM));
-		install(form("PrEP Initial Form", null, _EncounterType.PREP_INITIAL_FOLLOWUP, "1", _Form.PREP_INITIAL_FOLLOWUP_FORM));
+		// Installing forms
+		boolean installForms = shouldInstallForms();
+		if (installForms) {
+			install(form("PrEP Behavior Risk Assessment in the last six months ", "PrEP Behavior Risk Assessment Form",
+			    _EncounterType.PREP_BEHAVIOR_RISK_ASSESSMENT, "1.0", _Form.PREP_BEHAVIOR_RISK_ASSESSMENT_FORM));
+			install(form("PrEP INITIATION ", "PrEP Enrollment form", _EncounterType.PREP_ENROLLMENT, "1.0",
+			    _Form.PREP_ENROLLMENT_FORM));
+			install(form("PrEP Client Discontinuation", "PrEP discontinuation form", _EncounterType.PREP_DISCONTINUATION,
+			    "1.0", _Form.PREP_DISCONTINUATION_FORM));
+			install(form("PrEP Follow Up", "PrEP follow up form", _EncounterType.PREP_CONSULTATION, "1.0",
+			    _Form.PREP_CONSULTATION_FORM));
+			install(form("PrEP Progress Notes", "PrEP Progress Notes", _EncounterType.PREP_CONSULTATION, "1.0",
+			    _Form.PREP_PROGRESS_NOTE_FORM));
+			install(form("PrEP STI Screening", null, _EncounterType.PREP_STI_SCREENING, "1", _Form.PREP_STI_SCREENING_FORM));
+			install(form("PrEP VMMC Screening", null, _EncounterType.PREP_VMMC_SCREENING, "1",
+			    _Form.PREP_VMMC_SCREENING_FORM));
+			install(form("Fertility Intention Screening", null, _EncounterType.PREP_FERTILITY_INTENTIONS_SCREENING, "1",
+			    _Form.PREP_FERTILITY_INTENTIONS_SCREENING_FORM));
+			install(form("Allergies Screening", null, _EncounterType.PREP_ALLERGIES_SCREENING, "1",
+			    _Form.PREP_ALLERGIES_SCREENING_FORM));
+			install(form("Chronic Illness", null, _EncounterType.PREP_CHRONIC_ILLNESS, "1", _Form.PREP_CHRONIC_ILLNESS_FORM));
+			install(form("Adverse Drug Reactions", null, _EncounterType.PREP_DRUG_REACTIONS, "1",
+			    _Form.PREP_DRUG_REACTIONS_FORM));
+			install(form("PrEP Status", null, _EncounterType.PREP_STATUS, "1", _Form.PREP_STATUS_FORM));
+			install(form("Pregnancy Outcomes", null, _EncounterType.PREP_PREGNANCY_OUTCOMES, "1",
+			    _Form.PREP_PREGNANCY_OUTCOMES_FORM));
+			install(form("Appointment Creation", null, _EncounterType.PREP_APPOINTMENT, "1", _Form.PREP_APPOINTMENT_FORM));
+			install(form("PrEP Monthly Refill Form", null, _EncounterType.PREP_MONTHLY_REFILL, "1",
+			    _Form.PREP_MONTHLY_REFILL_FORM));
+			install(form("PrEP Initial Form", null, _EncounterType.PREP_INITIAL_FOLLOWUP, "1",
+			    _Form.PREP_INITIAL_FOLLOWUP_FORM));
+		}
 		
-		//Installing identifiers
+		// Installing identifiers
 		
 		install(patientIdentifierType("NHIF Number", "PREP client Insurance number ", null, null, null,
 		    PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.NHIF_NUMBER));
 		install(patientIdentifierType("PREP Unique Number", "Unique Number assigned to PREP client upon enrollment", null,
 		    null, null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.PREP_UNIQUE_NUMBER));
 		
-		//Installing program
+		// Installing program
 		install(program("PrEP", "Pre exposure prophylaxis program", _Concept.PREP, _Program.PREP));
 		
 		// PrEP global properties
@@ -187,5 +198,15 @@ public class PrepMetadata extends AbstractMetadataBundle {
 		install(globalProperty("prep.htsInitialPeriod", "Time limit in days for hts to be valid for initiation into PrEP",
 		    "3"));
 		
+	}
+	
+	private boolean shouldInstallForms() {
+		AdministrationService administrationService = Context.getAdministrationService();
+		org.openmrs.GlobalProperty gp = administrationService.getGlobalPropertyObject(GP_ENABLE_FORMS);
+		if (gp == null || gp.getPropertyValue() == null) {
+			// Default to true if property doesn't exist (backward compatibility)
+			return true;
+		}
+		return gp.getPropertyValue().trim().equalsIgnoreCase("true");
 	}
 }
